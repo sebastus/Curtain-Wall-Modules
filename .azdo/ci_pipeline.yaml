@@ -17,6 +17,13 @@ steps:
       echo "##[warning]Pipeline is running in $location"
     displayName: Display Agent Region
 
+  - bash: |
+      git config --global url."https://pat:$AZDO_PERSONAL_ACCESS_TOKEN@dev.azure.com/RRBLUEALM".insteadOf "https://dev.azure.com/RRBLUEALM"
+      git config --list
+    displayName: Add auth to git config  
+    env: 
+      AZDO_PERSONAL_ACCESS_TOKEN: $(azdo_pat)
+
   - task: TerraformInstaller@0
     inputs:
       terraformVersion: '1.3.2'
@@ -34,11 +41,6 @@ steps:
       backendAzureRmContainerName: $(state_container_name)
       backendAzureRmKey: $(state_key)
       allowTelemetryCollection: true
-
-  - bash: |
-      echo "Extracting secret from vg"
-    env: 
-      AZDO_PERSONAL_ACCESS_TOKEN: $(azdo_pat)
 
   - task: TerraformCLI@0
     displayName: 'Execute terraform plan'
