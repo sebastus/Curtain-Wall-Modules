@@ -1,0 +1,47 @@
+# cloud-config
+package_update: true
+runcmd:
+ - export DEBIAN_FRONTEND=noninteractive
+
+## basics
+ - yum install git unzip jq curl ca-certificates gnupg yum-utils -y
+
+## python 3.8
+ - yum install python38 -y
+ - python3.8 -m pip install pip --upgrade 
+
+## python 3.7 - supports running Checkov in pipelines
+ - yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel xz-devel make -y
+ - cd /usr/src 
+ - wget https://www.python.org/ftp/python/3.7.11/Python-3.7.11.tgz
+ - tar xzf Python-3.7.11.tgz
+ - cd Python-3.7.11
+ - ./configure --enable-optimizations
+ - make altinstall
+
+## terraform - downloading zip because apt repo seems to be out of sync - failing to install
+ - wget https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip
+ - unzip -u terraform_${terraform_version}_linux_amd64.zip -d /usr/bin
+
+## docker
+ - yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+ - yum install docker-ce docker-compose-plugin -y
+ - usermod -aG docker ${user}
+
+## az cli
+ - rpm --import https://packages.microsoft.com/keys/microsoft.asc
+ - dnf install -y https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm 
+ - dnf install azure-cli -y
+
+# build agent
+ - mkdir /build
+ - wget -O /build/buildagent.tar.gz "https://vstsagentpackage.azureedge.net/agent/${azdo_agent_version}/vsts-agent-linux-x64-${azdo_agent_version}.tar.gz"
+ - mkdir -p /build/myagent && cd /build/myagent
+ - tar zxvf /build/buildagent.tar.gz
+ - chown -R ${user}:${user} /build/myagent
+ - echo InfrastructureInstaller=True >> .env
+ - echo ${hub_environment}=True >> .env
+ - echo "Running the installation command"
+ - sudo -u ${user} env /build/myagent/config.sh --unattended --url ${azdo_org} --auth pat --token ${pat_token} --acceptTeeEula --pool ${build_pool} --agent ${agent_name} --replace
+ - /build/myagent/svc.sh install
+ - /build/myagent/svc.sh start
