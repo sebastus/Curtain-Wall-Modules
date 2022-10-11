@@ -32,7 +32,6 @@ steps:
     displayName: 'Initialize Terraform'
     inputs:
       command: 'init'
-      workingDirectory: "InfraInstaller"
       backendType: 'azurerm'
       backendServiceArm: $(azdo_service_connection)
       backendAzureRmSubscriptionId: $(subscription_id)
@@ -46,7 +45,6 @@ steps:
     displayName: 'Execute terraform plan'
     inputs:
       command: 'plan'
-      workingDirectory: "InfraInstaller"
       environmentServiceName: $(azdo_service_connection)
       providerAzureRmSubscriptionId: $(subscription_id)
       runAzLogin: true
@@ -91,7 +89,6 @@ steps:
     displayName: 'Execute terraform apply'
     inputs:
       command: 'apply'
-      workingDirectory: "InfraInstaller"
       environmentServiceName: $(azdo_service_connection)
       providerAzureRmSubscriptionId: $(subscription_id)
       allowTelemetryCollection: true
