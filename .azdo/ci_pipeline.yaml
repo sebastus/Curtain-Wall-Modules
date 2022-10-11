@@ -1,0 +1,99 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger: none
+
+parameters:
+- name: VariableGroupName
+  displayName: Variable Group Name
+  type: string
+
+variables:
+  - group: ${{ parameters.VariableGroupName }}
+
+steps:
+  - bash: |
+      location=$(curl -s "http://169.254.169.254:80/metadata/instance?api-version=2021-02-01" -H 'Metadata:true' | jq -r '.compute.location')
+      echo "##[warning]Pipeline is running in $location"
+    displayName: Display Agent Region
+
+  - task: TerraformInstaller@0
+    inputs:
+      terraformVersion: '1.3.2'
+
+  - task: TerraformCLI@0
+    displayName: 'Initialize Terraform'
+    inputs:
+      command: 'init'
+      workingDirectory: "InfraInstaller"
+      backendType: 'azurerm'
+      backendServiceArm: $(azdo_service_connection)
+      backendAzureRmSubscriptionId: $(subscription_id)
+      backendAzureRmResourceGroupName: $(state_resource_group_name)
+      backendAzureRmStorageAccountName: $(state_storage_account_name)
+      backendAzureRmContainerName: $(state_container_name)
+      backendAzureRmKey: $(state_key)
+      allowTelemetryCollection: true
+
+  - bash: |
+      echo "Extracting secret from vg"
+    env: 
+      AZDO_PERSONAL_ACCESS_TOKEN: $(azdo_pat)
+
+  - task: TerraformCLI@0
+    displayName: 'Execute terraform plan'
+    inputs:
+      command: 'plan'
+      workingDirectory: "InfraInstaller"
+      environmentServiceName: $(azdo_service_connection)
+      providerAzureRmSubscriptionId: $(subscription_id)
+      runAzLogin: true
+      commandOptions: '-out tf.plan -input=false -parallelism=75'
+      allowTelemetryCollection: true
+      publishPlanResults: pr_plan.tfplan
+    env:
+      AZDO_ORG_SERVICE_URL: "https://dev.azure.com/$(azdo_org_name)"
+      TF_VAR_install_remote: "$(install_remote)"
+      TF_VAR_subscription_id: "$(subscription_id)"
+
+      TF_VAR_azdo_project_name: "$(azdo_project_name)"
+      TF_VAR_azdo_variable_group_name: "$(azdo_variable_group_name)"
+      TF_VAR_azdo_service_connection: "$(azdo_service_connection)"
+
+      TF_VAR_location: "$(location)"
+      TF_VAR_create_mi: "$(create_mi)"
+
+      TF_VAR_create_vnet: "$(create_vnet)"
+      TF_VAR_new_vnet_address_space: "$(new_vnet_address_space)"
+      TF_VAR_existing_vnet_rg_name: "$(existing_vnet_rg_name)"
+      TF_VAR_existing_vnet_rg_location: "$(existing_vnet_rg_location)"
+      TF_VAR_existing_vnet_name: "$(existing_vnet_name)"
+
+      TF_VAR_create_subnet: "$(create_subnet)"
+      TF_VAR_new_subnet_address_prefixes: "$(new_subnet_address_prefixes)"
+      TF_VAR_existing_subnet_id: "$(existing_subnet_id)"
+
+      TF_VAR_create_bastion: "$(create_bastion)"
+      TF_VAR_bastion_subnet_address_prefixes: "$(bastion_subnet_address_prefixes)"
+
+      TF_VAR_count_of_agents: "$(count_of_agents)"
+
+      TF_VAR_azdo_org_name: "$(azdo_org_name)"
+      TF_VAR_azdo_pat: "$(azdo_pat)"
+      TF_VAR_azdo_agent_version: "$(azdo_agent_version)"
+      TF_VAR_azdo_pool_name: "$(azdo_pool_name)"
+      TF_VAR_azdo_build_agent_name: "$(azdo_build_agent_name)"
+      TF_VAR_environment_demand_name: "$(environment_demand_name)"
+
+  - task: TerraformCLI@0
+    displayName: 'Execute terraform apply'
+    inputs:
+      command: 'apply'
+      workingDirectory: "InfraInstaller"
+      environmentServiceName: $(azdo_service_connection)
+      providerAzureRmSubscriptionId: $(subscription_id)
+      allowTelemetryCollection: true
+      runAzLogin: true
+      commandOptions: '-input=false -auto-approve -parallelism=15 tf.plan'
+    env:
+      AZDO_ORG_SERVICE_URL: "https://dev.azure.com/$(azdo_org_name)"
