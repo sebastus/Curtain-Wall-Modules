@@ -3,7 +3,7 @@ data "azurerm_subscription" "env" {}
 
 # Context module is always installed because the resource group is needed at the very least.
 module "context" {
-  source = "git::https://dev.azure.com/RRBLUEALM/BlueZone/_git/azure-bz-tf-module-curtainwall-context"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Context"
 
   location = var.location
 
@@ -23,7 +23,7 @@ module "context" {
 
 # Remote module creates AzDO artifacts needed to do installations with the pipeline.
 module "remote" {
-  source = "git::https://dev.azure.com/RRBLUEALM/BlueZone/_git/azure-bz-tf-module-curtainwall-remote"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Remote"
   count  = var.install_remote ? 1 : 0
 
   azdo_pat                 = var.azdo_pat
@@ -58,7 +58,7 @@ module "remote" {
 }
 
 module "bastion" {
-  source = "git::https://dev.azure.com/RRBLUEALM/BlueZone/_git/azure-bz-tf-module-curtainwall-bastion"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Bastion"
   count  = var.create_bastion ? 1 : 0
 
   resource_group_name             = var.create_vnet ? module.context.resource_group.name : var.existing_vnet_rg_name
@@ -68,7 +68,7 @@ module "bastion" {
 }
 
 module "build-agent" {
-  source         = "git::https://dev.azure.com/RRBLUEALM/BlueZone/_git/azure-bz-tf-module-curtainwall-infra-build-agent"
+  source         = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Infra-Build-Agent"
   count          = var.count_of_agents
   instance_index = count.index
 
