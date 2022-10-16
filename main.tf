@@ -33,16 +33,28 @@ data "template_cloudinit_config" "config_cloud_init" {
     content = templatefile(
       "${path.module}/${each.value.cloud_init_file_name}",
       {
-        user               = "adminbs"                                    # adminbs
-        pat_token          = var.azdo_pat                                 # /
-        azdo_org           = "https://dev.azure.com/${var.azdo_org_name}" # --- These 3 must be provided by the user via ENV or pipeline params. See README.md
-        build_pool         = var.azdo_pool_name                           # \
-        agent_name         = "${var.azdo_build_agent_name}_${var.instance_index}"
-        terraform_version  = "1.3.1"
-        azdo_agent_version = var.azdo_agent_version
-        hub_environment    = var.environment_demand_name
+        user = "adminbs"
       }
     )
+    merge_type = "list(append)+dict(recurse_array)+str()"
+  }
+
+  part {
+    content_type = "text/cloud-config"
+    content      = data.template_file.azcli.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
+
+  part {
+    content_type = "text/cloud-config"
+    content      = data.template_file.terraform.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
+
+  part {
+    content_type = "text/cloud-config"
+    content      = data.template_file.azdo_build_agent.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
   }
 }
 
@@ -90,10 +102,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   identity {
-    type = "UserAssigned"
-    identity_ids = [
-      var.mi_id
-    ]
+    type         = var.identity_ids == null ? "SystemAssigned" : "UserAssigned"
+    identity_ids = var.identity_ids
   }
 
   depends_on = [

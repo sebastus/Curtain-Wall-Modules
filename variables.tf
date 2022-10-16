@@ -6,36 +6,66 @@ variable "instance_index" {
   type = number
 }
 
+variable "base_name" {
+  type = string
+}
+
 variable "subnet_id" {
   type = string
 }
 
-variable "mi_id" {
-  type = string
+variable "identity_ids" {
+  type = list(string)
 }
 
 variable "azdo_org_name" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "azdo_build_agent_name" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "azdo_agent_version" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "azdo_pool_name" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "environment_demand_name" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "azdo_pat" {
-  type = string
+  type    = string
+  default = ""
+}
+
+variable "include_azdo_ba" {
+  type    = bool
+  default = false
+}
+
+variable "include_terraform" {
+  type    = bool
+  default = false
+}
+
+variable "include_azcli" {
+  type    = bool
+  default = false
+}
+
+variable "terraform_version" {
+  type    = string
+  default = "1.3.2"
 }
 
 # include only one os variant in this variable at a time.
@@ -62,17 +92,12 @@ variable "os_variant" {
     cloud_init_file_name = string
   }))
   default = {
-    RedHat = {
-      publisher = "center-for-internet-security-inc"
-      offer     = "cis-rhel-8-l2"
-      sku       = "cis-rhel8-l2"
-      version   = "latest"
-      plan = {
-        name      = "cis-rhel8-l2"
-        product   = "cis-rhel-8-l2"
-        publisher = "center-for-internet-security-inc"
-      }
-      cloud_init_file_name = "cloud-init-redhat.tftpl"
+    Ubuntu = {
+      publisher            = "Canonical"
+      offer                = "UbuntuServer"
+      sku                  = "18.04-LTS"
+      version              = "latest"
+      cloud_init_file_name = "cloud-init-ubuntu.tftpl"
     }
   }
 }

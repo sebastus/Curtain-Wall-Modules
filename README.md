@@ -1,20 +1,40 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+VM module designed to work with Curtain Wall project.
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+# os-variants
+Configure the OS variant by supplying one of the following or another of your choosing according to this:
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+Use a command line similar to the following to find the exact image you want:  
+ az vm image list -p center-for-internet-security-inc --offer cis-rhel-8-l2 -l uksouth -o table --all  
+  
+And another similar to this to get the plan details (if any):  
+ az vm image show --urn center-for-internet-security-inc:cis-rhel-8-l2:cis-rhel8-l2:2.0.4  
+ 
+You may need to use the following to accept license terms:  
+  az vm image terms accept  -p "center-for-internet-security-inc" -f "cis-rhel-8-l2" --plan "cis-rhel8-l2"  
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## Red Hat Enterprise Linux
+
+    RedHat = {
+      publisher = "center-for-internet-security-inc"
+      offer     = "cis-rhel-8-l2"
+      sku       = "cis-rhel8-l2"
+      version   = "latest"
+      plan = {
+        name      = "cis-rhel8-l2"
+        product   = "cis-rhel-8-l2"
+        publisher = "center-for-internet-security-inc"
+      }
+      cloud_init_file_name = "cloud-init-redhat.tftpl"
+    }
+
+## Ubuntu
+
+    Ubuntu = {
+      publisher = "Canonical"
+      offer     = "UbuntuServer"
+      sku       = "18.04-LTS"
+      version   = "latest"
+      cloud_init_file_name = "cloud-init-ubuntu.tftpl"
+    }
