@@ -98,9 +98,16 @@ variable "bastion_subnet_address_prefixes" {
 }
 
 # ########################
-# Build Agent Module
+# Build Agents
 # ########################
-variable "count_of_agents" {
+variable "count_of_infra_agents" {
+  default = 1
+}
+
+# ########################
+# Jumpboxes
+# ########################
+variable "count_of_jumpboxes" {
   default = 1
 }
 

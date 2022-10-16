@@ -2,6 +2,10 @@ output "build-agents" {
   value     = module.build-agent
   sensitive = true
 }
+output "jumpboxes" {
+  value     = module.jumpbox
+  sensitive = true
+}
 #################
 
 output "state_rg_name" {

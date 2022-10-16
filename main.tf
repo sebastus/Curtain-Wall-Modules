@@ -47,7 +47,7 @@ module "remote" {
   new_subnet_address_prefixes = var.new_subnet_address_prefixes
   existing_subnet_id          = var.existing_subnet_id
 
-  count_of_agents         = var.count_of_agents
+  count_of_agents         = var.count_of_infra_agents
   environment_demand_name = var.environment_demand_name
   azdo_pool_name          = var.azdo_pool_name
   azdo_build_agent_name   = var.azdo_build_agent_name
@@ -68,19 +68,40 @@ module "bastion" {
 }
 
 module "build-agent" {
-  source         = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Infra-Build-Agent"
-  count          = var.count_of_agents
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-VM"
+
+  count          = var.count_of_infra_agents
   instance_index = count.index
+  base_name      = "build_agent"
 
   resource_group = module.context.resource_group
+  identity_ids   = [module.context.mi_id]
+  subnet_id      = module.context.subnet_id
 
-  mi_id     = module.context.mi_id
-  subnet_id = module.context.subnet_id
-
+  include_azdo_ba         = true
+  azdo_agent_version      = var.azdo_agent_version
+  environment_demand_name = var.environment_demand_name
   azdo_pat                = var.azdo_pat
   azdo_org_name           = var.azdo_org_name
-  azdo_build_agent_name   = var.azdo_build_agent_name
-  azdo_agent_version      = var.azdo_agent_version
   azdo_pool_name          = var.azdo_pool_name
-  environment_demand_name = var.environment_demand_name
+  azdo_build_agent_name   = var.azdo_build_agent_name
+
+  include_terraform = true
+  terraform_version = "1.3.2"
+
+  include_azcli = true
+}
+
+module "jumpbox" {
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-VM"
+
+  count          = var.count_of_jumpboxes
+  instance_index = count.index
+  base_name      = "jumpbox"
+
+  resource_group = module.context.resource_group
+  identity_ids   = null
+  subnet_id      = module.context.subnet_id
+
+  include_azcli = true
 }
