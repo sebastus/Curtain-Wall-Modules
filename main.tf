@@ -7,6 +7,19 @@ resource "azurerm_resource_group" "rg" {
 }
 
 #
+# Log analytics workspace
+#
+resource "azurerm_log_analytics_workspace" "law" {
+  count               = var.create_law ? 1 : 0
+
+  name                = azurecaf_name.generated["law"].result
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  sku                 = "PerGB2018"
+  retention_in_days   = 30
+}
+
+#
 # managed identity
 #  * will be installed in the build agent VM
 #  * has the permissions needed to deploy resources in the environment

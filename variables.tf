@@ -30,3 +30,6 @@ variable "new_subnet_address_prefixes" {
 variable "create_mi" {
   type = bool
 }
+variable "create_law" {
+  type = bool
+}

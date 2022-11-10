@@ -13,3 +13,11 @@ output "mi_id" {
 output "subnet_id" {
   value = var.create_subnet ? azurerm_subnet.subnet[0].id : var.existing_subnet_id
 }
+
+output "law_id" {
+  value = var.create_law ? azurerm_log_analytics_workspace.law[0].workspace_id : ""
+}
+
+output "law_key" {
+  value = var.create_law ? azurerm_log_analytics_workspace.law[0].primary_shared_key : ""
+}
