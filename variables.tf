@@ -68,6 +68,19 @@ variable "terraform_version" {
   default = "1.3.2"
 }
 
+variable "install_omsagent" {
+  type    = bool
+  default = true
+}
+
+variable "log_analytics_workspace_id" {
+  type = string
+}
+
+variable "log_analytics_workspace_key" {
+  type = string
+}
+
 # include only one os variant in this variable at a time.
 #
 # use a command line similar to the following to find the exact image you want:

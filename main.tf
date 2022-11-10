@@ -110,3 +110,27 @@ resource "azurerm_linux_virtual_machine" "vm" {
     azurerm_network_interface.build_agent
   ]
 }
+
+resource "azurerm_virtual_machine_extension" "omsagent" {
+  for_each = var.install_omsagent ? var.os_variant : {}
+
+  name                 = "omsagent"
+  virtual_machine_id   = azurerm_linux_virtual_machine.vm[each.key].id
+  publisher            = "Microsoft.EnterpriseCloud.Monitoring"
+  type                 = "OmsAgentForLinux"
+  type_handler_version = "1.14"
+
+  settings = <<SETTINGS
+{
+  "workspaceId": "${var.log_analytics_workspace_id}",
+  "skipDockerProviderInstall": true
+}
+SETTINGS
+
+  protected_settings = <<PROTECTED_SETTINGS
+{
+  "workspaceKey": "${var.log_analytics_workspace_key}"
+}
+PROTECTED_SETTINGS
+
+}

@@ -1,6 +1,6 @@
 data "template_file" "azcli" {
 
-  template = var.include_azcli ? "${file("${path.module}/cipart-azcli.tftpl")}" : <<-EOT
+  template = var.include_azcli ? "${file("${path.module}/ciparts/azcli.tftpl")}" : <<-EOT
 # cloud-config
 runcmd:
 # az cli - not included
@@ -12,7 +12,7 @@ EOT
 
 data "template_file" "terraform" {
 
-  template = var.include_terraform ? "${file("${path.module}/cipart-terraform.tftpl")}" : <<-EOT
+  template = var.include_terraform ? "${file("${path.module}/ciparts/terraform.tftpl")}" : <<-EOT
 # cloud-config
 runcmd:
 # terraform - not included
@@ -28,7 +28,7 @@ EOT
 
 data "template_file" "azdo_build_agent" {
 
-  template = var.include_terraform ? "${file("${path.module}/cipart-azdo-ba.tftpl")}" : <<-EOT
+  template = var.include_azdo_ba ? "${file("${path.module}/ciparts/azdo-ba.tftpl")}" : <<-EOT
 # cloud-config
 runcmd:
 # AzDO build agent - not included
