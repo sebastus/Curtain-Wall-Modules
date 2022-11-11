@@ -1,20 +1,60 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+This Terraform module installs a few basic resources:
+1. A resource group  
+2. A user-assigned managed identity in the contributor role of the subscription  
+3. A virtual network  
+4. A subnet  
+5. A default NSG for the subnet  
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+The module is designed to be used with the top level Terraform module in "azure-bz-tf-curtainwall-infra" repo.  
+# Options
+* create_vnet  
+* create_subnet  
+* create_mi  
+The VM/build agent is designed to work with a User Assigned Managed Identity. If switched on, role assignments are given so the MI can provision infrastructure.  
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+Some [basic information about managed identities](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview#managed-identity-types).  
+And a document on [best practices and how to choose](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/managed-identity-best-practice-recommendations).
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+# Invocation examples
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+With new network:  
+
+``` terraform
+module "context" {
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Context"
+
+  location = var.location
+
+  create_mi       = var.create_mi
+  subscription_id = data.azurerm_subscription.env.id
+
+  create_vnet            = true
+  new_vnet_address_space = split(",", var.new_vnet_address_space)
+
+  create_subnet               = true
+  new_subnet_address_prefixes = split(",", var.new_subnet_address_prefixes)
+
+}
+```
+
+With existing network:  
+
+``` terraform
+module "context" {
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Context"
+
+  location = var.location
+
+  create_mi       = var.create_mi
+  subscription_id = data.azurerm_subscription.env.id
+
+  create_vnet            = false
+  existing_vnet_rg_name  = var.existing_vnet_rg_name
+  existing_vnet_name     = var.existing_vnet_name
+
+  create_subnet               = false
+  existing_subnet_id          = var.existing_subnet_id
+
+}
+```
