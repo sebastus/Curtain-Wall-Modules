@@ -1,20 +1,23 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+When developing new capabilities in (or debugging) Curtain Wall it's necessary to inspect outcomes directly. When Curtain Wall is installed in a private network, one way to do that is to SSH into the VM via Bastion. In cases where there is no other Bastion available, this module facilitates creation of a temporary instance.  
+It creates:  
+1. A Bastion subnet  
+2. An NSG with the correct rules for Bastion  
+3. A public IP for connecting to the Bastion  
+4. The Bastion itself.  
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+Please note this is intended to be temporary. Remove the Bastion once debugging and research tasks are complete.  
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+# Invocation example
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+``` terraform
+module "bastion" {
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Bastion"
+  count  = var.create_bastion ? 1 : 0
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+  resource_group_name             = var.create_vnet ? module.context.resource_group.name : var.existing_vnet_rg_name
+  resource_group_location         = var.create_vnet ? module.context.resource_group.location : var.existing_vnet_rg_location
+  vnet_name                       = var.create_vnet ? module.context.vnet_name : var.existing_vnet_name
+  bastion_subnet_address_prefixes = split(",", var.bastion_subnet_address_prefixes)
+}
+```
