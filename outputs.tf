@@ -1,9 +1,9 @@
 output "build-agents" {
-  value     = module.build-agent
+  value     = var.count_of_infra_agents != 0 ? module.build-agent : null
   sensitive = true
 }
 output "jumpboxes" {
-  value     = module.jumpbox
+  value     = var.count_of_jumpboxes != 0 ? module.jumpbox : null
   sensitive = true
 }
 #################

@@ -27,6 +27,14 @@ variable "location" {
 }
 
 #
+#  * Optionally create Log Analytics Workspace
+#
+variable "create_law" {
+  type    = bool
+  default = true
+}
+
+#
 #  * Optionally create MI
 #
 variable "create_mi" {
@@ -101,14 +109,14 @@ variable "bastion_subnet_address_prefixes" {
 # Build Agents
 # ########################
 variable "count_of_infra_agents" {
-  default = 1
+  default = 0
 }
 
 # ########################
 # Jumpboxes
 # ########################
 variable "count_of_jumpboxes" {
-  default = 1
+  default = 0
 }
 
 # ########################

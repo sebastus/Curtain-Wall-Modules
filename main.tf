@@ -19,6 +19,8 @@ module "context" {
   existing_subnet_id          = var.existing_subnet_id
   new_subnet_address_prefixes = split(",", var.new_subnet_address_prefixes)
 
+  create_law = var.create_law
+
 }
 
 # Remote module creates AzDO artifacts needed to do installations with the pipeline.
@@ -78,6 +80,10 @@ module "build-agent" {
   identity_ids   = [module.context.mi_id]
   subnet_id      = module.context.subnet_id
 
+  install_omsagent            = true
+  log_analytics_workspace_id  = module.context.law_id
+  log_analytics_workspace_key = module.context.law_key
+
   include_azdo_ba         = true
   azdo_agent_version      = var.azdo_agent_version
   environment_demand_name = var.environment_demand_name
@@ -102,6 +108,10 @@ module "jumpbox" {
   resource_group = module.context.resource_group
   identity_ids   = null
   subnet_id      = module.context.subnet_id
+
+  install_omsagent            = true
+  log_analytics_workspace_id  = module.context.law_id
+  log_analytics_workspace_key = module.context.law_key
 
   include_azcli = true
 }
