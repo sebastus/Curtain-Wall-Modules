@@ -96,6 +96,8 @@ module "build-agent" {
   terraform_version = "1.3.2"
 
   include_azcli = true
+
+  include_packer = true
 }
 
 module "jumpbox" {
