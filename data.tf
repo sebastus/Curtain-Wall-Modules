@@ -26,6 +26,30 @@ EOT
   }
 }
 
+data "template_file" "packer_debian" {
+
+  template = var.include_packer ? "${file("${path.module}/ciparts/packer_debian.tftpl")}" : <<-EOT
+# cloud-config
+runcmd:
+# packer - not included
+ - echo ********************************
+ - echo Packer CLI is not included
+ - echo ********************************
+EOT
+}
+
+data "template_file" "packer_redhat" {
+
+  template = var.include_packer ? "${file("${path.module}/ciparts/packer_redhat.tftpl")}" : <<-EOT
+# cloud-config
+runcmd:
+# packer - not included
+ - echo ********************************
+ - echo Packer CLI is not included
+ - echo ********************************
+EOT
+}
+
 data "template_file" "azdo_build_agent" {
 
   template = var.include_azdo_ba ? "${file("${path.module}/ciparts/azdo-ba.tftpl")}" : <<-EOT

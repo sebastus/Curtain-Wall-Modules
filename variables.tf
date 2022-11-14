@@ -58,6 +58,11 @@ variable "include_terraform" {
   default = false
 }
 
+variable "include_packer" {
+  type    = bool
+  default = false
+}
+
 variable "include_azcli" {
   type    = bool
   default = false
