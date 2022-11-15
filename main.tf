@@ -41,6 +41,12 @@ data "template_cloudinit_config" "config_cloud_init" {
 
   part {
     content_type = "text/cloud-config"
+    content      = data.template_file.pwsh.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
+
+  part {
+    content_type = "text/cloud-config"
     content      = data.template_file.azcli.rendered
     merge_type   = "list(append)+dict(recurse_array)+str()"
   }
@@ -110,6 +116,10 @@ resource "azurerm_linux_virtual_machine" "vm" {
   identity {
     type         = var.identity_ids == null ? "SystemAssigned" : "UserAssigned"
     identity_ids = var.identity_ids
+  }
+
+  provisioner "local-exec" {
+    command = "${var.powershell_command} -c ${path.module}/agent-is-online.ps1 -org ${var.azdo_org_name} -pool ${var.azdo_pool_name} -demand ${var.environment_demand_name}"
   }
 
   depends_on = [

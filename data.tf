@@ -10,6 +10,18 @@ runcmd:
 EOT
 }
 
+data "template_file" "pwsh" {
+
+  template = var.include_pwsh ? "${file("${path.module}/ciparts/pwsh.tftpl")}" : <<-EOT
+# cloud-config
+runcmd:
+# PowerShell - not included
+ - echo ********************************
+ - echo PowerShell is not included
+ - echo ********************************
+EOT
+}
+
 data "template_file" "terraform" {
 
   template = var.include_terraform ? "${file("${path.module}/ciparts/terraform.tftpl")}" : <<-EOT

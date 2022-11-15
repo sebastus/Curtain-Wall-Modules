@@ -68,9 +68,19 @@ variable "include_azcli" {
   default = false
 }
 
+variable "include_pwsh" {
+  type    = bool
+  default = false
+}
+
 variable "terraform_version" {
   type    = string
   default = "1.3.2"
+}
+
+variable "powershell_command" {
+  type    = string
+  default = "powershell"
 }
 
 variable "install_omsagent" {
