@@ -93,7 +93,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 }
 
 resource "azurerm_virtual_machine_extension" "omsagent" {
-  for_each = var.include_azdo_ba ? {} : var.os_variant
+  for_each = var.os_variant
 
   name                 = "omsagent"
   virtual_machine_id   = azurerm_linux_virtual_machine.vm[each.key].id
