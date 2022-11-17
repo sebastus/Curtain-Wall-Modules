@@ -166,6 +166,10 @@ resource "azurerm_linux_virtual_machine" "vm-without-ba" {
     identity_ids = var.identity_ids
   }
 
+  provisioner "local-exec" {
+    command = "${var.powershell_command} -c ${path.module}/cloud-init-completed.ps1 -mi_resource_id ${var.managed_identity_id} -vm_resource_id ${self.id}"    
+  }
+
   depends_on = [
     azurerm_network_interface.linux_vm
   ]
