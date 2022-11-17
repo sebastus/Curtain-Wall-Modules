@@ -10,6 +10,11 @@ variable "base_name" {
   type = string
 }
 
+variable "create_pip" {
+  type    = bool
+  default = false
+}
+
 variable "subnet_id" {
   type = string
 }

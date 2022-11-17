@@ -9,6 +9,7 @@ variable "singleton_resource_names" {
   ))
 
   default = {
+    pip = { resource_type = "azurerm_public_ip" },
     nic = { resource_type = "azurerm_network_interface" },
     vm  = { resource_type = "azurerm_linux_virtual_machine" },
   }

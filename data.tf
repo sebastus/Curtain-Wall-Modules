@@ -1,3 +1,51 @@
+#
+# Format the cloud-init
+#
+data "template_cloudinit_config" "config_cloud_init" {
+  for_each = var.os_variant
+
+  part {
+    content_type = "text/cloud-config"
+    content = templatefile(
+      "${path.module}/${each.value.cloud_init_file_name}",
+      {
+        user = "adminbs"
+      }
+    )
+    merge_type = "list(append)+dict(recurse_array)+str()"
+  }
+
+  part {
+    content_type = "text/cloud-config"
+    content      = data.template_file.pwsh.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
+
+  part {
+    content_type = "text/cloud-config"
+    content      = data.template_file.azcli.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
+
+  part {
+    content_type = "text/cloud-config"
+    content      = data.template_file.terraform.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
+
+  part {
+    content_type = "text/cloud-config"
+    content      = each.key == "Ubuntu" ? data.template_file.packer_debian.rendered : data.template_file.packer_redhat.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
+
+  part {
+    content_type = "text/cloud-config"
+    content      = data.template_file.azdo_build_agent.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
+}
+
 data "template_file" "azcli" {
 
   template = var.include_azcli ? "${file("${path.module}/ciparts/azcli.tftpl")}" : <<-EOT
