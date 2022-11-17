@@ -72,9 +72,10 @@ module "bastion" {
 module "build-agent" {
   source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Linux-VM"
 
-  count          = var.count_of_infra_agents
-  instance_index = count.index
-  base_name      = "build_agent"
+  count               = var.count_of_infra_agents
+  instance_index      = count.index
+  base_name           = "build_agent"
+  managed_identity_id = module.context.mi_id
 
   resource_group = module.context.resource_group
   identity_ids   = [module.context.mi_id]
@@ -107,6 +108,7 @@ module "jumpbox" {
   count          = var.count_of_jumpboxes
   instance_index = count.index
   base_name      = "jumpbox"
+  managed_identity_id = module.context.mi_id
 
   resource_group = module.context.resource_group
   identity_ids   = null
