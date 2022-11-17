@@ -10,6 +10,11 @@ variable "base_name" {
   type = string
 }
 
+variable "managed_identity_id" {
+  description = "Resource ID of user assigned managed identity"
+  type        = string
+}
+
 variable "create_pip" {
   type    = bool
   default = false

@@ -44,6 +44,23 @@ data "template_cloudinit_config" "config_cloud_init" {
     content      = data.template_file.azdo_build_agent.rendered
     merge_type   = "list(append)+dict(recurse_array)+str()"
   }
+
+  # this one should always be last
+  part {
+    content_type = "text/cloud-config"
+    content      = data.template_file.finally.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
+}
+
+data "template_file" "finally" {
+
+  template = "${file("${path.module}/ciparts/finally.tftpl")}"
+
+  vars = {
+    managed_identity_id = var.managed_identity_id
+  }
+
 }
 
 data "template_file" "azcli" {
