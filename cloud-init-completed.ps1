@@ -2,15 +2,10 @@ param(
 
     [Parameter(Mandatory=$true)]
     [string]
-    $mi_resource_id,
-
-    [Parameter(Mandatory=$true)]
-    [string]
     $vm_resource_id
 )
 
-# authenticate using user assigned MI
-az login --identity -u $mi_resource_id
+# running locally, az is authenticated with user creds
 
 # max_time = 15 minutes
 $max_elapsed_time_in_minutes = 15
