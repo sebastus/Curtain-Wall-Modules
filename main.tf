@@ -70,7 +70,7 @@ module "bastion" {
 }
 
 module "build-agent" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-VM"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Linux-VM"
 
   count          = var.count_of_infra_agents
   instance_index = count.index
@@ -96,12 +96,13 @@ module "build-agent" {
   terraform_version = "1.3.2"
 
   include_azcli = true
+  include_pwsh  = true
 
   include_packer = true
 }
 
 module "jumpbox" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-VM"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Linux-VM"
 
   count          = var.count_of_jumpboxes
   instance_index = count.index
