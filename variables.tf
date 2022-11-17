@@ -63,6 +63,11 @@ variable "include_azdo_ba" {
   default = false
 }
 
+variable "include_nexus" {
+  type    = bool
+  default = false
+}
+
 variable "include_terraform" {
   type    = bool
   default = false
