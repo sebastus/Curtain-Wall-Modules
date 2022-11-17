@@ -14,7 +14,6 @@ variable "singleton_resource_names" {
     mi     = { resource_type = "azurerm_user_assigned_identity", base_name = "infra-installer" },
     vnet   = { resource_type = "azurerm_virtual_network", base_name = "infra-installer" },
     subnet = { resource_type = "azurerm_subnet", base_name = "infra-installer" },
-    nsg    = { resource_type = "azurerm_network_security_group", base_name = "infra-installer-subnet" },
     law    = { resource_type = "azurerm_log_analytics_workspace", base_name = "infra-installer"},
   }
 }

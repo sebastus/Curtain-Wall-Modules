@@ -60,7 +60,7 @@ resource "azurerm_subnet" "subnet" {
 
 resource "azurerm_network_security_group" "nsg" {
   count               = var.create_subnet ? 1 : 0
-  name                = azurecaf_name.generated["nsg"].result
+  name                = "${azurerm_virtual_network.vnet[0].name} + ${azurerm_subnet.subnet[0].name} + nsg + ${var.location}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
 }
