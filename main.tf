@@ -35,7 +35,7 @@ resource "azurerm_virtual_machine_scale_set" "linux_vmss" {
   }
 
   os_profile {
-    computer_name_prefix = "linux_vmss"
+    computer_name_prefix = "linuxvmss"
     admin_username       = "vmssadmin"
   }
 
