@@ -10,7 +10,7 @@ The module is designed to be used with the top level Terraform module in "azure-
 # Options
 * create_vnet  
 * create_subnet  
-* create_mi  
+* create_managed_identity  
 The VM/build agent is designed to work with a User Assigned Managed Identity. If switched on, role assignments are given so the MI can provision infrastructure.  
 
 Some [basic information about managed identities](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview#managed-identity-types).  
@@ -26,7 +26,7 @@ module "context" {
 
   location = var.location
 
-  create_mi       = var.create_mi
+  create_managed_identity       = var.create_managed_identity
   subscription_id = data.azurerm_subscription.env.id
 
   create_vnet            = true
@@ -46,7 +46,7 @@ module "context" {
 
   location = var.location
 
-  create_mi       = var.create_mi
+  create_managed_identity       = var.create_managed_identity
   subscription_id = data.azurerm_subscription.env.id
 
   create_vnet            = false

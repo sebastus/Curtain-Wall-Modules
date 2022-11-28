@@ -27,9 +27,13 @@ variable "existing_subnet_id" {
 variable "new_subnet_address_prefixes" {
   type = list(string)
 }
-variable "create_mi" {
+variable "create_managed_identity" {
   type = bool
 }
 variable "create_law" {
   type = bool
+}
+variable "create_acr" {
+  type    = bool
+  default = false
 }

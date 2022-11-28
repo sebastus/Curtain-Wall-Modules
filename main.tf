@@ -10,7 +10,7 @@ resource "azurerm_resource_group" "rg" {
 # Log analytics workspace
 #
 resource "azurerm_log_analytics_workspace" "law" {
-  count               = var.create_law ? 1 : 0
+  count = var.create_law ? 1 : 0
 
   name                = azurecaf_name.generated["law"].result
   location            = azurerm_resource_group.rg.location
@@ -20,12 +20,24 @@ resource "azurerm_log_analytics_workspace" "law" {
 }
 
 #
+# Container registry
+#
+resource "azurerm_container_registry" "acr" {
+  count = var.create_acr ? 1 : 0
+
+  name                = azurecaf_name.generated["acr"].result
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  sku                 = "Standard"
+}
+
+#
 # managed identity
 #  * will be installed in the build agent VM
 #  * has the permissions needed to deploy resources in the environment
 #
 resource "azurerm_user_assigned_identity" "mi" {
-  count               = var.create_mi ? 1 : 0
+  count               = var.create_managed_identity ? 1 : 0
   name                = azurecaf_name.generated["mi"].result
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -33,7 +45,7 @@ resource "azurerm_user_assigned_identity" "mi" {
 
 # this allows the build agent to create resources in the subscription
 resource "azurerm_role_assignment" "contributor" {
-  count                = var.create_mi ? 1 : 0
+  count                = var.create_managed_identity ? 1 : 0
   scope                = var.subscription_id
   role_definition_name = "Contributor"
   principal_id         = azurerm_user_assigned_identity.mi[0].principal_id
