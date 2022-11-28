@@ -1,0 +1,65 @@
+pool:
+  name: myPool
+  demands: GOPersonalEnvironment
+
+trigger: none
+
+parameters:
+- name: VariableGroupName
+  displayName: Variable Group Name
+  type: string
+  default: "cwp_builder_vars"
+
+variables:
+  - group: ${{ parameters.VariableGroupName }}
+
+jobs:
+- job: make_disk_image
+  timeoutInMinutes: 600
+  steps:
+    - bash: |
+        location=$(curl -s "http://169.254.169.254:80/metadata/instance?api-version=2021-02-01" -H 'Metadata:true' | jq -r '.compute.location')
+        echo "##[warning]Pipeline is running in $location"
+      displayName: Display Agent Region
+
+    - bash: |
+        export HOME="/home/adminbs"
+        git config --global url."https://pat:$AZDO_PERSONAL_ACCESS_TOKEN@dev.azure.com/golive".insteadOf "https://dev.azure.com/golive"
+        git config --list
+      displayName: Add auth to git config  
+      env: 
+        AZDO_PERSONAL_ACCESS_TOKEN: $(azdo_pat)
+
+    - bash: |
+        az login --identity -u $(managed_identity_id)
+      displayName: AZ login
+
+    - bash: |
+        AgentIP=$(curl ipinfo.io/ip)
+
+        touch my.pkrvars.hcl
+        echo "location = \"$(location)\""                                 >> my.pkrvars.hcl
+        echo "install_password = \"$(install_password)\""                 >> my.pkrvars.hcl
+        echo "allowed_inbound_ip_addresses = [\"$AgentIP\"]"              >> my.pkrvars.hcl
+        echo "managed_image_name = \"buildAgentImage-$(Build.BuildId)\""  >> my.pkrvars.hcl
+        echo "managed_image_resource_group_name = \"rg-myManagedImages\"" >> my.pkrvars.hcl
+
+      displayName: Build variable file
+
+    - bash: |
+        builderScriptPath="$(System.DefaultWorkingDirectory)/packer_specs/build_agent_00.pkr.hcl"
+        echo "##vso[task.setvariable variable=builderScriptPath;isOutput=true]$builderScriptPath"
+
+        echo "Resource group name is ...............rg-myManagedImages"
+        echo "Builder script path is ...............$builderScriptPath"
+
+        echo ""
+        echo "Builder script exists: "
+        ls -la $builderScriptPath
+
+      displayName: "Confirm configuration"
+      name: ConfirmConfig
+
+    - bash: |
+        packer build -var-file my.pkrvars.hcl $(ConfirmConfig.builderScriptPath)
+      displayName: Packer
