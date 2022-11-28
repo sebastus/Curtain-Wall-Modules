@@ -6,6 +6,14 @@ output "jumpboxes" {
   value     = var.count_of_jumpboxes != 0 ? module.jumpbox : null
   sensitive = true
 }
+output "nexus" {
+  value     = var.count_of_nexus != 0 ? module.nexus : null
+  sensitive = true
+}
+output "vmss-ba" {
+  value     = var.create_vmss_ba != 0 ? module.vmss-ba : null
+  sensitive = true
+}
 #################
 
 output "state_rg_name" {

@@ -24,4 +24,4 @@ azdo_service_connection  = "myARMserviceConnection"
 
 # how many build agents do you want?
 count_of_agents = 2
-OSVariant       = "RedHat"
+

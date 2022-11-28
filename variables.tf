@@ -128,6 +128,25 @@ variable "count_of_jumpboxes" {
 }
 
 # ########################
+# Nexus
+# ########################
+variable "count_of_nexus" {
+  default = 0
+}
+
+# ########################
+# VMSS
+# ########################
+variable "create_vmss_ba" {
+  default = false
+}
+
+variable "managed_image_id" {
+  type        = string
+  description = "The resource id of the OS-disk managed image."
+}
+
+# ########################
 # AzDO
 # ########################
 variable "azdo_org_name" {

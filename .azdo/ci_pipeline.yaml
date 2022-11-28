@@ -18,7 +18,7 @@ steps:
     displayName: Display Agent Region
 
   - bash: |
-      git config --global url."https://pat:$AZDO_PERSONAL_ACCESS_TOKEN@dev.azure.com/RRBLUEALM".insteadOf "https://dev.azure.com/RRBLUEALM"
+      git config --global url."https://pat:$AZDO_PERSONAL_ACCESS_TOKEN@dev.azure.com/golive".insteadOf "https://dev.azure.com/golive"
       git config --list
     displayName: Add auth to git config  
     env: 

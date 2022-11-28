@@ -81,6 +81,8 @@ module "build-agent" {
   identity_ids   = [module.context.mi_id]
   subnet_id      = module.context.subnet_id
 
+  create_pip = true
+
   install_omsagent            = true
   log_analytics_workspace_id  = module.context.law_id
   log_analytics_workspace_key = module.context.law_key
@@ -94,7 +96,7 @@ module "build-agent" {
   azdo_build_agent_name   = var.azdo_build_agent_name
 
   include_terraform = true
-  terraform_version = "1.3.2"
+  terraform_version = "1.3.4"
 
   include_azcli = true
   include_pwsh  = true
@@ -119,4 +121,42 @@ module "jumpbox" {
   log_analytics_workspace_key = module.context.law_key
 
   include_azcli = true
+}
+
+module "nexus" {
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Linux-VM"
+
+  count               = var.count_of_nexus
+  instance_index      = count.index
+  base_name           = "nexus"
+  managed_identity_id = module.context.mi_id
+
+  create_pip = true
+
+  resource_group = module.context.resource_group
+  identity_ids   = [module.context.mi_id]
+  subnet_id      = module.context.subnet_id
+
+  install_omsagent            = true
+  log_analytics_workspace_id  = module.context.law_id
+  log_analytics_workspace_key = module.context.law_key
+
+  include_azcli = true
+
+  include_nexus = true
+}
+
+module "vmss-ba" {
+  #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-VMSS-BA"
+  source = "../cw-module-vmss-ba"
+
+  count          = var.create_vmss_ba ? 1 : 0
+  instance_index = count.index
+  base_name      = "bldagnt"
+
+  resource_group = module.context.resource_group
+  identity_ids   = [module.context.mi_id]
+  subnet_id      = module.context.subnet_id
+
+  managed_image_id = var.managed_image_id
 }
