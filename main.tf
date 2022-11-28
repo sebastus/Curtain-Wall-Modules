@@ -7,8 +7,8 @@ module "context" {
 
   location = var.location
 
-  create_mi       = var.create_mi
-  subscription_id = data.azurerm_subscription.env.id
+  create_managed_identity = var.create_managed_identity
+  subscription_id         = data.azurerm_subscription.env.id
 
   create_vnet            = var.create_vnet
   new_vnet_address_space = split(",", var.new_vnet_address_space)
@@ -20,7 +20,7 @@ module "context" {
   new_subnet_address_prefixes = split(",", var.new_subnet_address_prefixes)
 
   create_law = var.create_law
-
+  create_acr = var.create_acr
 }
 
 # Remote module creates AzDO artifacts needed to do installations with the pipeline.
@@ -37,7 +37,7 @@ module "remote" {
   subscription_id = data.azurerm_subscription.env.subscription_id
   resource_group  = module.context.resource_group
 
-  create_mi = var.create_mi
+  create_managed_identity = var.create_managed_identity
 
   create_vnet               = var.create_vnet
   existing_vnet_name        = var.existing_vnet_name
@@ -105,9 +105,9 @@ module "build-agent" {
 module "jumpbox" {
   source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Linux-VM"
 
-  count          = var.count_of_jumpboxes
-  instance_index = count.index
-  base_name      = "jumpbox"
+  count               = var.count_of_jumpboxes
+  instance_index      = count.index
+  base_name           = "jumpbox"
   managed_identity_id = module.context.mi_id
 
   resource_group = module.context.resource_group

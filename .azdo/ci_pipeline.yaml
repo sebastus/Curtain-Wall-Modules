@@ -61,7 +61,7 @@ steps:
       TF_VAR_azdo_service_connection: "$(azdo_service_connection)"
 
       TF_VAR_location: "$(location)"
-      TF_VAR_create_mi: "$(create_mi)"
+      TF_VAR_create_managed_identity: "$(create_managed_identity)"
 
       TF_VAR_create_vnet: "$(create_vnet)"
       TF_VAR_new_vnet_address_space: "$(new_vnet_address_space)"

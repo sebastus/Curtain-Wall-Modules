@@ -37,9 +37,17 @@ variable "create_law" {
 #
 #  * Optionally create MI
 #
-variable "create_mi" {
+variable "create_managed_identity" {
   type    = bool
   default = true
+}
+
+#
+#  * Optionally create ACR
+#
+variable "create_acr" {
+  type    = bool
+  default = false
 }
 
 #
