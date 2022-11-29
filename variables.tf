@@ -33,7 +33,7 @@ variable "subscription_id" {
 #
 #  * Optionally create MI
 #
-variable "create_mi" {
+variable "create_managed_identity" {
   type = bool
 }
 

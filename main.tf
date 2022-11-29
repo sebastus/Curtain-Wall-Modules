@@ -62,8 +62,8 @@ resource "azuredevops_variable_group" "infra_installer" {
   }
 
   variable {
-    name  = "create_mi"
-    value = var.create_mi
+    name  = "create_managed_identity"
+    value = var.create_managed_identity
   }
 
   variable {
