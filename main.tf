@@ -3,7 +3,8 @@ data "azurerm_subscription" "env" {}
 
 # Context module is always installed because the resource group is needed at the very least.
 module "context" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Context"
+  #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Context"
+  source = "../cw-module-context"
 
   location = var.location
 
@@ -159,4 +160,21 @@ module "vmss-ba" {
   subnet_id      = module.context.subnet_id
 
   managed_image_id = var.managed_image_id
+}
+
+module "docker-ba" {
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Docker-BA?ref=103-add-docker-ba"
+
+  resource_group                = module.context.resource_group
+  azdo_pat                      = var.azdo_pat
+  repo_url                      = var.repo_url
+  azurerm_container_registry_id = module.context.acr_id
+  identity_ids                  = [module.context.mi_id]
+
+  container-envvars = {
+    AZP_URL = "https://dev.azure.com/${var.azdo_org_name}",
+    AZP_TOKEN = "${var.azdo_pat}"
+    AZP_POOL = "myVmssPool"
+    AZP_AGENT_NAME = "docker-ba"
+  }
 }

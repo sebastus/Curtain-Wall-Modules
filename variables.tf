@@ -174,3 +174,9 @@ variable "environment_demand_name" {
   type = string
 }
 
+# ########################
+# Docker BA 
+# ########################
+variable "repo_url" {
+  type = string
+}
