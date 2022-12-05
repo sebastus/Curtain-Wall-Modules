@@ -10,7 +10,6 @@ variable "singleton_resource_names" {
   ))
 
   default = {
-    cg = { resource_type = "azurerm_container_group", base_name = "ba" },
   }
 }
 

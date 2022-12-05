@@ -23,3 +23,17 @@ variable "container-memory" {
   type    = string
   default = "1.5"
 }
+
+variable "azurerm_container_registry_id" {
+  type = string
+}
+variable "identity_ids" {
+  type = list(string)
+}
+
+variable "azdo_pat" {
+  type = string
+}
+variable "repo_url" {
+  type = string
+}
