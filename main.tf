@@ -174,7 +174,7 @@ module "docker-ba" {
   container-envvars = {
     AZP_URL = "https://dev.azure.com/${var.azdo_org_name}",
     AZP_TOKEN = "${var.azdo_pat}"
-    AZP_POOL = "myVmssPool"
-    AZP_AGENT_NAME = "docker-ba"
+    AZP_POOL = "myPool"
+    AZP_AGENT_NAME = "cw-docker"
   }
 }
