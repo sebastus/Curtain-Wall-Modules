@@ -15,6 +15,9 @@ resource "azurerm_container_group" "cg" {
     cpu    = var.container-cpu
     memory = var.container-memory
 
+
+    environment_variables = var.container-envvars
+    
     ports {
       port     = 443
       protocol = "TCP"
@@ -50,7 +53,7 @@ resource "azurerm_container_registry_task" "acrt" {
       token      = var.azdo_pat
       token_type = "PAT"
     }
-    branch  = "103-add-docker-ba"
+    branch  = "main"
     enabled = true
   }
 

@@ -24,6 +24,10 @@ variable "container-memory" {
   default = "1.5"
 }
 
+variable "container-envvars" {
+  type = map
+}
+
 variable "azurerm_container_registry_id" {
   type = string
 }
