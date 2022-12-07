@@ -178,3 +178,16 @@ module "docker-ba" {
     AZP_AGENT_NAME = "cw-docker"
   }
 }
+
+module "p1bb-aks" {
+  source = "../cw-module-p1bb-aks"
+
+  count               = var.create_p1bb ? 1 : 0
+  instance_index      = count.index
+  resource_group      = module.context.resource_group
+  managed_identity_id = module.context.mi_id
+  dns_prefix          = var.p1bb_aks_dns_prefix
+  admin_username      = var.admin_username
+  vnet_name           = module.context.vnet_name
+  vnet_rg_name        = module.context.resource_group.name
+}

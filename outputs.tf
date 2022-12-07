@@ -14,6 +14,10 @@ output "vmss-ba" {
   value     = var.create_vmss_ba != 0 ? module.vmss-ba : null
   sensitive = true
 }
+output "aks" {
+  value     = var.create_p1bb ? module.p1bb-aks : null
+  sensitive = true
+}
 #################
 
 output "state_rg_name" {

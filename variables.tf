@@ -180,3 +180,20 @@ variable "environment_demand_name" {
 variable "repo_url" {
   type = string
 }
+
+# ########################
+# P1 BigBang AKS 
+# ########################
+variable "create_p1bb" {
+  type    = bool
+  default = false
+}
+
+variable "p1bb_aks_dns_prefix" {
+  type    = string
+  default = ""
+}
+
+variable "admin_username" {
+  type = string
+}
