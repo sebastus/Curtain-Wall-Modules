@@ -12,8 +12,11 @@ module "context" {
   create_resource_group        = var.create_resource_group
   existing_resource_group_name = var.existing_resource_group_name
 
-  create_managed_identity = var.create_managed_identity
-  subscription_id         = var.subscription_id
+  create_managed_identity        = var.create_managed_identity
+  existing_managed_identity_name = var.existing_managed_identity_name
+  existing_managed_identity_rg   = var.existing_managed_identity_rg
+
+  subscription_id = var.subscription_id
 
   create_vnet            = var.create_vnet
   new_vnet_address_space = split(",", var.new_vnet_address_space)
