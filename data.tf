@@ -61,10 +61,10 @@ data "template_cloudinit_config" "config_cloud_init" {
 
 data "template_file" "finally" {
 
-  template = "${file("${path.module}/ciparts/finally.tftpl")}"
+  template = file("${path.module}/ciparts/finally.tftpl")
 
   vars = {
-    managed_identity_id = var.managed_identity_id
+    managed_identity_id = var.managed_identity.id
   }
 
 }
