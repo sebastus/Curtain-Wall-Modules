@@ -1,13 +1,13 @@
 output "resource_group" {
-  value = azurerm_resource_group.rg
+  value = data.azurerm_resource_group.rg
 }
 
 output "vnet_name" {
   value = var.create_vnet ? azurerm_virtual_network.vnet[0].name : var.existing_vnet_name
 }
 
-output "mi_id" {
-  value = azurerm_user_assigned_identity.mi[0].id
+output "managed_identity" {
+  value = var.create_managed_identity ? azurerm_user_assigned_identity.mi[0] : null
 }
 
 output "subnet_id" {

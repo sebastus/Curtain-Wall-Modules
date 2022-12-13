@@ -6,6 +6,38 @@ variable "subscription_id" {
   type = string
 }
 
+#
+# Names to be generated
+#
+variable "singleton_resource_names" {
+  type = map(object(
+    {
+      resource_type = string,
+    }
+  ))
+
+  default = {
+    rg     = { resource_type = "azurerm_resource_group" },
+    mi     = { resource_type = "azurerm_user_assigned_identity" },
+    vnet   = { resource_type = "azurerm_virtual_network" },
+    subnet = { resource_type = "azurerm_subnet" },
+    law    = { resource_type = "azurerm_log_analytics_workspace" },
+    acr    = { resource_type = "azurerm_container_registry" },
+  }
+}
+
+variable "create_resource_group" {
+  description = "Create the resource group or ingest existing"
+  default = true
+}
+variable "existing_resource_group_name" {
+  default = "dummy"
+}
+
+variable "base_name" {
+  type    = string
+}
+
 variable "create_vnet" {
   type = bool
 }
