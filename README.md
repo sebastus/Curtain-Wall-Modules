@@ -9,7 +9,7 @@ In the top-level Terraform module is a bootstrap script and AzDO pipeline that c
 
 All variables are passed into the remote module so they can be copied into the AzDO variable group. The variable group is referenced in the AzDO pipeline.  
 
-# Invocation
+## Invocation in parent
 ``` terraform
 module "remote" {
   source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Remote"
@@ -45,6 +45,36 @@ module "remote" {
   bastion_subnet_address_prefixes = var.bastion_subnet_address_prefixes
 
 }
+```
+
+#### Vars in parent
+```terraform
+########################
+Remote Module
+########################
+variable "install_remote" {
+  type    = bool
+  default = false
+}
+variable "azdo_project_name" {
+  type = string
+}
+variable "azdo_variable_group_name" {
+  type = string
+}
+variable "azdo_service_connection" {
+  type = string
+}
+
+```
+
+#### TFVars
+```terraform
+# Remote
+install_remote           = false
+azdo_service_connection  = "go-arm-connection"
+azdo_project_name        = "CurtainWall"
+azdo_variable_group_name = "GOPersonalEnvironment"
 ```
 
 # Notes
