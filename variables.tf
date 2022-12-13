@@ -5,28 +5,27 @@ variable "install_remote" {
   default = false
 }
 
-variable "is_common_remote" {
+variable "is_hub" {
   default = false
 }
 
 variable "azdo_project_name" {
-  type = string
+  type    = string
   default = null
 }
 
 variable "azdo_variable_group_name" {
-  type = string
+  type    = string
   default = null
 }
 
 variable "azdo_pat" {
-  type = string
+  type    = string
   default = null
 }
 
-variable "vg_vars_prefix" { 
+variable "base_name" {
   type = string
-  default = null
 }
 
 # ########################
@@ -41,8 +40,15 @@ variable "subscription_id" {
   type = string
 }
 
-variable "base_name" {
-  type = string
+#
+#  Optionally create resource group
+#
+variable "create_resource_group" {
+  description = "Create the resource group or ingest existing"
+  default     = true
+}
+variable "existing_resource_group_name" {
+  default = "dummy"
 }
 
 #

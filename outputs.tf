@@ -1,14 +1,14 @@
 # outputs from context
 output "resource_group" {
-    value = module.context.resource_group
+  value = module.context.resource_group
 }
 
 output "vnet_name" {
   value = module.context.vnet_name
 }
 
-output "mi_id" {
-  value = module.context.mi_id
+output "managed_identity" {
+  value = var.create_managed_identity ? module.context.managed_identity : null
 }
 
 output "subnet_id" {

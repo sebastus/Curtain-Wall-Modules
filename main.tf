@@ -7,7 +7,10 @@ module "context" {
   source = "../cw-module-context"
 
   base_name = var.base_name
-  location = var.location
+  location  = var.location
+
+  create_resource_group        = var.create_resource_group
+  existing_resource_group_name = var.existing_resource_group_name
 
   create_managed_identity = var.create_managed_identity
   subscription_id         = var.subscription_id
@@ -28,10 +31,10 @@ module "context" {
 # Remote module creates AzDO artifacts needed to do installations with the pipeline.
 module "remote" {
   #source           = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Remote"
-  source           = "../cw-module-remote"
-  count            = var.install_remote ? 1 : 0
-  is_common_remote = var.is_common_remote
-  
+  source = "../cw-module-remote"
+  count  = var.install_remote ? 1 : 0
+  is_hub = var.is_hub
+
   resource_group           = module.context.resource_group
   azdo_project_name        = var.azdo_project_name
   azdo_variable_group_name = var.azdo_variable_group_name
@@ -41,20 +44,20 @@ module "remote" {
   ]
 
   vg_vars = [
-    { "${var.vg_vars_prefix}_install_remote" : true },
+    { "${var.base_name}_install_remote" : true },
 
-    { "${var.vg_vars_prefix}_create_acr" : var.create_acr },
-    { "${var.vg_vars_prefix}_create_law" : var.create_law },
-    { "${var.vg_vars_prefix}_create_managed_identity" : var.create_managed_identity },
+    { "${var.base_name}_create_acr" : var.create_acr },
+    { "${var.base_name}_create_law" : var.create_law },
+    { "${var.base_name}_create_managed_identity" : var.create_managed_identity },
 
-    { "${var.vg_vars_prefix}_create_vnet" : var.create_vnet },
-    { "${var.vg_vars_prefix}_existing_vnet_name" : var.existing_vnet_name },
-    { "${var.vg_vars_prefix}_new_vnet_address_space" : var.new_vnet_address_space },
-    { "${var.vg_vars_prefix}_existing_vnet_rg_location" : var.existing_vnet_rg_location },
-    { "${var.vg_vars_prefix}_existing_vnet_rg_name" : var.existing_vnet_rg_name },
+    { "${var.base_name}_create_vnet" : var.create_vnet },
+    { "${var.base_name}_existing_vnet_name" : var.existing_vnet_name },
+    { "${var.base_name}_new_vnet_address_space" : var.new_vnet_address_space },
+    { "${var.base_name}_existing_vnet_rg_location" : var.existing_vnet_rg_location },
+    { "${var.base_name}_existing_vnet_rg_name" : var.existing_vnet_rg_name },
 
-    { "${var.vg_vars_prefix}_create_subnet" : var.create_subnet },
-    { "${var.vg_vars_prefix}_new_subnet_address_prefixes" : var.new_subnet_address_prefixes },
-    { "${var.vg_vars_prefix}_existing_subnet_id" : var.existing_subnet_id },
+    { "${var.base_name}_create_subnet" : var.create_subnet },
+    { "${var.base_name}_new_subnet_address_prefixes" : var.new_subnet_address_prefixes },
+    { "${var.base_name}_existing_subnet_id" : var.existing_subnet_id },
   ]
 }
