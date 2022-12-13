@@ -10,9 +10,9 @@ variable "base_name" {
   type = string
 }
 
-variable "managed_identity_id" {
-  description = "Resource ID of user assigned managed identity"
-  type        = string
+variable "managed_identity" {
+  description = "User assigned managed identity object"
+  type        = any
 }
 
 variable "create_pip" {
@@ -104,11 +104,13 @@ variable "install_omsagent" {
 }
 
 variable "log_analytics_workspace_id" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "log_analytics_workspace_key" {
-  type = string
+  type    = string
+  default = ""
 }
 
 # include only one os variant in this variable at a time.

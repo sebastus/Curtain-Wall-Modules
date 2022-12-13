@@ -84,7 +84,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   provisioner "local-exec" {
-    command = "${var.powershell_command} -c ${path.module}/cloud-init-completed.ps1 -vm_resource_id ${self.id}"    
+    command = "${var.powershell_command} -c ${path.module}/cloud-init-completed.ps1 -vm_resource_id ${self.id}"
   }
 
   depends_on = [
@@ -93,7 +93,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 }
 
 resource "azurerm_virtual_machine_extension" "omsagent" {
-  for_each = var.os_variant
+  for_each = var.install_omsagent ? var.os_variant : {}
 
   name                 = "omsagent"
   virtual_machine_id   = azurerm_linux_virtual_machine.vm[each.key].id
