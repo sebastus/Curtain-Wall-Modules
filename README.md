@@ -8,16 +8,42 @@ It creates:
 
 Please note this is intended to be temporary. Remove the Bastion once debugging and research tasks are complete.  
 
-# Invocation example
-
+## Invocation in parent
 ``` terraform
 module "bastion" {
   source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Bastion"
-  count  = var.create_bastion ? 1 : 0
+  # source = "../cw-module-bastion"
+  count  = var.xxx_create_bastion ? 1 : 0
 
-  resource_group_name             = var.create_vnet ? module.context.resource_group.name : var.existing_vnet_rg_name
-  resource_group_location         = var.create_vnet ? module.context.resource_group.location : var.existing_vnet_rg_location
-  vnet_name                       = var.create_vnet ? module.context.vnet_name : var.existing_vnet_name
-  bastion_subnet_address_prefixes = split(",", var.bastion_subnet_address_prefixes)
+  resource_group_name             = var.xxx_create_vnet ? module.rg_xxx.resource_group.name : var.xxx_existing_vnet_rg_name
+  resource_group_location         = var.xxx_create_vnet ? module.rg_xxx.resource_group.location : var.xxx_existing_vnet_rg_location
+  vnet_name                       = var.xxx_create_vnet ? module.rg_xxx.vnet_name : var.xxx_existing_vnet_name
+  bastion_subnet_address_prefixes = split(",", var.xxx_bastion_subnet_address_prefixes)
 }
+```
+
+## Vars in parent
+``` terraform
+# ########################
+# Bastion Module
+# ########################
+variable "xxx_create_bastion" {
+  type    = bool
+  default = false
+}
+variable "xxx_bastion_subnet_address_prefixes" {
+  # this is a comma-delimited list of cidr
+  # e.g. "10.0.2.0/26","172.16.0.0/24"
+  type    = string
+  default = "10.0.2.0/26"
+}
+```
+
+## TFVars
+```terraform
+# #########################
+# xxx bastion
+# #########################
+xxx_create_bastion                  = true
+xxx_bastion_subnet_address_prefixes = "10.1.2.0/26"
 ```
