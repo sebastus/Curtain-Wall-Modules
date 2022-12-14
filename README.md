@@ -13,6 +13,9 @@ module "rg_xxx" {
   location = var.location
 
   create_managed_identity = var.xxx_create_managed_identity
+  existing_managed_identity_name = var.hub_existing_managed_identity_name
+  existing_managed_identity_rg   = var.hub_existing_managed_identity_rg
+
   subscription_id         = data.azurerm_subscription.env.id
 
   create_vnet            = var.xxx_create_vnet
@@ -155,6 +158,11 @@ xxx_create_law = false
 
 # azure container registry
 xxx_create_acr = false
+
+# managed identity
+xxx_create_managed_identity        = false
+xxx_existing_managed_identity_name = "mi-cwgreg"
+xxx_existing_managed_identity_rg   = "rg-cwhub"
 
 # Remote
 install_remote           = false
