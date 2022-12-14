@@ -8,7 +8,7 @@ output "vnet_name" {
 }
 
 output "managed_identity" {
-  value = var.create_managed_identity ? module.context.managed_identity : null
+  value = module.context.managed_identity
 }
 
 output "subnet_id" {
