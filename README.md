@@ -3,7 +3,7 @@
 ## Invocation in parent
 ``` terraform
 module "rg_xxx" {
-  #source = "git::https://golive@dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Resource-Group"
+  #source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Module-Resource-Group.CrossSight"
   source = "../cw-module-resource-group"
 
   install_remote = false
@@ -16,13 +16,11 @@ module "rg_xxx" {
   subscription_id         = data.azurerm_subscription.env.id
 
   create_vnet            = var.xxx_create_vnet
-  new_vnet_address_space = var.xxx_new_vnet_address_space
   existing_vnet_rg_name  = var.xxx_existing_vnet_rg_name
   existing_vnet_name     = var.xxx_existing_vnet_name
 
   create_subnet               = var.xxx_create_subnet
   existing_subnet_id          = var.xxx_existing_subnet_id
-  new_subnet_address_prefixes = var.xxx_new_subnet_address_prefixes
 
   create_law = var.xxx_create_law
   create_acr = var.xxx_create_acr
