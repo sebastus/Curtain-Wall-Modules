@@ -1,7 +1,7 @@
 ### As a build agent:  
 ```terraform
 module "build-agent" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-VM"
+  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Module-Linux-VM.CrossSight"
   #source = "../cw-module-linux-vm"
 
   count            = var.xxx_count_of_build_agents
@@ -56,7 +56,7 @@ variable "xxx_environment_demand_name" {
 ### outputs in parent
 ```terraform
 output "build-agents" {
-  value     = var.xxx_count_of_infra_agents != 0 ? module.build-agent : null
+  value     = var.xxx_count_of_build_agents != 0 ? module.build-agent : null
   sensitive = true
 }
 ```

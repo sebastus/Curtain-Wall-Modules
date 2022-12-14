@@ -1,7 +1,8 @@
 ### As a jumpbox:  
 ```terraform
 module "jumpbox" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-VM"
+  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Module-Linux-VM.CrossSight"
+  #source = "../cw-module-linux-vm"
 
   count          = var.xxx_count_of_jumpboxes
   instance_index = count.index
