@@ -54,8 +54,18 @@ You may need to use the following to accept license terms:
     }
 
 # Notes
-Note that variables.tf contains additional information on how to select and configure the operating system selection. That configuration also includes the cloud-init selection.  
+Note 1  
 
-Note also that an AzDO PAT is required. It is needed to add the new build agent to the agent pool.  
+variables.tf contains additional information on how to select and configure the operating system selection. That configuration also includes the cloud-init selection.  
 
-Note [cloud-init documentation](https://cloudinit.readthedocs.io/en/latest/index.html).
+Note 2  
+
+An AzDO PAT is required. It is needed to add the new build agent to the agent pool.  
+
+Note 3  
+
+[cloud-init documentation](https://cloudinit.readthedocs.io/en/latest/index.html)
+
+Note 4  
+
+The machine that's running terraform apply needs powershell installed. A Windows computer will have it already. A Linux or WSL host will need [pwsh core](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-linux?view=powershell-7.3) installed. In this case, also override var.powershell_command to be "pwsh".  
