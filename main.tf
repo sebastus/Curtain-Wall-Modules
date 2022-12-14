@@ -3,7 +3,7 @@
 #
 # Context module is always installed because the resource group is needed at the very least.
 module "context" {
-  #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Context"
+  #source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Module-Context.CrossSight"
   source = "../cw-module-context"
 
   base_name = var.base_name
@@ -12,8 +12,11 @@ module "context" {
   create_resource_group        = var.create_resource_group
   existing_resource_group_name = var.existing_resource_group_name
 
-  create_managed_identity = var.create_managed_identity
-  subscription_id         = var.subscription_id
+  create_managed_identity        = var.create_managed_identity
+  existing_managed_identity_name = var.existing_managed_identity_name
+  existing_managed_identity_rg   = var.existing_managed_identity_rg
+
+  subscription_id = var.subscription_id
 
   create_vnet            = var.create_vnet
   new_vnet_address_space = split(",", var.new_vnet_address_space)
@@ -30,8 +33,9 @@ module "context" {
 
 # Remote module creates AzDO artifacts needed to do installations with the pipeline.
 module "remote" {
-  #source           = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Remote"
+  #source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Module-Remote.CrossSight"
   source = "../cw-module-remote"
+
   count  = var.install_remote ? 1 : 0
   is_hub = var.is_hub
 

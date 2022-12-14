@@ -66,6 +66,12 @@ variable "create_managed_identity" {
   type    = bool
   default = true
 }
+variable "existing_managed_identity_name" {
+  type = string
+}
+variable "existing_managed_identity_rg" {
+  type = string
+}
 
 #
 #  * Optionally create ACR
