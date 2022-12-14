@@ -2,7 +2,9 @@
 
 ```terraform
 module "nexus" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Linux-VM"
+  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Module-Linux-VM.CrossSight"
+  #source = "../cw-module-linux-vm"
+
   count               = var.count_of_nexus
   instance_index      = count.index
   base_name           = "nexus"
