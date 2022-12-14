@@ -66,6 +66,12 @@ variable "new_subnet_address_prefixes" {
 variable "create_managed_identity" {
   type = bool
 }
+variable "existing_managed_identity_name" {
+  type = string
+}
+variable "existing_managed_identity_rg" {
+  type = string
+}
 
 variable "create_law" {
   type = bool

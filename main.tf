@@ -68,6 +68,12 @@ resource "azurerm_role_assignment" "contributor" {
   principal_id         = azurerm_user_assigned_identity.mi[0].principal_id
 }
 
+# this ingests a previously provisioned UAMI 
+data "azurerm_user_assigned_identity" "mi" {
+  name = var.create_managed_identity ? azurerm_user_assigned_identity.mi[0].name : var.existing_managed_identity_name
+  resource_group_name = var.create_managed_identity ? data.azurerm_resource_group.rg.name : var.existing_managed_identity_rg
+}
+
 #
 # network
 #

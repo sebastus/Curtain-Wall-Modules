@@ -7,7 +7,7 @@ output "vnet_name" {
 }
 
 output "managed_identity" {
-  value = var.create_managed_identity ? azurerm_user_assigned_identity.mi[0] : null
+  value = data.azurerm_user_assigned_identity.mi
 }
 
 output "subnet_id" {
