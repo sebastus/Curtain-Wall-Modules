@@ -31,15 +31,11 @@ variable "state_key" {
 # }
 
 variable "vg_vars" {
-  type = list(
-    map(any)
-  )
+  type = map(string)
 }
 
 variable "vg_secret_vars" {
-  type = list(
-    map(any)
-  )
+  type = map(string)
 }
 # ########################
 # Context Module
