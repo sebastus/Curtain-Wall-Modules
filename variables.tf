@@ -28,6 +28,10 @@ variable "base_name" {
   type = string
 }
 
+variable "azdo_service_connection" {
+  type = string
+}
+
 # ########################
 # Variables relevant to the Context Module
 # ########################
