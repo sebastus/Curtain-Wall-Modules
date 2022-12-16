@@ -13,9 +13,9 @@ variable "is_hub" {
   default = false
 }
 
-# variable "azdo_service_connection" {
-#   type = string
-# }
+variable "azdo_service_connection" {
+  type = string
+}
 
 variable "resource_group" {
   type = any
