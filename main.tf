@@ -58,6 +58,11 @@ resource "azuredevops_variable_group" "infra_installer" {
   }
 
   variable {
+    name  = "azdo_service_connection"
+    value = var.azdo_service_connection
+  }
+
+  variable {
     name  = "state_resource_group_name"
     value = azurerm_storage_account.tfstate[0].resource_group_name
   }
