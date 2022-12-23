@@ -38,11 +38,53 @@ resource "azurerm_network_interface" "azdo_vm" {
 }
 
 #
+# Get the image definition 
+#
+data "packer_files" "azdo_server_hcl" {
+  file = "${path.module}/azdo-server.pkr.hcl"
+}
+
+locals {
+  image_name = "${var.image_base_name}"
+}
+
+#
+# Generate the managed image using packer
+#
+resource "packer_image" "azdo_server_image" {
+  file  = data.packer_files.azdo_server_hcl.file
+  force = true
+
+  environment = {
+    ARM_RESOURCE_LOCATION     = "uksouth"
+    ARM_MANAGED_IMAGE_RG_NAME = var.image_resource_group_name
+    ARM_MANAGED_IMAGE_NAME    = local.image_name
+    ARM_USE_INTERACTIVE_AUTH  = false
+    ARM_TENANT_ID             = data.azurerm_subscription.env.tenant_id
+    ARM_SUBSCRIPTION_ID       = data.azurerm_subscription.env.subscription_id
+    ARM_CLIENT_ID             = var.arm_client_id
+    ARM_CLIENT_SECRET         = var.arm_client_secret
+    ARM_INSTALLER_PASSWORD    = var.arm_installer_password
+    TMP                       = var.local_temp
+  }
+
+  ignore_environment = true
+
+  triggers = {
+    files_hash = data.packer_files.azdo_server_hcl.files_hash
+  }
+}
+
+#
 # Get the managed image
 #
 data "azurerm_image" "azdo_server" {
-  name = "azdo_server_abcd"
-  resource_group_name = "myManagedImages"
+  resource_group_name = var.image_resource_group_name
+  name                = local.image_name
+
+  depends_on = [
+    packer_image.azdo_server_image
+  ]
 }
 
 #
@@ -55,31 +97,15 @@ resource "azurerm_windows_virtual_machine" "vm" {
   location              = var.resource_group.location
   resource_group_name   = var.resource_group.name
   network_interface_ids = [azurerm_network_interface.azdo_vm.id]
-  size                  = "Standard_D4as_v5"
+  size                  = "Standard_D4s_v5"
 
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
 
-#   source_image_reference {
-#     publisher = each.value.publisher
-#     offer     = each.value.offer
-#     sku       = each.value.sku
-#     version   = each.value.version
-#   }
-
-#   dynamic "plan" {
-#     for_each = each.value.plan == null ? [] : [each.value.plan]
-#     content {
-#       name      = plan.value["name"]
-#       publisher = plan.value["publisher"]
-#       product   = plan.value["product"]
-#     }
-#   }
-
   source_image_id = data.azurerm_image.azdo_server.id
-  
+
   computer_name  = "azdo-server"
   admin_username = "adminaz"
   admin_password = var.admin_password
