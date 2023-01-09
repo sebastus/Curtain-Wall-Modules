@@ -84,7 +84,11 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   provisioner "local-exec" {
-    command = "${var.powershell_command} -c ${path.module}/cloud-init-completed.ps1 -vm_resource_id ${self.id}"
+    command = "${var.powershell_command} -c Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass"
+  }
+
+  provisioner "local-exec" {
+    command = "${var.powershell_command} -c  ${path.module}/cloud-init-completed.ps1 -vm_resource_id ${self.id}"
   }
 
   depends_on = [
