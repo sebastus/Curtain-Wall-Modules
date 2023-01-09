@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-[ -z "$1" ] && echo "tfvars file name required" && exit 1
-
 echo "Setting up local  terraform environment override"
 cat > dev_override.tf <<- EOM
 terraform {
@@ -14,7 +12,7 @@ echo "Init terraform locally"
 terraform init
 
 echo "Apply terraform locally"
-terraform apply -var-file=$1  -var "install_remote=true"
+terraform apply -var "install_remote=true"
 
 ARM_STATE_CONTAINER_NAME=`terraform output state_container_name | tr -d '"'`
 ARM_STATE_RG_NAME=`terraform output state_rg_name | tr -d '"'`
