@@ -38,6 +38,30 @@ variable "install_omsagent" {
   default = true
 }
 
+variable "image_resource_group_name" {
+  type = string
+}
+
+variable "image_base_name" {
+  type = string
+}
+
+variable "arm_client_id" {
+  type = string
+}
+
+variable "arm_client_secret" {
+  type = string
+}
+
+variable "arm_installer_password" {
+  type = string
+}
+
+variable "local_temp" {
+  type = string
+}
+
 #
 # Names to be generated
 #
