@@ -141,7 +141,7 @@ xxx_existing_managed_identity_rg   = "rg-cwhub"
 
 # Remote
 install_remote           = false
-azdo_service_connection  = "cw-arm-connection"
-azdo_project_name        = "CrossSight"
-azdo_variable_group_name = "CrossSightEnvironment"
+xxx_azdo_service_connection  = "cw-arm-connection"
+xxx_azdo_project_name        = "CrossSight"
+xxx_azdo_variable_group_name = "CrossSightEnvironment"
 ```
