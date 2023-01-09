@@ -1,14 +1,5 @@
 #!/usr/bin/env pwsh
 
-param(
-    [string]$tfvarsFilePath
-)
-
-if (-not(Test-Path -Path $tfvarsFilePath)) {
-    Write-Host "ERROR: $tfvarsFilePath does not exist"
-    exit 1
-}
-
 Write-Host "Setting up local terraform environment override"
 
 $content=@'
@@ -23,7 +14,7 @@ Write-Host "Init terraform locally"
 terraform init
 
 Write-Host "Apply terraform locally"
-terraform apply -var-file="$tfvarsFilePath" -var "install_remote=true"
+terraform apply -var "install_remote=true"
 
 $env:ARM_STATE_CONTAINER_NAME=$(terraform output state_container_name)
 $env:ARM_STATE_RG_NAME=$(terraform output state_rg_name)
