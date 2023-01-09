@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+echo "Setting up local  terraform environment override"
+cat > dev_override.tf <<- EOM
+terraform {
+  backend "local" {
+  }
+}
+EOM
+
+echo "Init terraform locally"
+terraform init
+
+echo "Apply terraform locally"
+terraform apply -var "install_remote=true"
+
+ARM_STATE_CONTAINER_NAME=`terraform output state_container_name | tr -d '"'`
+ARM_STATE_RG_NAME=`terraform output state_rg_name | tr -d '"'`
+ARM_STATE_STORAGE_NAME=`terraform output state_storage_name | tr -d '"'`
+ARM_STATE_STORAGE_KEY=`terraform output state_key | tr -d '"'`
+
+echo "Removing local override"
+rm dev_override.tf
+
+terraform init -backend-config="storage_account_name=$ARM_STATE_STORAGE_NAME" -backend-config="container_name=$ARM_STATE_CONTAINER_NAME" -backend-config="key=$ARM_STATE_STORAGE_KEY" -backend-config="resource_group_name=$ARM_STATE_RG_NAME" -migrate-state
+
+echo "Done"
+
