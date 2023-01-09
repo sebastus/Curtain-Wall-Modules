@@ -69,17 +69,9 @@ variable "xxx_create_acr" {
 #
 variable "xxx_create_vnet" {
   type    = bool
-  default = true
+  default = false
 }
 
-# if create_vnet Is true #################
-variable "xxx_new_vnet_address_space" {
-  # this is a comma-delimited list of cidr
-  # e.g. "10.0.0.0/16","172.16.0.0/16"
-  type    = string
-  default = "10.0.0.0/16"
-}
-# else
 variable "xxx_existing_vnet_rg_name" {
   type    = string
   default = ""
@@ -92,26 +84,16 @@ variable "xxx_existing_vnet_name" {
   type    = string
   default = ""
 }
-# if create_vnet Is true #################
-
 
 variable "xxx_create_subnet" {
   type    = bool
-  default = true
+  default = false
 }
 
-## if create_subnet Is true #################
-variable "xxx_new_subnet_address_prefixes" {
-  # this is a comma-delimited list of cidr
-  type    = string
-  default = "10.0.1.0/28"
-}
-## else
 variable "xxx_existing_subnet_id" {
   type    = string
   default = ""
 }
-## if create_subnet Is true #################
 ```
 
 ### outputs in parent
@@ -136,22 +118,15 @@ output "state_key" {
 
 ### TFVars
 ```terraform
-# ####################
-# global
-# ####################
-location = "westeurope"
-
 # #########################
 # xxx resource group
 # #########################
 
 # create a vnet or connect to an existing one
-xxx_create_vnet            = true
-xxx_new_vnet_address_space = "10.1.0.0/16"
+xxx_create_vnet = false
 
 # create a subnet or connect to an existing one
-xxx_create_subnet               = true
-xxx_new_subnet_address_prefixes = "10.1.1.0/26"
+xxx_create_subnet = false
 
 # log analytics workspace
 xxx_create_law = false
@@ -166,7 +141,7 @@ xxx_existing_managed_identity_rg   = "rg-cwhub"
 
 # Remote
 install_remote           = false
-azdo_service_connection  = "go-arm-connection"
-azdo_project_name        = "CurtainWall"
-azdo_variable_group_name = "GOPersonalEnvironment"
+xxx_azdo_service_connection  = "cw-arm-connection"
+xxx_azdo_project_name        = "CrossSight"
+xxx_azdo_variable_group_name = "CrossSightEnvironment"
 ```
