@@ -1,0 +1,24 @@
+# cloud-config
+package_update: true
+runcmd:
+
+## basics
+ - yum install git unzip -y
+
+## python 3.8
+ - yum install python38 -y
+ - python3.8 -m pip install pip --upgrade 
+
+## python 3.7 - supports running Checkov in pipelines
+ - yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel xz-devel make -y
+ - cd /usr/src 
+ - wget https://www.python.org/ftp/python/3.7.11/Python-3.7.11.tgz
+ - tar xzf Python-3.7.11.tgz
+ - cd Python-3.7.11
+ - ./configure --enable-optimizations
+ - make altinstall
+
+## docker
+ - yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+ - yum install docker-ce docker-compose-plugin -y
+ - usermod -aG docker ${user}

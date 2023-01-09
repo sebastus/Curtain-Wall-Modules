@@ -1,0 +1,11 @@
+# cloud-config
+runcmd:
+
+ # Nexus Repository Manager
+ - echo ********************************
+ - echo Including Nexus Repository Manager
+ - echo ********************************
+
+ - wget -P /etc/apt/sources.list.d/ https://repo.sonatype.com/repository/community-hosted/deb/sonatype-community.list
+ - wget -q -O - https://repo.sonatype.com/repository/community-hosted/pki/deb-gpg/DEB-GPG-KEY-Sonatype.asc | apt-key add -
+ - apt-get update && sudo apt-get install nexus-repository-manager
