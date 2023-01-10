@@ -1,0 +1,31 @@
+# cloud-config
+
+package_update: true
+
+packages:
+ - git
+ - jq
+ - curl
+ - unzip 
+ - apt-transport-https 
+ - gnupg 
+ - lsb-release 
+ - gnupg 
+ - ca-certificates
+
+runcmd:
+ - export DEBIAN_FRONTEND=noninteractive
+
+ # solve problem with missing module apt_pkg - caused by switching from python 3.6 to 3.8 somehow
+ - apt-get remove software-properties-common python3-apt -y
+ - apt-get install software-properties-common python3-apt -y
+
+ # python 3.7 - supports running Checkov in pipelines
+ - add-apt-repository ppa:deadsnakes/ppa -y
+ - apt-get update
+ - apt-get install python3.7 python3.7-dev python3.7-venv -y
+
+ # solve problem with missing module apt_pkg - caused by switching from python 3.6 to 3.8 somehow
+ - apt-get remove software-properties-common python3-apt -y
+ - apt-get install software-properties-common python3-apt -y
+
