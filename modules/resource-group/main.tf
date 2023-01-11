@@ -3,8 +3,7 @@
 #
 # Context module is always installed because the resource group is needed at the very least.
 module "context" {
-  #source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Module-Context.CrossSight"
-  source = "../cw-module-context"
+  source = "../context"
 
   base_name = var.base_name
   location  = var.location
@@ -33,8 +32,7 @@ module "context" {
 
 # Remote module creates AzDO artifacts needed to do installations with the pipeline.
 module "remote" {
-  #source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Module-Remote.CrossSight"
-  source = "../cw-module-remote"
+  source = "../remote"
 
   count  = var.install_remote ? 1 : 0
   is_hub = var.is_hub
