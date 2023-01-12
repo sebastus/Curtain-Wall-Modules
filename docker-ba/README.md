@@ -4,7 +4,7 @@
 ## Invocation in parent
 ``` terraform
 module "docker-ba" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Docker-BA"
+  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//docker-ba"
 
   count = var.create_docker_ba ? 1 : 0
 
@@ -40,5 +40,5 @@ variable "repo_url" {
 #### TFVars
 ```terraform
 # docker ba
-repo_url = "https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Docker-BA"
+repo_url = "https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//docker-ba"
 ```

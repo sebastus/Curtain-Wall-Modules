@@ -11,8 +11,8 @@ Please note this is intended to be temporary. Remove the Bastion once debugging 
 ## Invocation in parent
 ``` terraform
 module "bastion" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Bastion"
-  # source = "../cw-module-bastion"
+  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//bastion"
+
   count  = var.xxx_create_bastion ? 1 : 0
 
   resource_group_name             = var.xxx_create_vnet ? module.rg_xxx.resource_group.name : var.xxx_existing_vnet_rg_name

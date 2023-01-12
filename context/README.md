@@ -22,7 +22,7 @@ With new network:
 
 ``` terraform
 module "context" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Context"
+  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//context"
 
   location = var.location
 
@@ -42,7 +42,7 @@ With existing network:
 
 ``` terraform
 module "context" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Context"
+  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//context"
 
   location = var.location
 
