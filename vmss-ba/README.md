@@ -4,8 +4,7 @@
 ## Invocation in parent
 ``` terraform
 module "vmss-ba" {
-  #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-VMSS-BA"
-  source = "../cw-module-vmss-ba"
+  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//vmss-ba"
 
   count          = var.create_vmss_ba ? 1 : 0
   instance_index = count.index

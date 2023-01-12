@@ -8,8 +8,7 @@
 # AzDO Server
 # ########################
 module "azdo-server" {
-  #source = "git::https://CrossSight@dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Module-AzDO-Server.CrossSight"
-  source = "../cw-module-azdo-server"
+  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//azdo-server"
 
   base_name      = "azdo_server"
   admin_password = var.xxx_admin_password

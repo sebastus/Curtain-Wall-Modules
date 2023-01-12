@@ -3,8 +3,7 @@
 ## Invocation in parent
 ``` terraform
 module "p1bb-aks" {
-  source = "git::https://golive@dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-P1BB-AKS"
-  #source = "../cw-module-p1bb-aks"
+  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//p1bb-aks"
 
   count               = var.xxx_create_p1bb ? 1 : 0
 

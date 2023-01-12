@@ -1,8 +1,7 @@
 ### As a build agent:  
 ```terraform
 module "build-agent" {
-  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Module-Linux-VM.CrossSight"
-  #source = "../cw-module-linux-vm"
+  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//linux-vm"
 
   count            = var.xxx_count_of_build_agents
   instance_index   = count.index

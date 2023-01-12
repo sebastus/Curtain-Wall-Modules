@@ -3,8 +3,7 @@
 ## Invocation in parent
 ``` terraform
 module "rg_xxx" {
-  #source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Module-Resource-Group.CrossSight"
-  source = "../cw-module-resource-group"
+  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//resource-group"
 
   install_remote = false
   is_hub         = true
