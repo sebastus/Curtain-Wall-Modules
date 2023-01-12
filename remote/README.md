@@ -12,7 +12,7 @@ All variables are passed into the remote module so they can be copied into the A
 ## Invocation in parent
 ``` terraform
 module "remote" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Module-Remote"
+  source = "https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//remote"
   count  = var.install_remote ? 1 : 0
 
   azdo_pat                 = var.azdo_pat
