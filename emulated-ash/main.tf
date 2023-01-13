@@ -62,6 +62,15 @@ resource "azurerm_key_vault" "kv" {
     default_action = "Deny"
     ip_rules = []
   }
+
+  access_policy {
+    tenant_id = data.azurerm_subscription.env.tenant_id
+    object_id = data.azurerm_user_assigned_identity.mi.principal_id
+
+    secret_permissions = [
+      "Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"
+    ]
+  }
 }
 
 # this ingests a previously provisioned kv
