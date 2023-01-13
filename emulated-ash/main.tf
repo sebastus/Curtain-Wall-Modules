@@ -58,7 +58,7 @@ resource "azurerm_key_vault" "kv" {
   public_network_access_enabled   = false
 
   network_acls {
-    bypass = "None"
+    bypass = "AzureServices"
     default_action = "Deny"
     ip_rules = []
   }
