@@ -43,10 +43,23 @@ module "remote" {
   azdo_service_connection  = var.azdo_service_connection
 
   vg_secret_vars = {
-    azdo_pat = "${var.azdo_pat}",
+    "azdo_pat" = "${var.azdo_pat}",
+    "state_access_key" = ""
   }
 
   vg_vars = {
+    "install_remote" = "${var.install_remote}",
+    "is_hub" = "${var.is_hub}",
+    "base_name" = "${var.base_name}",
+    "azdo_project_name" = "${var.azdo_project_name}",
+    "azdo_variable_group_name" = "${var.azdo_variable_group_name}",
+    
+    "location" = "${var.location}",
+    "create_managed_identity" = "${var.create_managed_identity}",
+    "existing_managed_identity_name" = "${var.existing_managed_identity_name}",
+    "existing_managed_identity_rg" = "${var.existing_managed_identity_rg}",
+    
+    "azdo_project_name" = "${var.azdo_project_name}",
     "create_acr" = "${var.create_acr}",
     "create_law" = "${var.create_law}",
     "create_managed_identity" = "${var.create_managed_identity}",
