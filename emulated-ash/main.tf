@@ -7,6 +7,7 @@ resource "azurecaf_name" "generated" {
 
   name          = var.base_name
   resource_type = each.value.resource_type
+  random_length = each.value.random_length
 }
 
 #

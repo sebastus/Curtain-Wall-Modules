@@ -65,16 +65,17 @@ variable "vnetName" {
 variable "singleton_resource_names" {
   type = map(object(
     {
-      resource_type = string
+      resource_type = string,
+      random_length = number
     }
   ))
 
   default = {
-    nic  = { resource_type = "azurerm_network_interface" },
-    vm   = { resource_type = "azurerm_windows_virtual_machine" },
-    mi   = { resource_type = "azurerm_user_assigned_identity" },
-    kv   = { resource_type = "azurerm_key_vault" },
-    asdk = { resource_type = "azurerm_image" },
+    nic  = { resource_type = "azurerm_network_interface", random_length = 0 },
+    vm   = { resource_type = "azurerm_windows_virtual_machine", random_length = 0 },
+    mi   = { resource_type = "azurerm_user_assigned_identity", random_length = 0 },
+    kv   = { resource_type = "azurerm_key_vault", random_length = 4 },
+    asdk = { resource_type = "azurerm_image", random_length = 0 },
   }
 }
 
