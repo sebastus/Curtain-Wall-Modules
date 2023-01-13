@@ -54,6 +54,13 @@ resource "azurerm_key_vault" "kv" {
   enabled_for_deployment          = false
   enabled_for_disk_encryption     = false
   enabled_for_template_deployment = false
+  public_network_access_enabled   = false
+
+  network_acls {
+    bypass = "None"
+    default_action = "Deny"
+    iprules = []
+  }
 }
 
 # this ingests a previously provisioned kv
@@ -64,12 +71,13 @@ data "azurerm_key_vault" "kv" {
 
 #
 # admin password secret
+# this forces terraform to be run from within the network
 #
-# resource "azurerm_key_vault_secret" "admin_password" {
-#   name         = "AdminPassword"
-#   value        = var.admin_password
-#   key_vault_id = data.azurerm_key_vault.kv.id
-# }
+resource "azurerm_key_vault_secret" "admin_password" {
+  name         = "AdminPassword"
+  value        = var.admin_password
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
 
 #
 # role assignment: Key Vault Secrets User
