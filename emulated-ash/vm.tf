@@ -36,10 +36,10 @@ resource "azurerm_windows_virtual_machine" "vm" {
   computer_name         = "emulated-ash"
 
   # This creates an account, but doesn't assign a password to it.
-  admin_username        = "adminbs"
+  admin_username = "adminbs"
 
   # this sets the password of the built-in "Administrator" account
-  admin_password        = var.admin_password
+  admin_password = var.admin_password
 
   custom_data = filebase64("${path.module}/PowerShell/psnuget.zip")
 
@@ -78,11 +78,11 @@ resource "azurerm_virtual_machine_data_disk_attachment" "data_disks" {
   caching            = "ReadWrite"
 }
 
-locals {
-  cmdToExecute = file("${path.module}/StartUpScript.ps1")
+locals { # cse = custom script extension
+  cse_cmdToExecute = file("${path.module}/StartUpScript.ps1")
 
-  protected_settings = jsonencode({
-    commandToExecute = "powershell -c ${local.cmdToExecute}"
+  cse_protected_settings = jsonencode({
+    commandToExecute = "powershell -c ${local.cse_cmdToExecute}"
   })
 }
 
@@ -94,6 +94,49 @@ resource "azurerm_virtual_machine_extension" "start_pwsh" {
   type                 = "CustomScriptExtension"
   type_handler_version = "1.10"
 
-  protected_settings = local.protected_settings
+  protected_settings = local.cse_protected_settings
 
+}
+
+locals {
+  amw_settings = jsonencode(
+    {
+      AntimalwareEnabled : true
+      RealtimeProtectionEnabled : true
+      ScheduledScanSettings : {
+        isEnabled : false
+        day : 7
+        time : 120
+        scanType : "Quick"
+      }
+      Exclusions : {
+        Extensions : ""
+        Paths : ""
+        Processes : ""
+      }
+    }
+  )
+}
+
+resource "azurerm_virtual_machine_extension" "anti_malware" {
+
+  name                 = "antimalware"
+  virtual_machine_id   = azurerm_windows_virtual_machine.vm.id
+  publisher            = "Microsoft.Azure.Security"
+  type                 = "IaaSAntimalware"
+  type_handler_version = "1.6"
+
+  settings = local.amw_settings
+}
+
+resource "azurerm_virtual_machine_extension" "azure_policy" {
+
+  name                       = "AzurePolicyForWindows"
+  virtual_machine_id         = azurerm_windows_virtual_machine.vm.id
+  publisher                  = "Microsoft.GuestConfiguration"
+  type                       = "ConfigurationForWindows"
+  type_handler_version       = "1.29"
+  automatic_upgrade_enabled  = true
+  auto_upgrade_minor_version = true
+  settings                   = jsonencode({})
 }

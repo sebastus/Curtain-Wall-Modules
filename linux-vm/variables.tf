@@ -103,6 +103,11 @@ variable "install_omsagent" {
   default = true
 }
 
+variable "law_installed" {
+  description = "tells this module if log analytics workspace is available"
+  type    = bool
+}
+
 variable "log_analytics_workspace_id" {
   type    = string
   default = ""
