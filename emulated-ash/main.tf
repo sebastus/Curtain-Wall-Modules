@@ -59,7 +59,7 @@ resource "azurerm_key_vault" "kv" {
   network_acls {
     bypass = "None"
     default_action = "Deny"
-    iprules = []
+    ip_rules = []
   }
 }
 
