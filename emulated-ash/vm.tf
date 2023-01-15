@@ -138,5 +138,5 @@ resource "azurerm_virtual_machine_extension" "azure_policy" {
   type_handler_version       = "1.29"
   automatic_upgrade_enabled  = true
   auto_upgrade_minor_version = true
-  settings                   = jsonencode({})
+  settings                   = null
 }
