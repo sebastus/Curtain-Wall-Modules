@@ -32,7 +32,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
   location              = var.resource_group.location
   resource_group_name   = var.resource_group.name
   network_interface_ids = [azurerm_network_interface.windows_vm.id]
-  size                  = "Standard_E32ds_v5"
+  size                  = "Standard_E${var.asdk_number_of_cores}ds_v5"
   computer_name         = "emulated-ash"
 
   # This creates an account, but doesn't assign a password to it.

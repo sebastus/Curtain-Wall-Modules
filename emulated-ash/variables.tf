@@ -24,6 +24,9 @@ variable "asdk_storage_account_name" {
 variable "asdk_storage_account_rg" {
   type = string
 }
+variable "asdk_number_of_cores" {
+  default = 48
+}
 
 
 variable "create_managed_identity" {
