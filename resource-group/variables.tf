@@ -19,6 +19,11 @@ variable "azdo_variable_group_name" {
   default = null
 }
 
+variable "azdo_org_name" {
+  type = string
+  default = ""
+}
+
 variable "azdo_pat" {
   type    = string
   default = null
