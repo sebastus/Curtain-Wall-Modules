@@ -8,6 +8,7 @@
 
 module "rg_xxx" {
   source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//resource-group"
+  #source = "../../Curtain-Wall-Modules/resource-group"
 
   location  = var.location
   base_name = var.xxx_base_name
