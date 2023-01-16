@@ -53,6 +53,7 @@ module "remote" {
     "base_name" = "${var.base_name}",
     "azdo_project_name" = "${var.azdo_project_name}",
     "azdo_variable_group_name" = "${var.azdo_variable_group_name}",
+    "azdo_org_name" = "${var.azdo_org_name}",
     
     "location" = "${var.location}",
     "create_managed_identity" = "${var.create_managed_identity}",
