@@ -56,6 +56,9 @@ variable "xxx_asdk_storage_account_name" {
 variable "xxx_asdk_storage_account_rg" {
   type = string
 }
+variable "xxx_asdk_number_of_cores" {
+  default = 32
+}
 
 #
 # managed identity
@@ -123,5 +126,5 @@ xxx_admin_password                     = "some password"
 xxx_asdk_vhd_source_uri                = "https://some vhd uri"
 xxx_asdk_storage_account_name          = "storage_account_name"
 xxx_asdk_storage_account_rg            = "resource_group_name"
-
+xxx_asdk_number_of_cores               = 32
 ```
