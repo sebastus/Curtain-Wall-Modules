@@ -8,8 +8,8 @@
 # Emulated ASH
 # ########################
 module "emulated-ash" {
-  #source = "git::https://CrossSight@dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Module-Emulated-ASH.CrossSight"
-  source = "../cw-module-emulated-ash"
+  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//emulated-ash"
+  #source = "../cw-module-emulated-ash"
 
   base_name      = "cw-ash"
 
