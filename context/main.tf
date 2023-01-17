@@ -93,9 +93,13 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes     = var.new_subnet_address_prefixes
 }
 
+locals {
+  vnetName = var.create_vnet ? azurerm_virtual_network.vnet[0].name : var.existing_vnet_name
+}
+
 resource "azurerm_network_security_group" "nsg" {
   count               = var.create_subnet ? 1 : 0
-  name                = "${azurerm_virtual_network.vnet[0].name}-${azurerm_subnet.subnet[0].name}-nsg-${var.location}"
+  name                = "${local.vnetName}-${azurerm_subnet.subnet[0].name}-nsg-${var.location}"
   resource_group_name = data.azurerm_resource_group.rg.name
   location            = data.azurerm_resource_group.rg.location
 }

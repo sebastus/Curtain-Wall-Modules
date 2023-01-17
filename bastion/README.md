@@ -10,8 +10,12 @@ Please note this is intended to be temporary. Remove the Bastion once debugging 
 
 ## Invocation in parent
 ``` terraform
+# ########################
+# Bastion Module
+# ########################
 module "bastion" {
   source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//bastion"
+  #source = "../../Curtain-Wall-Modules/bastion"
 
   count  = var.xxx_create_bastion ? 1 : 0
 

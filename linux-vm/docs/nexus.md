@@ -15,6 +15,7 @@ module "nexus" {
   identity_ids   = [module.rg_xxx.managed_identity.id]
   subnet_id      = module.rg_xxx.subnet_id
 
+  law_installed               = var.xxx_create_law
   install_omsagent            = true
   log_analytics_workspace_id  = module.rg_xxx.law_id
   log_analytics_workspace_key = module.rg_xxx.law_key

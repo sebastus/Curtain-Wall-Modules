@@ -20,7 +20,10 @@ module "build-agent" {
   azdo_pool_name          = var.xxx_azdo_pool_name
   azdo_build_agent_name   = var.xxx_azdo_build_agent_name
 
-  install_omsagent        = false
+  law_installed               = var.xxx_create_law
+  install_omsagent            = true
+  log_analytics_workspace_id  = module.rg_xxx.law_id
+  log_analytics_workspace_key = module.rg_xxx.law_key
 
   include_terraform = true
   terraform_version = "1.3.2"
