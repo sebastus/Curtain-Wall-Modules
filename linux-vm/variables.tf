@@ -145,7 +145,7 @@ variable "os_variant" {
     Ubuntu = {
       publisher            = "Canonical"
       offer                = "UbuntuServer"
-      sku                  = "18.04-LTS"
+      sku                  = "20.04-LTS"
       version              = "latest"
       cloud_init_file_name = "cloud-init-ubuntu.tftpl"
     }
