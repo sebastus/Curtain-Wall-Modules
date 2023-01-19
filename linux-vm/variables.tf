@@ -149,8 +149,8 @@ variable "os_variant" {
   default = {
     Ubuntu = {
       publisher            = "Canonical"
-      offer                = "UbuntuServer"
-      sku                  = "20.04-LTS"
+      offer                = "0001-com-ubuntu-server-focal"
+      sku                  = "20_04-lts-gen2"
       version              = "latest"
       cloud_init_file_name = "cloud-init-ubuntu.tftpl"
     }
