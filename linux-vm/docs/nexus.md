@@ -5,6 +5,7 @@ module "nexus" {
   source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//linux-vm"
 
   count               = var.count_of_nexus
+  vm_size             = var.xxx_vm_size
   instance_index      = count.index
   base_name           = "nexus"
   managed_identity_id = module.rg_xxx.managed_identity.id
@@ -33,6 +34,10 @@ module "nexus" {
 variable "xxx_count_of_nexus" {
   default = 0
 }
+variable "xxx_vm_size" {
+  type = string
+  default = "Standard_B2ms"
+}
 ```
 
 ### outputs in parent
@@ -49,5 +54,6 @@ output "nexus" {
 # xxx nexus
 # #########################
 xxx_count_of_nexus   = 1
+xxx_vm_size = "Standard_B2ms"
 ```
 

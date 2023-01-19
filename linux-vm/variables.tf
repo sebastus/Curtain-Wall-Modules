@@ -118,6 +118,11 @@ variable "log_analytics_workspace_key" {
   default = ""
 }
 
+variable "vm_size" {
+  type    = string
+  default = "Standard_B2ms"
+}
+
 # include only one os variant in this variable at a time.
 #
 # use a command line similar to the following to find the exact image you want:

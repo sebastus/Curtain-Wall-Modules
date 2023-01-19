@@ -4,6 +4,7 @@ module "build-agent" {
   source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//linux-vm"
 
   count            = var.xxx_count_of_build_agents
+  vm_size          = var.xxx_vm_size
   instance_index   = count.index
   base_name        = "build_agent"
   managed_identity = module.rg_xxx.managed_identity
@@ -53,6 +54,10 @@ variable "xxx_azdo_build_agent_name" {
 variable "xxx_environment_demand_name" {
   type = string
 }
+variable "xxx_vm_size" {
+  type = string
+  default = "Standard_B2ms"
+}
 ```
 
 ### outputs in parent
@@ -73,4 +78,5 @@ xxx_azdo_agent_version      = "2.206.1"
 xxx_azdo_pool_name          = "myPool"
 xxx_azdo_build_agent_name   = "agent"
 xxx_environment_demand_name = "myDemand"
+xxx_vm_size = "Standard_B2ms"
 ```
