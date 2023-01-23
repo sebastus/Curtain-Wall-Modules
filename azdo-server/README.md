@@ -9,6 +9,7 @@
 # ########################
 module "azdo-server" {
   source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//azdo-server"
+  #source = "../../Curtain-Wall-Modules/azdo-server"
 
   base_name      = "azdo_server"
   admin_password = var.xxx_admin_password
@@ -20,10 +21,10 @@ module "azdo-server" {
   subnet_id      = module.rg_xxx.subnet_id
 
   # optionally install public ip
-  create_pip = false
+  create_pip = var.xxx_create_pip
 
   # optionally install oms agent
-  install_omsagent = true
+  install_omsagent = var.xxx_install_omsagent
 
   log_analytics_workspace_id = module.rg_xxx.law_id
   log_analytics_workspace_key = module.rg_xxx.law_key
@@ -43,7 +44,7 @@ module "azdo-server" {
 ## variables in parent
 ```terraform
 # ########################
-# AzDO Server
+# xxx - AzDO Server
 # ########################
 variable "xxx_admin_password" {
     type = string
@@ -72,19 +73,27 @@ variable "xxx_local_temp" {
   type = string
 }
 
+variable "xxx_create_pip" {
+  default = false
+}
+
+variable "xxx_install_omsagent" {
+  default = true
+}
+
 ```
 
 ## outputs
 ```terraform
 # ########################
-# AzDO Server
+# xxx - AzDO Server
 # ########################
 ```
 
 ## tfvars
 ```terraform
 # ########################
-# xxx AzDO Server
+# xxx - AzDO Server
 # ########################
 xxx_admin_password            = "xyzzy"
 xxx_image_resource_group_name = "rg-myManagedImages"
@@ -93,4 +102,6 @@ xxx_arm_client_id             = "a-guid"
 xxx_arm_client_secret         = "a-long-and-complicated-string"
 xxx_arm_installer_password    = "a-long-and-complicated-string"
 xxx_local_temp                = "c:\\users\\me\\AppData\\Local\\temp"
+xxx_create_pip                = false
+xxx_install_omsagent          = true
 ```
