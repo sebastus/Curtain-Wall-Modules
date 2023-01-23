@@ -56,7 +56,7 @@ variable "xxx_environment_demand_name" {
 }
 variable "xxx_vm_size" {
   type = string
-  default = "Standard_B2ms"
+  default = "Standard_D4ds_v5"
 }
 ```
 
@@ -78,5 +78,5 @@ xxx_azdo_agent_version      = "2.206.1"
 xxx_azdo_pool_name          = "myPool"
 xxx_azdo_build_agent_name   = "agent"
 xxx_environment_demand_name = "myDemand"
-xxx_vm_size = "Standard_B2ms"
+xxx_vm_size = "Standard_D4ds_v5"
 ```

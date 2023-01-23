@@ -120,7 +120,7 @@ variable "log_analytics_workspace_key" {
 
 variable "vm_size" {
   type    = string
-  default = "Standard_B2ms"
+  default = "Standard_D4ds_v5"
 }
 
 # include only one os variant in this variable at a time.

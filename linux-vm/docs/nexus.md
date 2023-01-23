@@ -36,7 +36,7 @@ variable "xxx_count_of_nexus" {
 }
 variable "xxx_vm_size" {
   type = string
-  default = "Standard_B2ms"
+  default = "Standard_B4ms"
 }
 ```
 
@@ -54,6 +54,6 @@ output "nexus" {
 # xxx nexus
 # #########################
 xxx_count_of_nexus   = 1
-xxx_vm_size = "Standard_B2ms"
+xxx_vm_size = "Standard_B4ms"
 ```
 
