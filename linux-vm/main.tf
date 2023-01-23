@@ -45,7 +45,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   location              = var.resource_group.location
   resource_group_name   = var.resource_group.name
   network_interface_ids = [azurerm_network_interface.linux_vm.id]
-  size                  = "Standard_B2ms"
+  size                  = var.vm_size
 
   os_disk {
     caching              = "ReadWrite"

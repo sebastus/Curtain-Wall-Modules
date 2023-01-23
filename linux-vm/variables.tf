@@ -118,6 +118,11 @@ variable "log_analytics_workspace_key" {
   default = ""
 }
 
+variable "vm_size" {
+  type    = string
+  default = "Standard_D4ds_v5"
+}
+
 # include only one os variant in this variable at a time.
 #
 # use a command line similar to the following to find the exact image you want:
@@ -144,8 +149,8 @@ variable "os_variant" {
   default = {
     Ubuntu = {
       publisher            = "Canonical"
-      offer                = "UbuntuServer"
-      sku                  = "18.04-LTS"
+      offer                = "0001-com-ubuntu-server-focal"
+      sku                  = "20_04-lts-gen2"
       version              = "latest"
       cloud_init_file_name = "cloud-init-ubuntu.tftpl"
     }

@@ -8,6 +8,7 @@ module "jumpbox" {
   #source = "../../Curtain-Wall-Modules/linux-vm"
 
   count            = var.xxx_count_of_jumpboxes
+  vm_size          = var.xxx_vm_size
   instance_index   = count.index
   base_name        = "jumpbox"
 
@@ -42,6 +43,10 @@ variable "xxx_count_of_jumpboxes" {
 variable "xxx_install_omsagent" {
   default = true
 }
+variable "xxx_vm_size" {
+  type = string
+  default = "Standard_B2ms"
+}
 ```
 
 ### outputs in parent
@@ -62,5 +67,6 @@ output "jumpboxes" {
 # #########################
 xxx_count_of_jumpboxes = 1
 xxx_install_omsagent   = true
+xxx_vm_size = "Standard_B2ms"
 ```
 
