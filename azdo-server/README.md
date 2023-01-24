@@ -14,6 +14,9 @@ module "azdo-server" {
   base_name      = "azdo_server"
   admin_password = var.xxx_admin_password
 
+  # optionally create the vm (might want only the vm image)
+  create_vm = var.xxx_create_vm
+
   resource_group = module.rg_xxx.resource_group
   identity_ids   = [
     module.rg_xxx.managed_identity == null ? null : module.rg_xxx.managed_identity.id
@@ -28,6 +31,13 @@ module "azdo-server" {
 
   log_analytics_workspace_id = module.rg_xxx.law_id
   log_analytics_workspace_key = module.rg_xxx.law_key
+
+  vhd_or_image = var.xxx_vhd_or_image
+
+  vhd_capture_container_name = var.xxx_vhd_capture_container_name
+  vhd_capture_name_prefix = var.xxx_vhd_capture_name_prefix
+  vhd_resource_group_name = var.xxx_vhd_resource_group_name
+  vhd_storage_account = var.xxx_vhd_storage_account
 
   image_resource_group_name = var.xxx_image_resource_group_name
   image_base_name           = var.xxx_image_base_name
@@ -49,11 +59,32 @@ module "azdo-server" {
 variable "xxx_admin_password" {
     type = string
 }
+variable "xxx_vhd_or_image" {
+  type    = string
+  default = "image"
+}
+
+variable "xxx_vhd_capture_container_name" {
+  type = string
+}
+
+variable "xxx_vhd_capture_name_prefix" {
+  type = string
+}
+
+variable "xxx_vhd_resource_group_name" {
+  type = string
+}
+
+variable "xxx_vhd_storage_account" {
+  type = string
+}
+
 variable "xxx_image_resource_group_name" {
   type = string
 }
 
-variable "xxx_image_name" {
+variable "xxx_image_base_name" {
   type = string
 }
 
@@ -81,6 +112,10 @@ variable "xxx_install_omsagent" {
   default = true
 }
 
+variable "xxx_create_vm" {
+  default = true
+}
+
 ```
 
 ## outputs
@@ -95,13 +130,20 @@ variable "xxx_install_omsagent" {
 # ########################
 # xxx - AzDO Server
 # ########################
-xxx_admin_password            = "xyzzy"
-xxx_image_resource_group_name = "rg-myManagedImages"
-xxx_image_base_name           = "azdo_server"
-xxx_arm_client_id             = "a-guid"
-xxx_arm_client_secret         = "a-long-and-complicated-string"
-xxx_arm_installer_password    = "a-long-and-complicated-string"
-xxx_local_temp                = "c:\\users\\me\\AppData\\Local\\temp"
-xxx_create_pip                = false
-xxx_install_omsagent          = true
+xxx_admin_password             = "xyzzy"
+xxx_image_resource_group_name  = "rg-myManagedImages"
+xxx_image_base_name            = "azdo_server"
+xxx_arm_client_id              = "a-guid"
+xxx_arm_client_secret          = "a-long-and-complicated-string"
+xxx_arm_installer_password     = "a-long-and-complicated-string"
+xxx_local_temp                 = "c:\\users\\me\\AppData\\Local\\temp"
+xxx_create_pip                 = false
+xxx_install_omsagent           = true
+xxx_create_vm                  = true
+xxx_vhd_or_image               = "image"
+xxx_vhd_capture_container_name = ""
+xxx_vhd_capture_name_prefix    = ""
+xxx_vhd_resource_group_name    = ""
+xxx_vhd_storage_account        = ""
 ```
+

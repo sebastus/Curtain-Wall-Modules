@@ -10,10 +10,10 @@ resource "azurecaf_name" "generated" {
 }
 
 #
-# Create a PIP for each build agent VM
+# Create a PIP for each VM
 # 
 resource "azurerm_public_ip" "azdo_vm" {
-  count = var.create_pip ? 1 : 0
+  count = (var.vhd_or_image == "image") && var.create_pip && var.create_vm ? 1 : 0
 
   name                = azurecaf_name.generated["pip"].result
   location            = var.resource_group.location
@@ -22,9 +22,11 @@ resource "azurerm_public_ip" "azdo_vm" {
 }
 
 #
-# Create a unique NIC for each build agent VM
+# Create a unique NIC for each VM
 # 
 resource "azurerm_network_interface" "azdo_vm" {
+  count = (var.vhd_or_image == "image") && var.create_vm ? 1 : 0
+
   name                = azurecaf_name.generated["nic"].result
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
@@ -49,6 +51,14 @@ locals {
 }
 
 #
+# get the resource group where the vhd or image will go
+# packer resources must be in the same region
+#
+data "azurerm_resource_group" "rg_artefact" {
+  name = var.vhd_or_image == "vhd" ? var.vhd_resource_group_name : var.image_resource_group_name
+}
+
+#
 # Generate the managed image using packer
 #
 resource "packer_image" "azdo_server_image" {
@@ -56,9 +66,19 @@ resource "packer_image" "azdo_server_image" {
   force = true
 
   environment = {
-    ARM_RESOURCE_LOCATION     = "uksouth"
+    ARM_RESOURCE_LOCATION     = data.azurerm_resource_group.rg_artefact.location
+
+    VHD_OR_IMAGE              = var.vhd_or_image
+    # if vhd
+    VHD_CAPTURE_CONTAINER_NAME = var.vhd_capture_container_name
+    VHD_CAPTURE_NAME_PREFIX    = var.vhd_capture_name_prefix
+    VHD_RESOURCE_GROUP_NAME    = var.vhd_resource_group_name
+    VHD_STORAGE_ACCOUNT        = var.vhd_storage_account
+    # else if image
     ARM_MANAGED_IMAGE_RG_NAME = var.image_resource_group_name
     ARM_MANAGED_IMAGE_NAME    = local.image_name
+    # end
+
     ARM_USE_INTERACTIVE_AUTH  = false
     ARM_TENANT_ID             = data.azurerm_subscription.env.tenant_id
     ARM_SUBSCRIPTION_ID       = data.azurerm_subscription.env.subscription_id
@@ -79,6 +99,8 @@ resource "packer_image" "azdo_server_image" {
 # Get the managed image
 #
 data "azurerm_image" "azdo_server" {
+  count = var.vhd_or_image == "image" ? 1 : 0
+
   resource_group_name = var.image_resource_group_name
   name                = local.image_name
 
@@ -88,15 +110,15 @@ data "azurerm_image" "azdo_server" {
 }
 
 #
-# Create a new VM for the bootstrap - admin account is adminaz
+# Create a new azdo server VM - admin account is adminaz
 #
 resource "azurerm_windows_virtual_machine" "vm" {
-  for_each = var.os_variant
+  for_each = (var.vhd_or_image == "image") && var.create_vm ? var.os_variant : {}
 
   name                  = azurecaf_name.generated["vm"].result
   location              = var.resource_group.location
   resource_group_name   = var.resource_group.name
-  network_interface_ids = [azurerm_network_interface.azdo_vm.id]
+  network_interface_ids = [azurerm_network_interface.azdo_vm[0].id]
   size                  = "Standard_D4s_v5"
 
   os_disk {
@@ -104,7 +126,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
     storage_account_type = "Standard_LRS"
   }
 
-  source_image_id = data.azurerm_image.azdo_server.id
+  source_image_id = data.azurerm_image.azdo_server[0].id
 
   computer_name  = "azdo-server"
   admin_username = "adminaz"
@@ -116,12 +138,12 @@ resource "azurerm_windows_virtual_machine" "vm" {
   }
 
   depends_on = [
-    azurerm_network_interface.azdo_vm
+    azurerm_network_interface.azdo_vm[0]
   ]
 }
 
 resource "azurerm_virtual_machine_extension" "omsagent" {
-  for_each = var.install_omsagent ? var.os_variant : {}
+  for_each = (var.vhd_or_image == "image") && var.install_omsagent && var.create_vm ? var.os_variant : {}
 
   name                 = "omsagent"
   virtual_machine_id   = azurerm_windows_virtual_machine.vm[each.key].id
