@@ -78,6 +78,11 @@ variable "include_packer" {
   default = false
 }
 
+variable "include_sonarqube_server" {
+  type    = bool
+  default = false
+}
+
 variable "include_azcli" {
   type    = bool
   default = false

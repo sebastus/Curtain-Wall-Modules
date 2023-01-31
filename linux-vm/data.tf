@@ -47,6 +47,12 @@ data "template_cloudinit_config" "config_cloud_init" {
 
   part {
     content_type = "text/cloud-config"
+    content      = data.template_file.sonarqube_server.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
+
+  part {
+    content_type = "text/cloud-config"
     content      = data.template_file.azdo_build_agent.rendered
     merge_type   = "list(append)+dict(recurse_array)+str()"
   }
@@ -129,6 +135,18 @@ runcmd:
 # packer - not included
  - echo ********************************
  - echo Packer CLI is not included
+ - echo ********************************
+EOT
+}
+
+data "template_file" "sonarqube_server" {
+
+  template = var.include_sonarqube_server ? "${file("${path.module}/ciparts/sonarqube_server.tftpl")}" : <<-EOT
+# cloud-config
+runcmd:
+# packer - not included
+ - echo ********************************
+ - echo Sonarqube Server is not included
  - echo ********************************
 EOT
 }
