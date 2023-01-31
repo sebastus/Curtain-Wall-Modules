@@ -55,6 +55,9 @@ variable "xxx_asdk_number_of_cores" {
 
 #
 # managed identity
+# An existing managed identity will need these role assignments:
+# 1) Reader / scope = the resource group of the new ASH vm and key vault
+# 2) Key Vault Secrets User / scope = the key vault
 #
 variable "xxx_ash_create_managed_identity" {
   type = bool
