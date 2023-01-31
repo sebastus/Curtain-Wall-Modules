@@ -1,0 +1,22 @@
+# cloud-config
+runcmd:
+
+ - echo ********************************
+ - echo Including the sonarqube server
+ - echo ********************************
+ - apt-get install ca-certificates-java -y
+ - apt-get install openjdk-17-jdk -y
+ - echo 'vm.max_map_count=524288' >> /etc/sysctl.conf
+ - echo 'fs.file-max=131072' >> /etc/sysctl.conf
+ - echo '* soft nofile 655360' >> /etc/security/limits.conf
+ - echo '* hard nofile 655360' >> /etc/security/limits.conf
+ - 
+ - cd /home/adminbs/
+ - su -c "curl -o 'sonarqube.zip' 'https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.8.0.63668.zip'" adminbs
+ - su -c "unzip sonarqube.zip" adminbs
+ - su -c "mv /home/adminbs/sonarqube-*/ /home/adminbs/sonarqube/" adminbs
+ - su -c "wget -O /home/adminbs/sonarqube/extensions/plugins/sonarqube-community-branch-plugin-1.14.0.jar https://github.com/mc1arke/sonarqube-community-branch-plugin/releases/download/1.14.0/sonarqube-community-branch-plugin-1.14.0.jar" adminbs
+ - su -c "sed -i 's#.*sonar.web.javaAdditionalOpts=.*#sonar.web.javaAdditionalOpts=-javaagent:./extensions/plugins/sonarqube-community-branch-plugin-1.14.0.jar=web#' /home/adminbs/sonarqube/conf/sonar.properties" adminbs
+ - su -c "sed -i 's#.*sonar.ce.javaAdditionalOpts=.*#sonar.ce.javaAdditionalOpts=-javaagent:./extensions/plugins/sonarqube-community-branch-plugin-1.14.0.jar=ce#' /home/adminbs/sonarqube/conf/sonar.properties" adminbs
+ - su -c "wget -O /home/adminbs/sonarqube/extensions/plugins/community-rust-plugin-0.1.4.jar  https://github.com/elegoff/sonar-rust/releases/download/v0.1.4/community-rust-plugin-0.1.4.jar"
+ - su -c "sh /home/adminbs/sonarqube/bin/linux-x86-64/sonar.sh start" adminbs
