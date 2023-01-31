@@ -32,8 +32,10 @@ data "azurerm_user_assigned_identity" "mi" {
 #
 # role assignment: Reader
 # scoped to the resource group
+# Assume that if not creating the MI, the role is already present
 #
 resource "azurerm_role_assignment" "rg_reader" {
+  count                = var.create_managed_identity ? 1 : 0
   scope                = var.resource_group.id
   role_definition_name = "Reader"
   principal_id         = data.azurerm_user_assigned_identity.mi.principal_id
@@ -58,9 +60,9 @@ resource "azurerm_key_vault" "kv" {
   public_network_access_enabled   = false
 
   network_acls {
-    bypass = "AzureServices"
+    bypass         = "AzureServices"
     default_action = "Deny"
-    ip_rules = []
+    ip_rules       = []
   }
 
   access_policy {
@@ -83,17 +85,19 @@ data "azurerm_key_vault" "kv" {
 # admin password secret
 # this forces terraform to be run from within the network
 #
-resource "azurerm_key_vault_secret" "admin_password" {
-  name         = "AdminPassword"
-  value        = var.admin_password
-  key_vault_id = data.azurerm_key_vault.kv.id
-}
+# resource "azurerm_key_vault_secret" "admin_password" {
+#   name         = "AdminPassword"
+#   value        = var.admin_password
+#   key_vault_id = data.azurerm_key_vault.kv.id
+# }
 
 #
 # role assignment: Key Vault Secrets User
 # scoped to the kv
+# Assume that if not creating the MI, the role is already present
 #
 resource "azurerm_role_assignment" "kv_secrets_user" {
+  count                = var.create_managed_identity ? 1 : 0
   scope                = data.azurerm_key_vault.kv.id
   role_definition_name = "Key Vault Secrets User"
   principal_id         = data.azurerm_user_assigned_identity.mi.principal_id
@@ -103,10 +107,12 @@ resource "azurerm_role_assignment" "kv_secrets_user" {
 # kv private endpoint
 #
 resource "azurerm_private_endpoint" "kv" {
+  count               = var.create_key_vault ? 1 : 0
+
   name                = "kv-private-endpoint"
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
-  subnet_id           = azurerm_subnet.pe_subnet.id
+  subnet_id           = data.azurerm_subnet.pe_subnet.id
 
   private_service_connection {
     name                           = "private_kv_service_connection"
@@ -117,7 +123,7 @@ resource "azurerm_private_endpoint" "kv" {
 
   private_dns_zone_group {
     name                 = "default"
-    private_dns_zone_ids = [azurerm_private_dns_zone.kv.id]
+    private_dns_zone_ids = [azurerm_private_dns_zone.kv[0].id]
   }
 
 }

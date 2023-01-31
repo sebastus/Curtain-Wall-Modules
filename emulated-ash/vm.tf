@@ -66,7 +66,7 @@ resource "azurerm_managed_disk" "data_disks" {
   resource_group_name  = var.resource_group.name
   storage_account_type = "Premium_LRS"
   create_option        = "Empty"
-  disk_size_gb         = 256
+  disk_size_gb         = 512
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "data_disks" {
