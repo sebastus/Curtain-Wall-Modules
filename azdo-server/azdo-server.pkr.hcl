@@ -3,11 +3,6 @@ variable "location" {
   default = "${env("ARM_RESOURCE_LOCATION")}"
 }
 
-variable "use_interactive_auth" {
-  type    = bool
-  default = "${env("ARM_USE_INTERACTIVE_AUTH")}"
-}
-
 variable "tenant_id" {
   type    = string
   default = "${env("ARM_TENANT_ID")}"
@@ -43,6 +38,36 @@ variable "virtual_network_subnet_name" {
   default = "${env("ARM_VIRTUAL_NETWORK_SUBNET_NAME")}"
 }
 
+variable "vhd_or_image" {
+  type    = string
+  default = "${env("VHD_OR_IMAGE")}"
+
+  validation {
+    condition     = var.vhd_or_image == "vhd" || var.vhd_or_image == "image"
+    error_message = "Input variable vhd_or_image must be either 'vhd' or 'image'."
+  }
+}
+
+variable "capture_container_name" {
+  type    = string
+  default = "${env("VHD_CAPTURE_CONTAINER_NAME")}"
+}
+
+variable "capture_name_prefix" {
+  type    = string
+  default = "${env("VHD_CAPTURE_NAME_PREFIX")}"
+}
+
+variable "resource_group_name" {
+  type    = string
+  default = "${env("VHD_RESOURCE_GROUP_NAME")}"
+}
+
+variable "storage_account" {
+  type    = string
+  default = "${env("VHD_STORAGE_ACCOUNT")}"
+}
+
 variable "managed_image_resource_group_name" {
   type    = string
   default = "${env("ARM_MANAGED_IMAGE_RG_NAME")}"
@@ -55,7 +80,7 @@ variable "managed_image_name" {
 
 variable "vm_size" {
   type    = string
-  default = "Standard_D4ds_v5"
+  default = "Standard_D2_v4"
 }
 
 variable "install_user" {
@@ -75,14 +100,13 @@ source "azure-arm" "build_vhd" {
   client_id       = var.client_id
   client_secret   = var.client_secret
 
-  use_interactive_auth = var.use_interactive_auth
-
   vm_size         = var.vm_size
   os_disk_size_gb = "256"
 
+  # the "azure-edition" versions of 2022 don't support vhd
   image_publisher = "MicrosoftWindowsServer"
   image_offer     = "WindowsServer"
-  image_sku       = "2022-datacenter-azure-edition"
+  image_sku       = "2022-datacenter"
   location        = "${var.location}"
   os_type         = "Windows"
 
@@ -95,9 +119,13 @@ source "azure-arm" "build_vhd" {
   winrm_insecure = "true"
   winrm_username = "packer"
 
-  managed_image_name                = var.managed_image_name
-  managed_image_resource_group_name = var.managed_image_resource_group_name
+  managed_image_name                = var.vhd_or_image == "image" ? var.managed_image_name : ""
+  managed_image_resource_group_name = var.vhd_or_image == "image" ? var.managed_image_resource_group_name : ""
 
+  capture_container_name = var.vhd_or_image == "vhd" ? var.capture_container_name : ""
+  capture_name_prefix    = var.vhd_or_image == "vhd" ? var.capture_name_prefix : ""
+  resource_group_name    = var.vhd_or_image == "vhd" ? var.resource_group_name : ""
+  storage_account        = var.vhd_or_image == "vhd" ? var.storage_account : ""
 
 }
 

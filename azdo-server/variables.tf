@@ -38,6 +38,32 @@ variable "install_omsagent" {
   default = true
 }
 
+variable "create_disk_from_image" {
+  type    = bool
+  default = true
+}
+
+variable "vhd_or_image" {
+  type    = string
+  default = "image"
+}
+
+variable "vhd_capture_container_name" {
+  type = string
+}
+
+variable "vhd_capture_name_prefix" {
+  type = string
+}
+
+variable "vhd_resource_group_name" {
+  type = string
+}
+
+variable "vhd_storage_account" {
+  type = string
+}
+
 variable "image_resource_group_name" {
   type = string
 }
@@ -60,6 +86,10 @@ variable "arm_installer_password" {
 
 variable "local_temp" {
   type = string
+}
+
+variable "create_vm" {
+  default = true
 }
 
 #
@@ -102,7 +132,7 @@ variable "os_variant" {
     cloud_init_file_name = string
   }))
   default = {
-    Ubuntu = {
+    Windows = {
       publisher            = "MicrosoftWindowsServer"
       offer                = "WindowsServer"
       sku                  = "2022-datacenter-azure-edition"
