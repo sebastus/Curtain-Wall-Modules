@@ -26,7 +26,7 @@ resource "azurerm_subnet" "pe_subnet" {
 }
 
 locals {
-  pe_subnet_name      = var.create_pe_subnet ? "PrivateEndpointsSubnet" : var.existing_pe_subnet_name
+  pe_subnet_name = var.create_pe_subnet ? "PrivateEndpointsSubnet" : var.existing_pe_subnet_name
 }
 
 data "azurerm_subnet" "pe_subnet" {
@@ -64,7 +64,7 @@ resource "azurerm_subnet_network_security_group_association" "subnetnsg" {
 # Private DNS zone
 #
 resource "azurerm_private_dns_zone" "kv" {
-  count               = var.create_key_vault ? 1 : 0
+  count = var.create_key_vault ? 1 : 0
 
   name                = "privatelink.vaultcore.azure.net"
   resource_group_name = var.resource_group.name
@@ -74,7 +74,7 @@ resource "azurerm_private_dns_zone" "kv" {
 # Private DNS Zone link to virtual network
 #
 resource "azurerm_private_dns_zone_virtual_network_link" "kv" {
-  count                 = var.create_key_vault ? 1 : 0
+  count = var.create_key_vault ? 1 : 0
 
   name                  = "kv_private_dns_zone_link"
   resource_group_name   = var.resource_group.name

@@ -17,7 +17,8 @@ resource "azurecaf_name" "generated" {
 #  *   Reader on resource group 
 #
 resource "azurerm_user_assigned_identity" "mi" {
-  count               = var.create_managed_identity ? 1 : 0
+  count = var.create_managed_identity ? 1 : 0
+
   name                = azurecaf_name.generated["mi"].result
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
@@ -35,7 +36,8 @@ data "azurerm_user_assigned_identity" "mi" {
 # Assume that if not creating the MI, the role is already present
 #
 resource "azurerm_role_assignment" "rg_reader" {
-  count                = var.create_managed_identity ? 1 : 0
+  count = var.create_managed_identity ? 1 : 0
+
   scope                = var.resource_group.id
   role_definition_name = "Reader"
   principal_id         = data.azurerm_user_assigned_identity.mi.principal_id
@@ -45,7 +47,8 @@ resource "azurerm_role_assignment" "rg_reader" {
 # key vault
 # 
 resource "azurerm_key_vault" "kv" {
-  count               = var.create_key_vault ? 1 : 0
+  count = var.create_key_vault ? 1 : 0
+
   name                = azurecaf_name.generated["kv"].result
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
@@ -84,20 +87,24 @@ data "azurerm_key_vault" "kv" {
 #
 # admin password secret
 # this forces terraform to be run from within the network
+# Assume that if not creating the kv, secret already exists
 #
-# resource "azurerm_key_vault_secret" "admin_password" {
-#   name         = "AdminPassword"
-#   value        = var.admin_password
-#   key_vault_id = data.azurerm_key_vault.kv.id
-# }
+resource "azurerm_key_vault_secret" "admin_password" {
+  count = var.create_key_vault ? 1 : 0
+
+  name         = "AdminPassword"
+  value        = var.admin_password
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
 
 #
 # role assignment: Key Vault Secrets User
 # scoped to the kv
-# Assume that if not creating the MI, the role is already present
+# Assume that if not creating the MI or the KV, the role is already present
 #
 resource "azurerm_role_assignment" "kv_secrets_user" {
-  count                = var.create_managed_identity ? 1 : 0
+  count = (var.create_managed_identity || var.create_key_vault) ? 1 : 0
+
   scope                = data.azurerm_key_vault.kv.id
   role_definition_name = "Key Vault Secrets User"
   principal_id         = data.azurerm_user_assigned_identity.mi.principal_id
@@ -105,9 +112,10 @@ resource "azurerm_role_assignment" "kv_secrets_user" {
 
 #
 # kv private endpoint
+# Assume that if not creating the kv, private endpoint already exists
 #
 resource "azurerm_private_endpoint" "kv" {
-  count               = var.create_key_vault ? 1 : 0
+  count = var.create_key_vault ? 1 : 0
 
   name                = "kv-private-endpoint"
   location            = var.resource_group.location

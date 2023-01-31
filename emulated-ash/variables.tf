@@ -18,12 +18,6 @@ variable "admin_password" {
 variable "asdk_vhd_source_uri" {
   type = string
 }
-#variable "asdk_storage_account_name" {
-#  type = string
-#}
-#variable "asdk_storage_account_rg" {
-#  type = string
-#}
 variable "asdk_number_of_cores" {
   default = 48
 }
