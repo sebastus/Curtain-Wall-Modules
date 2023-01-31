@@ -18,12 +18,6 @@ variable "admin_password" {
 variable "asdk_vhd_source_uri" {
   type = string
 }
-variable "asdk_storage_account_name" {
-  type = string
-}
-variable "asdk_storage_account_rg" {
-  type = string
-}
 variable "asdk_number_of_cores" {
   default = 48
 }
@@ -52,13 +46,19 @@ variable "existing_key_vault_rg" {
 #
 # Subnet for private endpoints
 #
-variable "pe_subnet_address_prefixes" {
-  type = list(string)
-}
-variable "vnet_resource_group_name" {
+variable "pe_subnet_resource_group_name" {
   type = string
 }
-variable "vnetName" {
+variable "pe_subnet_vnet_name" {
+  type = string
+}
+variable "create_pe_subnet" {
+  default = true
+}
+variable "new_pe_subnet_address_prefixes" {
+  type = list(string)
+}
+variable "existing_pe_subnet_name" {
   type = string
 }
 
