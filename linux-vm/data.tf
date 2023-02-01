@@ -29,6 +29,12 @@ data "template_cloudinit_config" "config_cloud_init" {
 
   part {
     content_type = "text/cloud-config"
+    content      = data.template_file.maven.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
+
+  part {
+    content_type = "text/cloud-config"
     content      = data.template_file.azcli.rendered
     merge_type   = "list(append)+dict(recurse_array)+str()"
   }
@@ -95,6 +101,18 @@ runcmd:
 # nexus - not included
  - echo ********************************
  - echo Nexus Repository Manager is not included
+ - echo ********************************
+EOT
+}
+
+data "template_file" "maven" {
+
+  template = var.include_maven ? "${file("${path.module}/ciparts/maven.tftpl")}" : <<-EOT
+# cloud-config
+runcmd:
+# Maven - not included
+ - echo ********************************
+ - echo Maven is not included
  - echo ********************************
 EOT
 }

@@ -1,0 +1,18 @@
+# cloud-config
+runcmd:
+
+ # Maven
+ - echo ********************************
+ - echo Including Maven
+ - echo ********************************
+ 
+ - sudo apt update
+ - sudo apt install default-jdk
+ - wget https://archive.apache.org/dist/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.tar.gz
+ - tar xvf apache-maven-3.8.4-bin.tar.gz
+ - sudo mkdir /opt/maven
+ - sudo mv ./apache-maven-3.8.4/* /opt/maven
+ - echo "export M2_HOME=/opt/maven" | sudo tee /etc/profile.d/maven.sh -a
+ - echo "export MAVEN_HOME=/opt/maven" | sudo tee /etc/profile.d/maven.sh -a
+ - echo "export PATH=\$PATH:\$MAVEN_HOME/bin" | sudo tee /etc/profile.d/maven.sh -a
+ - source /etc/profile.d/maven.sh

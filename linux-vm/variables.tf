@@ -68,6 +68,11 @@ variable "include_nexus" {
   default = false
 }
 
+variable "include_maven" {
+  type    = bool
+  default = false
+}
+
 variable "include_terraform" {
   type    = bool
   default = false
