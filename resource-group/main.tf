@@ -65,7 +65,7 @@ module "remote" {
     "existing_vnet_name" = "${var.existing_vnet_name}", 
     "existing_vnet_rg_location" = "${var.existing_vnet_rg_location}",
     "existing_vnet_rg_name" = "${var.existing_vnet_rg_name}",
-    "xxx_azdo_build_agent_name" = "",
+    "azdo_build_agent_name" = "",
     "install_remote" = "${var.install_remote}",
     "is_hub" = "${var.is_hub}",
     "location" = "${var.location}",   
