@@ -7,12 +7,16 @@ runcmd:
  - echo ********************************
  
  - sudo apt update
- - sudo apt install default-jdk
+ - sudo apt install -y openjdk-17-jdk
+ - echo "JAVA_HOME_17_X64=/usr/lib/jvm/java-17-openjdk-amd64" >> /build/myagent/.env
+ - echo "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> /build/myagent/.env
+
  - wget https://archive.apache.org/dist/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.tar.gz
  - tar xvf apache-maven-3.8.4-bin.tar.gz
  - sudo mkdir /opt/maven
  - sudo mv ./apache-maven-3.8.4/* /opt/maven
- - echo "export M2_HOME=/opt/maven" | sudo tee /etc/profile.d/maven.sh -a
- - echo "export MAVEN_HOME=/opt/maven" | sudo tee /etc/profile.d/maven.sh -a
- - echo "export PATH=\$PATH:\$MAVEN_HOME/bin" | sudo tee /etc/profile.d/maven.sh -a
- - source /etc/profile.d/maven.sh
+ - sudo rmdir ./apache-maven-3.8.4
+ - sudo rm apache-maven-3.8.4-bin.tar.gz
+ - echo "M2_HOME=/opt/maven" >> /build/myagent/.env
+ - echo "MAVEN_HOME=/opt/maven" >> /build/myagent/.env
+ - echo -n ":/opt/maven/bin" >> /build/myagent/.path
