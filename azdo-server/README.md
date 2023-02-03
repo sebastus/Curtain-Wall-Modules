@@ -5,7 +5,7 @@
 ## Invocation code in parent
 ```terraform
 # ########################
-# AzDO Server
+# xxx - AzDO Server
 # ########################
 module "azdo-server" {
   source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//azdo-server"
@@ -56,9 +56,20 @@ module "azdo-server" {
 # ########################
 # xxx - AzDO Server
 # ########################
+variable "xxx_create_vm" {
+  default = true
+}
 variable "xxx_admin_password" {
     type = string
 }
+variable "xxx_create_pip" {
+  default = false
+}
+variable "xxx_install_omsagent" {
+  default = true
+}
+
+
 variable "xxx_vhd_or_image" {
   type    = string
   default = "image"
@@ -67,15 +78,12 @@ variable "xxx_vhd_or_image" {
 variable "xxx_vhd_capture_container_name" {
   type = string
 }
-
 variable "xxx_vhd_capture_name_prefix" {
   type = string
 }
-
 variable "xxx_vhd_resource_group_name" {
   type = string
 }
-
 variable "xxx_vhd_storage_account" {
   type = string
 }
@@ -83,7 +91,6 @@ variable "xxx_vhd_storage_account" {
 variable "xxx_image_resource_group_name" {
   type = string
 }
-
 variable "xxx_image_base_name" {
   type = string
 }
@@ -91,7 +98,6 @@ variable "xxx_image_base_name" {
 variable "xxx_arm_client_id" {
   type = string
 }
-
 variable "xxx_arm_client_secret" {
   type = string
 }
@@ -102,18 +108,6 @@ variable "xxx_arm_installer_password" {
 
 variable "xxx_local_temp" {
   type = string
-}
-
-variable "xxx_create_pip" {
-  default = false
-}
-
-variable "xxx_install_omsagent" {
-  default = true
-}
-
-variable "xxx_create_vm" {
-  default = true
 }
 
 ```
@@ -130,20 +124,28 @@ variable "xxx_create_vm" {
 # ########################
 # xxx - AzDO Server
 # ########################
-xxx_admin_password             = "xyzzy"
-xxx_image_resource_group_name  = "rg-myManagedImages"
-xxx_image_base_name            = "azdo_server"
-xxx_arm_client_id              = "a-guid"
-xxx_arm_client_secret          = "a-long-and-complicated-string"
-xxx_arm_installer_password     = "a-long-and-complicated-string"
-xxx_local_temp                 = "c:\\users\\me\\AppData\\Local\\temp"
-xxx_create_pip                 = false
-xxx_install_omsagent           = true
+
+# relevant to the AzDO server
 xxx_create_vm                  = true
+xxx_install_omsagent           = true
+xxx_admin_password             = "password"
+xxx_create_pip                 = false
+
+# relevant to packer operation
 xxx_vhd_or_image               = "image"
+
 xxx_vhd_capture_container_name = ""
 xxx_vhd_capture_name_prefix    = ""
 xxx_vhd_resource_group_name    = ""
 xxx_vhd_storage_account        = ""
+
+xxx_image_resource_group_name  = "rg-myManagedImages"
+xxx_image_base_name            = "azdo_server"
+
+xxx_arm_client_id              = "a-guid"
+xxx_arm_client_secret          = "password"
+
+xxx_arm_installer_password     = "password"
+xxx_local_temp                 = "c:\\users\\me\\AppData\\Local\\temp"
 ```
 

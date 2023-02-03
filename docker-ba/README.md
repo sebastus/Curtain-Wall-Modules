@@ -1,16 +1,22 @@
 # Introduction 
 
+WARNING: this module has not been tested recently.
 
 ## Invocation in parent
+
 ``` terraform
+# ########################
+# xxx - Docker BA 
+# ########################
 module "docker-ba" {
   source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//docker-ba"
+  #source = "../../Curtain-Wall-Modules/docker-ba"
 
-  count = var.create_docker_ba ? 1 : 0
+  count = var.xxx_create_docker_ba ? 1 : 0
 
   resource_group                = module.rg_hub.resource_group
   azdo_pat                      = var.azdo_pat
-  repo_url                      = var.repo_url
+  repo_url                      = var.xxx_repo_url
   azurerm_container_registry_id = module.rg_hub.acr_id
   identity_ids                  = [module.rg_hub.managed_identity.id]
 
@@ -26,19 +32,23 @@ module "docker-ba" {
 #### Vars in parent
 ```terraform
 # ########################
-# Docker BA 
+# xxx - Docker BA 
 # ########################
-variable "create_docker_ba" {
+variable "xxx_create_docker_ba" {
   type    = bool
   default = false
 }
-variable "repo_url" {
+variable "xxx_repo_url" {
   type = string
 }
 ```
 
 #### TFVars
 ```terraform
-# docker ba
-repo_url = "https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//docker-ba"
+
+# ########################
+# xxx - Docker BA 
+# ########################
+xxx_create_docker_ba = false
+xxx_repo_url         = "https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//docker-ba"
 ```

@@ -9,10 +9,15 @@ In the top-level Terraform module is a bootstrap script and AzDO pipeline that c
 
 All variables are passed into the remote module so they can be copied into the AzDO variable group. The variable group is referenced in the AzDO pipeline.  
 
-## Invocation in parent
+#### Invocation in parent
 ``` terraform
+########################
+# Remote Module
+########################
 module "remote" {
   source = "https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//remote"
+  #source = "../remote"
+
   count  = var.install_remote ? 1 : 0
 
   azdo_pat                 = var.azdo_pat
@@ -45,12 +50,14 @@ module "remote" {
   bastion_subnet_address_prefixes = var.bastion_subnet_address_prefixes
 
 }
+
 ```
 
 #### Vars in parent
 ```terraform
+
 ########################
-Remote Module
+# Remote Module
 ########################
 variable "install_remote" {
   type    = bool
@@ -68,13 +75,41 @@ variable "azdo_service_connection" {
 
 ```
 
+#### outputs
+```terraform
+
+########################
+# Remote Module
+########################
+output "state_rg_name" {
+  value = var.install_remote ? module.remote[0].state_rg_name : null
+}
+
+output "state_storage_name" {
+  value = var.install_remote ? module.remote[0].state_storage_name : null
+}
+
+output "state_container_name" {
+  value = var.install_remote ? module.remote[0].state_container_name : null
+}
+
+output "state_key" {
+  value = var.install_remote ? module.remote[0].state_key : null
+}
+
+```
+
 #### TFVars
 ```terraform
-# Remote
+
+########################
+# Remote Module
+########################
 install_remote           = false
 azdo_service_connection  = "go-arm-connection"
 azdo_project_name        = "CurtainWall"
 azdo_variable_group_name = "GOPersonalEnvironment"
+
 ```
 
 # Notes

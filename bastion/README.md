@@ -11,7 +11,7 @@ Please note this is intended to be temporary. Remove the Bastion once debugging 
 ## Invocation in parent
 ``` terraform
 # ########################
-# Bastion Module
+# xxx - Bastion Module
 # ########################
 module "bastion" {
   source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//bastion"
@@ -29,7 +29,7 @@ module "bastion" {
 ## Vars in parent
 ``` terraform
 # ########################
-# Bastion Module
+# xxx - Bastion Module
 # ########################
 variable "xxx_create_bastion" {
   type    = bool
@@ -46,7 +46,7 @@ variable "xxx_bastion_subnet_address_prefixes" {
 ## TFVars
 ```terraform
 # #########################
-# xxx bastion
+# xxx - Bastion Module
 # #########################
 xxx_create_bastion                  = true
 xxx_bastion_subnet_address_prefixes = "10.1.2.0/26"

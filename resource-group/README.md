@@ -2,8 +2,9 @@
 
 ## Invocation in parent
 ``` terraform
+
 # #########################
-# xxx resource group 
+# xxx - Resource Group 
 # #########################
 
 module "rg_xxx" {
@@ -45,6 +46,11 @@ module "rg_xxx" {
 
 ### Vars in parent
 ```terraform
+
+# #########################
+# xxx - Resource Group 
+# #########################
+
 # ########################
 # Variables relevant to the context module
 # ########################
@@ -182,8 +188,9 @@ variable "xxx_azdo_variable_group_name" {
 
 ### outputs in parent
 ```terraform
+
 # #########################
-# xxx resource group 
+# xxx - Resource Group 
 # #########################
 
 output "rg_xxx" {
@@ -195,12 +202,12 @@ output "rg_xxx" {
 
 ### TFVars
 ```terraform
+
 # #########################
-# xxx resource group
+# xxx - Resource Group 
 # #########################
 
-# is this the rg with tfstate?
-xxx_is_hub = false
+# context module
 
 # base name of resources
 xxx_base_name = "cw-xxx"
@@ -208,6 +215,17 @@ xxx_base_name = "cw-xxx"
 # optionally create the resource group
 xxx_create_resource_group        = false
 xxx_existing_resource_group_name = "rg-existing"
+
+# log analytics workspace
+xxx_create_law = true
+
+# managed identity
+xxx_create_managed_identity        = false
+xxx_existing_managed_identity_name = "mi-cw-xxx"
+xxx_existing_managed_identity_rg   = "rg-cw-existing"
+
+# azure container registry
+xxx_create_acr = false
 
 # create a vnet or connect to an existing one
 xxx_create_vnet            = true
@@ -221,16 +239,10 @@ xxx_create_subnet               = true
 xxx_new_subnet_address_prefixes = "10.1.1.0/24"
 xxx_existing_subnet_id = ""
 
-# log analytics workspace
-xxx_create_law = true
+# remote module
 
-# azure container registry
-xxx_create_acr = false
-
-# managed identity
-xxx_create_managed_identity        = false
-xxx_existing_managed_identity_name = "mi-cw-xxx"
-xxx_existing_managed_identity_rg   = "rg-cw-existing"
+# is this the rg with tfstate?
+xxx_is_hub = false
 
 # Remote
 xxx_install_remote           = false
