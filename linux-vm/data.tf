@@ -53,12 +53,6 @@ data "template_cloudinit_config" "config_cloud_init" {
 
   part {
     content_type = "text/cloud-config"
-    content      = data.template_file.azdo_build_agent.rendered
-    merge_type   = "list(append)+dict(recurse_array)+str()"
-  }
-
-  part {
-    content_type = "text/cloud-config"
     content      = data.template_file.dotnetsdk.rendered
     merge_type   = "list(append)+dict(recurse_array)+str()"
   }
@@ -66,6 +60,12 @@ data "template_cloudinit_config" "config_cloud_init" {
   part {
     content_type = "text/cloud-config"
     content      = data.template_file.maven.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
+
+  part {
+    content_type = "text/cloud-config"
+    content      = data.template_file.azdo_build_agent.rendered
     merge_type   = "list(append)+dict(recurse_array)+str()"
   }
 
@@ -175,28 +175,6 @@ runcmd:
 EOT
 }
 
-data "template_file" "azdo_build_agent" {
-
-  template = var.include_azdo_ba ? "${file("${path.module}/ciparts/azdo-ba.tftpl")}" : <<-EOT
-# cloud-config
-runcmd:
-# AzDO build agent - not included
- - echo ********************************
- - echo AzDO build agent is not included
- - echo ********************************
-EOT
-
-  vars = {
-    user               = "adminbs"
-    azdo_agent_version = var.azdo_agent_version
-    hub_environment    = var.environment_demand_name
-    pat_token          = var.azdo_pat                                 # /
-    azdo_org           = "https://dev.azure.com/${var.azdo_org_name}" # --- These 3 must be provided by the user via ENV or pipeline params. See README.md
-    build_pool         = var.azdo_pool_name                           # \
-    agent_name         = "${var.azdo_build_agent_name}_${var.instance_index}"
-  }
-}
-
 data "template_file" "dotnetsdk" {
 
   template = var.include_dotnetsdk ? "${file("${path.module}/ciparts/dotnetsdk.tftpl")}" : <<-EOT
@@ -219,4 +197,26 @@ runcmd:
  - echo Maven is not included
  - echo ********************************
 EOT
+}
+
+data "template_file" "azdo_build_agent" {
+
+  template = var.include_azdo_ba ? "${file("${path.module}/ciparts/azdo-ba.tftpl")}" : <<-EOT
+# cloud-config
+runcmd:
+# AzDO build agent - not included
+ - echo ********************************
+ - echo AzDO build agent is not included
+ - echo ********************************
+EOT
+
+  vars = {
+    user               = "adminbs"
+    azdo_agent_version = var.azdo_agent_version
+    hub_environment    = var.environment_demand_name
+    pat_token          = var.azdo_pat                                 # /
+    azdo_org           = "https://dev.azure.com/${var.azdo_org_name}" # --- These 3 must be provided by the user via ENV or pipeline params. See README.md
+    build_pool         = var.azdo_pool_name                           # \
+    agent_name         = "${var.azdo_build_agent_name}_${var.instance_index}"
+  }
 }
