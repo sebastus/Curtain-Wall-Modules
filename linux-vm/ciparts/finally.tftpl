@@ -6,6 +6,12 @@ runcmd:
  - echo Including Finally block
  - echo ********************************
 
+ - cd /etc/profile.d/
+ - echo '#! /bin/bash' >> ciparts.sh
+ - echo 'export $(cat /etc/profile.d/ciparts.env | xargs)' >> ciparts.sh
+ - echo 'export PATH=$PATH:$(cat /etc/profile.d/ciparts.path)' >> ciparts.sh
+ - chmod +x ciparts.sh
+
  - az login --identity -u ${managed_identity_id}
  - vm_resource_id=$(curl -s "http://169.254.169.254:80/metadata/instance?api-version=2021-02-01" -H 'Metadata:true' | jq -r '.compute.resourceId')
  - az resource tag --ids $vm_resource_id --tags CI_Finished=true -i

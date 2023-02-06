@@ -9,9 +9,14 @@ runcmd:
  - wget -O /build/buildagent.tar.gz "https://vstsagentpackage.azureedge.net/agent/${azdo_agent_version}/vsts-agent-linux-x64-${azdo_agent_version}.tar.gz"
  - mkdir -p /build/myagent && cd /build/myagent
  - tar zxvf /build/buildagent.tar.gz
- - chown -R ${user}:${user} /build/myagent
+
  - echo InfrastructureInstaller=True >> .env
  - echo ${hub_environment}=True >> .env
+ - cat /etc/profile.d/ciparts.env >> .env
+ - cat /etc/profile.d/ciparts.path >> .path
+ 
+ - chown -R ${user}:${user} /build/myagent
+
  - echo "Running the installation command"
  - sudo -u ${user} env /build/myagent/config.sh --unattended --url ${azdo_org} --auth pat --token ${pat_token} --acceptTeeEula --pool ${build_pool} --agent ${agent_name} --replace
  - /build/myagent/svc.sh install
