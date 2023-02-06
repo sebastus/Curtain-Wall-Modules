@@ -5,11 +5,11 @@
 ## Invocation code in parent
 ```terraform
 # ########################
-# Emulated ASH
+# xxx - Emulated ASH
 # ########################
 module "emulated-ash" {
   source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//emulated-ash"
-  #source = "../cw-module-emulated-ash"
+  #source = "../../Curtain-Wall-Modules/emulated-ash"
 
   base_name      = "cw-ash"
 
@@ -37,7 +37,7 @@ module "emulated-ash" {
 ## variables in parent
 ```terraform
 # ########################
-# Emulated ASH
+# xxx - Emulated ASH
 # ########################
 
 #
@@ -100,7 +100,7 @@ variable "xxx_vnetName" {
 ## outputs
 ```terraform
 # ########################
-# Emulated ASH
+# xxx - Emulated ASH
 # ########################
 ```
 
@@ -109,16 +109,24 @@ variable "xxx_vnetName" {
 # ########################
 # xxx Emulated ASH
 # ########################
-xxx_ash_create_managed_identity        = true
-xxx_ash_existing_managed_identity_name = ""
-xxx_ash_existing_managed_identity_rg   = ""
-xxx_ash_create_key_vault               = true
-xxx_ash_existing_key_vault_name        = ""
-xxx_ash_existing_key_vault_rg          = ""
-xxx_pe_subnet_address_prefixes         = ["10.1.5.0/24"]
-xxx_vnet_resource_group_name           = "rg-name"
-xxx_vnetName                           = "vnet-name"
+
+# relevant to the VM
 xxx_admin_password                     = "some password"
 xxx_asdk_vhd_source_uri                = "https://some vhd uri"
 xxx_asdk_number_of_cores               = 32
+
+# managed identity
+xxx_ash_create_managed_identity        = true
+xxx_ash_existing_managed_identity_name = ""
+xxx_ash_existing_managed_identity_rg   = ""
+
+# key vault
+xxx_ash_create_key_vault               = true
+xxx_ash_existing_key_vault_name        = ""
+xxx_ash_existing_key_vault_rg          = ""
+
+# private endpoint
+xxx_pe_subnet_address_prefixes         = ["10.1.5.0/24"]
+xxx_vnet_resource_group_name           = "rg-name"
+xxx_vnetName                           = "vnet-name"
 ```

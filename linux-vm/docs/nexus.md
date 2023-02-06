@@ -1,8 +1,14 @@
 ### As a nexus vm
 
+### Invocation in parent
 ```terraform
+
+# ########################
+# xxx - Nexus
+# ########################
 module "nexus" {
   source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//linux-vm"
+  #source = "../../Curtain-Wall-Module/linux-vm"
 
   count               = var.count_of_nexus
   vm_size             = var.xxx_vm_size
@@ -24,12 +30,14 @@ module "nexus" {
   include_azcli = true
   include_nexus = true
 }
+
 ```
 
 ### Vars in parent
 ```terraform
+
 # ########################
-# Nexus
+# xxx - Nexus
 # ########################
 variable "xxx_count_of_nexus" {
   default = 0
@@ -38,22 +46,32 @@ variable "xxx_vm_size" {
   type = string
   default = "Standard_B4ms"
 }
+
 ```
 
 ### outputs in parent
+
 ```terraform
+
+# ########################
+# xxx - Nexus
+# ########################
 output "nexus" {
   value     = var.xxx_count_of_nexus != 0 ? module.nexus : null
   sensitive = true
 }
+
 ```
 
 ### TFVars
+
 ```terraform
-# #########################
-# xxx nexus
-# #########################
+
+# ########################
+# xxx - Nexus
+# ########################
 xxx_count_of_nexus   = 1
-xxx_vm_size = "Standard_B4ms"
+xxx_vm_size          = "Standard_B4ms"
+
 ```
 

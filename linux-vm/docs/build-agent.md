@@ -1,5 +1,9 @@
 ### As a build agent:  
 ```terraform
+
+# ########################
+# xxx - Build Agents
+# ########################
 module "build-agent" {
   source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//linux-vm"
 
@@ -31,12 +35,14 @@ module "build-agent" {
 
   include_azcli = true
 }
+
 ```
 
 ### Vars in parent
 ```terraform
+
 # ########################
-# Build Agents
+# xxx - Build Agents
 # ########################
 variable "xxx_count_of_build_agents" {
   default = 0
@@ -58,25 +64,33 @@ variable "xxx_vm_size" {
   type = string
   default = "Standard_D4ds_v5"
 }
+
 ```
 
 ### outputs in parent
 ```terraform
+
+# ########################
+# xxx - Build Agents
+# ########################
 output "build-agents" {
   value     = var.xxx_count_of_build_agents != 0 ? module.build-agent : null
   sensitive = true
 }
+
 ```
 
 ### TFVars
 ```terraform
-# #########################
-# xxx build-agent
-# #########################
+
+# ########################
+# xxx - Build Agents
+# ########################
 xxx_count_of_build_agents   = 1
 xxx_azdo_agent_version      = "2.206.1"
 xxx_azdo_pool_name          = "myPool"
 xxx_azdo_build_agent_name   = "agent"
 xxx_environment_demand_name = "myDemand"
-xxx_vm_size = "Standard_D4ds_v5"
+xxx_vm_size                 = "Standard_D4ds_v5"
+
 ```
