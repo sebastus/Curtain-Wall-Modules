@@ -63,6 +63,7 @@ data "template_cloudinit_config" "config_cloud_init" {
     merge_type   = "list(append)+dict(recurse_array)+str()"
   }
 
+  # the build agent should always be included after any tools it should import environment variables from
   part {
     content_type = "text/cloud-config"
     content      = data.template_file.azdo_build_agent.rendered
