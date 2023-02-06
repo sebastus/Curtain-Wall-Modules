@@ -43,22 +43,35 @@ module "remote" {
   azdo_service_connection  = var.azdo_service_connection
 
   vg_secret_vars = {
-    azdo_pat = "${var.azdo_pat}",
+    "azdo_pat" = "${var.azdo_pat}",
+    "state_access_key" = ""
   }
 
   vg_vars = {
+    "azdo_org_name" = "${var.azdo_org_name}",
+    "azdo_project_name" = "${var.azdo_project_name}",
+    "azdo_variable_group_name" = "${var.azdo_variable_group_name}",
+    "base_name" = "${var.base_name}",
+    "count_of_build_agents" = "",
     "create_acr" = "${var.create_acr}",
+    "create_bastion" = "",
     "create_law" = "${var.create_law}",
     "create_managed_identity" = "${var.create_managed_identity}",
-
+    "create_subnet" = "${var.create_subnet}",
     "create_vnet" = "${var.create_vnet}",
-    "existing_vnet_name" = "${var.existing_vnet_name}",
-    "new_vnet_address_space" = "${var.new_vnet_address_space}",
+    "existing_managed_identity_name" = "${var.existing_managed_identity_name}",
+    "existing_managed_identity_rg" = "${var.existing_managed_identity_rg}",
+    "existing_subnet_id" = "${var.existing_subnet_id}",
+    "existing_vnet_name" = "${var.existing_vnet_name}", 
     "existing_vnet_rg_location" = "${var.existing_vnet_rg_location}",
     "existing_vnet_rg_name" = "${var.existing_vnet_rg_name}",
-
-    "create_subnet" = "${var.create_subnet}",
-    "new_subnet_address_prefixes" = "${var.new_subnet_address_prefixes}",
-    "existing_subnet_id" = "${var.existing_subnet_id}",
+    "azdo_build_agent_name" = "",
+    "install_remote" = "${var.install_remote}",
+    "is_hub" = "${var.is_hub}",
+    "location" = "${var.location}",   
+    "msi_client_id" = ""
+    "subscription_id" = "${var.subscription_id}"
+    "tenant_id" = ""
+    
   } 
 }
