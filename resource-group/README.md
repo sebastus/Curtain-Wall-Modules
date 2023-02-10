@@ -8,7 +8,7 @@
 # #########################
 
 module "rg_xxx" {
-  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//resource-group"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//resource-group?ref=golive"
   #source = "../../Curtain-Wall-Modules/resource-group"
 
   location  = var.location

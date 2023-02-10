@@ -7,7 +7,7 @@
 # xxx - Jumpboxes
 # ########################
 module "jumpbox" {
-  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//linux-vm"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//linux-vm?ref=golive"
   #source = "../../Curtain-Wall-Modules/linux-vm"
 
   count            = var.xxx_count_of_jumpboxes
