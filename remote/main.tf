@@ -23,6 +23,7 @@ resource "azurerm_storage_container" "tfstate" {
 # AzDO project
 #
 data "azuredevops_project" "curtain_wall" {
+  count = false ? 1 : 0
   name = var.azdo_project_name
 }
 
