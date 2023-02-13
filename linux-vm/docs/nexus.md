@@ -7,7 +7,7 @@
 # xxx - Nexus
 # ########################
 module "nexus" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//linux-vm?ref=golive"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//linux-vm"
   #source = "../../Curtain-Wall-Module/linux-vm"
 
   count               = var.count_of_nexus

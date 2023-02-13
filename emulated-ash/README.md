@@ -8,7 +8,7 @@
 # xxx - Emulated ASH
 # ########################
 module "emulated-ash" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//emulated-ash?ref=golive"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//emulated-ash"
   #source = "../../Curtain-Wall-Modules/emulated-ash"
 
   base_name      = "cw-ash"
