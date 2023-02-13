@@ -14,7 +14,7 @@ Please note this is intended to be temporary. Remove the Bastion once debugging 
 # xxx - Bastion Module
 # ########################
 module "bastion" {
-  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//bastion"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//bastion?ref=golive"
   #source = "../../Curtain-Wall-Modules/bastion"
 
   count  = var.xxx_create_bastion ? 1 : 0

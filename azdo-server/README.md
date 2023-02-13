@@ -8,7 +8,7 @@
 # xxx - AzDO Server
 # ########################
 module "azdo-server" {
-  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//azdo-server"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//azdo-server?ref=golive"
   #source = "../../Curtain-Wall-Modules/azdo-server"
 
   base_name      = "azdo_server"

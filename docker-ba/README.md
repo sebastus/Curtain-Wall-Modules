@@ -9,7 +9,7 @@ WARNING: this module has not been tested recently.
 # xxx - Docker BA 
 # ########################
 module "docker-ba" {
-  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//docker-ba"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//docker-ba?ref=golive"
   #source = "../../Curtain-Wall-Modules/docker-ba"
 
   count = var.xxx_create_docker_ba ? 1 : 0
@@ -50,5 +50,5 @@ variable "xxx_repo_url" {
 # xxx - Docker BA 
 # ########################
 xxx_create_docker_ba = false
-xxx_repo_url         = "https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//docker-ba"
+xxx_repo_url         = "https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//docker-ba"
 ```

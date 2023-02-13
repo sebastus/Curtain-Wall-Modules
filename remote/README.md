@@ -15,7 +15,7 @@ All variables are passed into the remote module so they can be copied into the A
 # Remote Module
 ########################
 module "remote" {
-  source = "https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//remote"
+  source = "https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//remote"
   #source = "../remote"
 
   count  = var.install_remote ? 1 : 0
