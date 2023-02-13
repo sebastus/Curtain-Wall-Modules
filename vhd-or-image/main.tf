@@ -40,6 +40,12 @@ resource "packer_image" "artefact" {
     ARM_MANAGED_IMAGE_NAME    = local.image_name
     # end
 
+    # if using existing network
+    VNET_NAME           = var.vnet_name
+    VNET_RESOURCE_GROUP = var.vnet_resource_group
+    VNET_SUBNET         = var.vnet_subnet
+    # end
+    
     ARM_USE_INTERACTIVE_AUTH  = false
     ARM_TENANT_ID             = data.azurerm_subscription.env.tenant_id
     ARM_SUBSCRIPTION_ID       = data.azurerm_subscription.env.subscription_id

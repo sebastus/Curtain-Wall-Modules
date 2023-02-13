@@ -7,7 +7,7 @@
 # ########################
 # xxx - VHD-OR-IMAGE
 # ########################
-module "vhd" {
+module "myvhd" {
   source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vhd-or-image?ref=golive"
   #source = "../../Curtain-Wall-Modules/vhd-or-image"
 
@@ -17,7 +17,7 @@ module "vhd" {
   arm_client_secret = var.xxx_arm_client_secret
 
   install_password = var.xxx_install_password
-  local_temp             = var.xxx_local_temp
+  local_temp       = var.xxx_local_temp
 
   vhd_or_image = var.xxx_vhd_or_image
 
@@ -25,9 +25,14 @@ module "vhd" {
   image_base_name           = var.xxx_image_base_name
 
   vhd_capture_container_name = var.xxx_vhd_capture_container_name
-  vhd_capture_name_prefix = var.xxx_vhd_capture_name_prefix
-  vhd_resource_group_name = var.xxx_vhd_resource_group_name
-  vhd_storage_account = var.xxx_vhd_storage_account
+  vhd_capture_name_prefix    = var.xxx_vhd_capture_name_prefix
+  vhd_resource_group_name    = var.xxx_vhd_resource_group_name
+  vhd_storage_account        = var.xxx_vhd_storage_account
+
+  # if using existing network
+  vnet_name           = var.xxx_vnet_name
+  vnet_resource_group = var.xxx_vnet_resource_group
+  vnet_subnet         = var.xxx_vnet_subnet
 }
 ```
 
@@ -55,6 +60,20 @@ variable "xxx_install_password" {
 variable "xxx_local_temp" {
   description = "The toowoxx/packer provider uses a temp folder on the system where Packer is being run."
   type = string
+}
+
+# if using existing vnet...
+variable "xxx_vnet_name" {
+    description = "Name of existing vnet to use,"
+    default = ""
+}
+variable "xxx_vnet_resource_group" {
+    description = "Resource group containing existing vnet."
+    default = ""
+}
+variable "xxx_vnet_subnet" {
+    description = "Name of existing subnet to use."
+    default = ""
 }
 
 variable "xxx_vhd_or_image" {
@@ -107,6 +126,12 @@ xxx_arm_client_secret = "secret"
 
 xxx_install_password = "R3all7L0ngP@ssw0rd!"
 xxx_local_temp       = "%USERPROFILE%\\AppData\\Local\\Temp"
+
+# if using an existing vnet
+xxx_vnet_name           = ""
+xxx_vnet_resource_group = ""
+xxx_vnet_subnet         = ""
+# end
 
 xxx_vhd_or_image = "image"
 

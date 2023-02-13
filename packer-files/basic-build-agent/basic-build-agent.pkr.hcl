@@ -1,4 +1,5 @@
-
+# Test Comment 1
+#
 variable "allowed_inbound_ip_addresses" {
   type    = list(string)
   default = []
@@ -319,6 +320,7 @@ build {
   provisioner "shell" {
     execute_command = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
     script          = "${path.root}/scripts/base/apt-mock-remove.sh"
+    pause_before    = "180s"
   }
 
   provisioner "file" {
@@ -338,7 +340,7 @@ build {
     execute_command = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
     inline = [
       "echo Generalizing the image.",
-      "sleep 30",
+      "sleep 60",
     "/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"]
     skip_clean = true
   }
