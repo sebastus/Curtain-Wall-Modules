@@ -19,6 +19,20 @@ variable "local_temp" {
   type = string
 }
 
+# if using existing vnet...
+variable "vnet_name" {
+    description = "Name of existing vnet to use,"
+    default = ""
+}
+variable "vnet_resource_group" {
+    description = "Resource group containing existing vnet."
+    default = ""
+}
+variable "vnet_subnet" {
+    description = "Name of existing subnet to use."
+    default = ""
+}
+
 variable "vhd_or_image" {
     default = "image"
 }

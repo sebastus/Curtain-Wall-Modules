@@ -1,11 +1,11 @@
-$env:ARM_RESOURCE_LOCATION = "uksouth"
+$env:ARM_RESOURCE_LOCATION      = "uksouth"
 $env:VHD_OR_IMAGE               = "vhd"
 $env:VHD_CAPTURE_CONTAINER_NAME = "curtain-wall"
 $env:VHD_CAPTURE_NAME_PREFIX    = "basic-build-agent"
 $env:VHD_RESOURCE_GROUP_NAME    = "rg-misc"
 $env:VHD_STORAGE_ACCOUNT        = "golivemisc"
-$env:ARM_MANAGED_IMAGE_RG_NAME = "rg-myManagedImages"
-$env:ARM_MANAGED_IMAGE_NAME    = "basic-build-agent"
+$env:ARM_MANAGED_IMAGE_RG_NAME  = "rg-myManagedImages"
+$env:ARM_MANAGED_IMAGE_NAME     = "basic-build-agent"
 
 $env:ARM_USE_INTERACTIVE_AUTH  = $false
 $env:ARM_TENANT_ID             = "16b3c013-d300-468d-ac64-7eda0820b6d3"
