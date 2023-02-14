@@ -7,7 +7,7 @@
 # xxx - P1 BigBang AKS
 # ########################
 module "p1bb-aks" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//p1bb-aks?ref=golive"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//p1bb-aks"
   #source = "../../Curtain-Wall-Modules/p1bb-aks"
 
   count               = var.xxx_create_p1bb ? 1 : 0

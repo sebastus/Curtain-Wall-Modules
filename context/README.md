@@ -25,7 +25,7 @@ NOTE: Context is an internal module called by Resource Group. Invoking it separa
 # Context
 # ###################
 module "context" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//context?ref=golive"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//context"
   #source = "../context"
 
   base_name = var.base_name
