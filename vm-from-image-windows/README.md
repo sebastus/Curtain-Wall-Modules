@@ -9,12 +9,12 @@
 # xxx - Windows VM from Image
 # #########################
 
-module "azdo-server-vm" {
-  #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//windows-vm-from-image"
-  source = "../../cs/Curtain-Wall-Modules/windows-vm-from-image"
+module "my-windows-vm" {
+  #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vm-from-image-windows"
+  source = "../../cs/Curtain-Wall-Modules/vm-from-image-windows"
 
   base_name      = "azdo_server"
-  admin_password = var.xxx_wvfi_admin_password
+  admin_password = var.xxx_vfiw_admin_password
 
   resource_group = module.rg_xxx.resource_group
   identity_ids   = [
@@ -23,16 +23,16 @@ module "azdo-server-vm" {
   subnet_id      = module.rg_xxx.subnet_id
 
   # optionally install public ip
-  create_pip = var.xxx_wvfi_create_pip
+  create_pip = var.xxx_vfiw_create_pip
 
   # optionally install oms agent
-  install_omsagent = var.xxx_wvfi_install_omsagent
+  install_omsagent = var.xxx_vfiw_install_omsagent
 
   log_analytics_workspace_id = module.rg_xxx.law_id
   log_analytics_workspace_key = module.rg_xxx.law_key
 
-  image_resource_group_name = var.xxx_wvfi_image_resource_group_name
-  image_base_name           = var.xxx_wvfi_image_base_name
+  image_resource_group_name = var.xxx_vfiw_image_resource_group_name
+  image_base_name           = var.xxx_vfiw_image_base_name
 
 }
 
@@ -45,22 +45,22 @@ module "azdo-server-vm" {
 # xxx - Windows VM from Image
 # #########################
 
-variable "xxx_wvfi_admin_password" {
+variable "xxx_vfiw_admin_password" {
   type = string
 }
 
-variable "xxx_wvfi_image_resource_group_name" {
+variable "xxx_vfiw_image_resource_group_name" {
   type    = string
 }
 
-variable "xxx_wvfi_image_base_name" {
+variable "xxx_vfiw_image_base_name" {
   type    = string
 }
 
-variable "xxx_wvfi_create_pip" {
+variable "xxx_vfiw_create_pip" {
   default = false
 }
-variable "xxx_wvfi_install_omsagent" {
+variable "xxx_vfiw_install_omsagent" {
   default = true
 }
 
@@ -77,12 +77,12 @@ variable "xxx_wvfi_install_omsagent" {
 # xxx - Windows VM from Image
 # #########################
 
-xxx_wvfi_admin_password   = "P@ssw0rd!"
-xxx_wvfi_create_pip       = true
-xxx_wvfi_install_omsagent = true
+xxx_vfiw_admin_password   = "P@ssw0rd!"
+xxx_vfiw_create_pip       = true
+xxx_vfiw_install_omsagent = true
 
-xxx_wvfi_image_resource_group_name = "rg-myManagedImages"
-xxx_wvfi_image_base_name           = "azdo-server"
+xxx_vfiw_image_resource_group_name = "rg-myManagedImages"
+xxx_vfiw_image_base_name           = "azdo-server"
 
 ```
 
