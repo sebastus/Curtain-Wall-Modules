@@ -10,8 +10,8 @@ module "jumpbox" {
   source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//linux-vm"
   #source = "../../Curtain-Wall-Modules/linux-vm"
 
-  count            = var.xxx_count_of_jumpboxes
-  vm_size          = var.xxx_vm_size
+  count            = var.xxx_jb_count_of_jumpboxes
+  vm_size          = var.xxx_jb_vm_size
   instance_index   = count.index
   base_name        = "jumpbox"
 
@@ -26,8 +26,8 @@ module "jumpbox" {
   resource_group = module.rg_xxx.resource_group
   subnet_id      = module.rg_xxx.subnet_id
 
-  law_installed               = var.xxx_create_law
-  install_omsagent            = var.xxx_install_omsagent
+  law_installed               = var.xxx_jb_create_law
+  install_omsagent            = var.xxx_jb_install_omsagent
   log_analytics_workspace_id  = module.rg_xxx.law_id
   log_analytics_workspace_key = module.rg_xxx.law_key
 
@@ -42,13 +42,13 @@ module "jumpbox" {
 # ########################
 # xxx - Jumpboxes
 # ########################
-variable "xxx_count_of_jumpboxes" {
+variable "xxx_jb_count_of_jumpboxes" {
   default = 0
 }
-variable "xxx_install_omsagent" {
+variable "xxx_jb_install_omsagent" {
   default = true
 }
-variable "xxx_vm_size" {
+variable "xxx_jb_vm_size" {
   type = string
   default = "Standard_B2ms"
 }
@@ -62,7 +62,7 @@ variable "xxx_vm_size" {
 # xxx - Jumpboxes
 # ########################
 output "jumpboxes" {
-  value     = var.xxx_count_of_jumpboxes != 0 ? module.jumpbox : null
+  value     = var.xxx_jb_count_of_jumpboxes != 0 ? module.jumpbox : null
   sensitive = true
 }
 
@@ -74,9 +74,9 @@ output "jumpboxes" {
 # ########################
 # xxx - Jumpboxes
 # ########################
-xxx_count_of_jumpboxes = 1
-xxx_install_omsagent   = true
-xxx_vm_size            = "Standard_B2ms"
+xxx_jb_count_of_jumpboxes = 1
+xxx_jb_install_omsagent   = true
+xxx_jb_vm_size            = "Standard_B2ms"
 
 ```
 
