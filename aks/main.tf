@@ -9,11 +9,6 @@ resource "azurecaf_name" "generated" {
   resource_type = each.value.resource_type
 }
 
-data "azurerm_container_registry" "acr" {
-  name                = var.acr_name
-  resource_group_name = var.resource_group.name
-}
-
 resource "tls_private_key" "ssh" {
   algorithm = "RSA"
   rsa_bits  = 2048
@@ -54,7 +49,7 @@ resource "azurerm_role_assignment" "aks_cluster_admin_role" {
 resource "azurerm_role_assignment" "aks_cluster_kubelet_acr_pull" {
   principal_id                     = azurerm_kubernetes_cluster.main.kubelet_identity[0].object_id
   role_definition_name             = "AcrPull"
-  scope                            = data.azurerm_container_registry.acr.id
+  scope                            = var.acr.id
   skip_service_principal_aad_check = true
 }
 

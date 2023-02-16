@@ -2,8 +2,8 @@ variable "resource_group" {
   type = any
 }
 
-variable "acr_name" {
-  type = string
+variable "acr" {
+  type = any
 }
 
 variable "agent_tag" {

@@ -22,10 +22,14 @@ output "law_key" {
   value = var.create_law ? azurerm_log_analytics_workspace.law[0].primary_shared_key : ""
 }
 
-output "acr_id" {
-  value = var.create_acr ? azurerm_container_registry.acr[0].id : ""
-}
+# output "acr_id" {
+#   value = var.create_acr ? azurerm_container_registry.acr[0].id : ""
+# }
 
-output "acr_name" {
-  value = var.create_acr ? azurerm_container_registry.acr[0].name : ""
+# output "acr_name" {
+#   value = var.create_acr ? azurerm_container_registry.acr[0].name : ""
+# }
+
+output "acr" {
+  value = var.create_acr ? azurerm_container_registry.acr[0] : null
 }

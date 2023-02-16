@@ -48,6 +48,10 @@ resource "azurerm_container_registry" "acr" {
   sku                 = "Standard"
 }
 
+# data "azurerm_container_registry" "acr" {
+#   name = var.create_resource_group ? azurerm_container_registry.acr[0].name : null
+# }
+
 #
 # managed identity
 #  * will be installed in the build agent VM

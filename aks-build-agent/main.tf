@@ -1,10 +1,6 @@
 locals {
   image_name = "azdo-build-agent"
 }
-data "azurerm_container_registry" "acr" {
-  name                = var.acr_name
-  resource_group_name = var.resource_group.name
-}
 
 #
 # The task that builds the container image
@@ -17,7 +13,7 @@ resource "null_resource" "push_local_agent_image" {
     interpreter = ["/bin/bash", "-c"]
     working_dir = "${path.module}/../container-images/build-agent"
     command     = <<-EOT
-        az acr build -r ${var.acr_name} -t ${local.image_name}:latest -t ${local.image_name}:${var.agent_tag} .
+        az acr build -r ${var.acr.name} -t ${local.image_name}:latest -t ${local.image_name}:${var.agent_tag} .
     EOT
   }
 }
@@ -31,7 +27,7 @@ resource "helm_release" "agents" {
 
   set {
     name  = "image.repository"
-    value = "${data.azurerm_container_registry.acr.login_server}/${local.image_name}"
+    value = "${var.acr.login_server}/${local.image_name}"
   }
   set {
     name  = "image.tag"

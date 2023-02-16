@@ -53,8 +53,8 @@ variable "install_cert_manager" {
   default = false
 }
 
-variable "acr_name" {
-  type = string
+variable "acr" {
+  type = any
 }
 
 variable "node_pools" {
