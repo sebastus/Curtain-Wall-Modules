@@ -25,3 +25,7 @@ output "law_key" {
 output "acr_id" {
   value = var.create_acr ? azurerm_container_registry.acr[0].id : ""
 }
+
+output "acr_name" {
+  value = var.create_acr ? azurerm_container_registry.acr[0].name : ""
+}

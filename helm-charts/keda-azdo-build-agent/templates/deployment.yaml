@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "azdo-build-agent.fullname" . }}-placeholder
+  namespace: {{ include "azdo-build-agent.fullname" . }}
+  labels:
+    {{- include "azdo-build-agent.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "azdo-build-agent.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "azdo-build-agent.selectorLabels" . | nindent 8 }}
+    spec:
+      nodeSelector:
+        agentpool: {{.Values.agentPoolNodeSelector }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: AZP_URL
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "azdo-build-agent.fullname" . }}-secret-azdo
+                key: AZP_URL
+          - name: AZP_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "azdo-build-agent.fullname" . }}-secret-azdo
+                key: AZP_TOKEN
+          - name: AZP_POOL
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "azdo-build-agent.fullname" . }}-secret-azdo
+                key: AZP_POOL
+          - name: AZP_AGENT_NAME
+            value: {{ include "azdo-build-agent.fullname" . }}-placeholder 
+          - name: DOCKER_IMAGE_NAME
+            value: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

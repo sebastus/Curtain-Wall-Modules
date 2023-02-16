@@ -58,6 +58,7 @@ variable "create_subnet" {
 }
 variable "existing_subnet_id" {
   type = string
+  default = ""
 }
 variable "new_subnet_address_prefixes" {
   type = list(string)
@@ -68,9 +69,11 @@ variable "create_managed_identity" {
 }
 variable "existing_managed_identity_name" {
   type = string
+  default = ""
 }
 variable "existing_managed_identity_rg" {
   type = string
+  default = ""
 }
 
 variable "create_law" {

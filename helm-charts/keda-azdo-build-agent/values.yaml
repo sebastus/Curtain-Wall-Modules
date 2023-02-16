@@ -1,0 +1,28 @@
+# Default values for azdo-build-agent.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: "REPLACE_ME"
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "REPLACEME"
+
+nameOverride: ""
+fullnameOverride: ""
+
+securityContext:
+  privileged: false
+
+azdo:
+  url: "REPLACE_ME"
+  agentManagementToken: "REPLACE_ME"
+  pool:
+    name: "REPLACE_ME"
+
+scaledJob:
+  pollingInterval: 30
+  maxReplicaCount: 10
+  ttlSecondsAfterFinished: 60
+
+agentPoolNodeSelector: "default"
