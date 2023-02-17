@@ -64,6 +64,18 @@ variable "xxx_aks_subnet_address_prefixes" {
 variable "xxx_aks_install_cert_manager" {
   type = bool
 }
+variable "xxx_aks_node_pools" {
+  description = "Optional list of additional node pools to add"
+  type = map(object({
+    vm_size             = string
+    node_count          = number
+    enable_auto_scaling = optional(bool, false)
+    min_count           = optional(number, null)
+    max_count           = optional(number, null)
+  }))
+
+  default = {}
+} 
 
 ```
 
@@ -78,6 +90,12 @@ xxx_aks_admin_username = "azureuser"
 xxx_aks_default_aks_pool_vm_sku = "Standard_D4ds_v5"
 xxx_aks_subnet_address_prefixes = "10.1.2.0/24"
 xxx_aks_install_cert_manager = false
+xxx_aks_node_pools = {
+    "buildagents" = {
+      vm_size    = "Standard_DS2_v2"
+      node_count = 1
+    }
+}
 
 
 ```

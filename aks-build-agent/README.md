@@ -48,12 +48,27 @@ variable "azdo_repo_url" {
   type = string
 }
 
+variable "agent_pools" {
+  description = "Map of Agent Pools to add"
+  type = map(object({
+    azdo_agent_pool   = string
+    aks_node_selector = optional(string, "default")
+  }))
+} 
+
 ```
 
 ### TFVars
 ```terraform
 agent_tag="1.0"
 azdo_repo_url="https://dev.azure.com/<org>"
+agent_pools = {
+  "buildagents" = {
+    azdo_agent_pool   = "BuildAgents"
+    aks_node_selector = "buildagents"
+  }
+}
+
 
 ```
 
