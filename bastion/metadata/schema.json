@@ -1,17 +1,5 @@
 {
     "variables":
     [
-        {
-            "name": "create_bastion",
-            "description": "Boolean: switches bastion creation on and off",
-            "type": "bool",
-            "default": "false"
-        },
-        {
-            "name": "bastion_subnet_address_prefixes",
-            "description": "String: comma-delimited list of CIDR",
-            "type": "string",
-            "default": "10.0.2.0/26"
-        }
     ]
 }

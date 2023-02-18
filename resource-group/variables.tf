@@ -102,7 +102,7 @@ variable "create_vnet" {
 # if create_vnet Is true #################
 variable "new_vnet_address_space" {
   # this is a comma-delimited list of cidr
-  # e.g. "10.0.0.0/16","172.16.0.0/16"
+  # e.g. "10.0.0.0/16,172.16.0.0/16"
   type    = string
   default = "10.0.0.0/16"
 }
