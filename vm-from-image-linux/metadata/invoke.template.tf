@@ -16,8 +16,8 @@ module "my-linux-vm" {
   # optionally install oms agent
   install_omsagent = var.xxx_vfil_install_omsagent
 
-  log_analytics_workspace_id = module.rg_xxx.context_outputs.log_analytics_workspace == null ? null : module.rg_xxx.context_outputs.log_analytics_workspace.id
-  log_analytics_workspace_key = module.rg_xxx.context_outputs.log_analytics_workspace == null ? null : module.rg_xxx.context_outputs.log_analytics_workspace.key
+  log_analytics_workspace_id = module.rg_xxx.context_outputs.log_analytics_workspace == null ? null : module.rg_xxx.context_outputs.log_analytics_workspace.workspace_id
+  log_analytics_workspace_key = module.rg_xxx.context_outputs.log_analytics_workspace == null ? null : module.rg_xxx.context_outputs.log_analytics_workspace.primary_shared_key
 
   image_resource_group_name = var.xxx_vfil_image_resource_group_name
   image_base_name           = var.xxx_vfil_image_base_name

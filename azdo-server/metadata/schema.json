@@ -90,7 +90,7 @@
             "name": "local_temp",
             "description": "String: Packer uses a temp folder on the machine that is running Packer.",
             "type": "string",
-            "default": "C:\\Users\\me\\AppData\\Local\\temp"
+            "default": "C:/Users/me/AppData/Local/temp"
         }
     ]
 }

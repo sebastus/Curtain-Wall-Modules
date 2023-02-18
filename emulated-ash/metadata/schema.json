@@ -54,37 +54,6 @@
             "description": "String: Resource group containing the existing key vault to ingest.",
             "type": "string",
             "default": "rg-misc"
-        },
-
-        {
-            "name": "ash_create_pe_subnet",
-            "description": "Boolean: Create (true) a private endpoint subnet or ingest (false) an existing one.",
-            "type": "bool",
-            "default": "true"
-        },
-        {
-            "name": "ash_new_pe_subnet_address_prefix",
-            "description": "String: CIDR range in new private endpoint subnet.",
-            "type": "string",
-            "default": "10.0.4.0/24"
-        },
-        {
-            "name": "ash_vnet_resource_group_name",
-            "description": "String: Resource group of existing vnet containing the private endpoint subnet.",
-            "type": "string",
-            "default": "rg-networking"
-        },
-        {
-            "name": "ash_vnet_name",
-            "description": "String: Name of existing vnet to ingest.",
-            "type": "string",
-            "default": "my-vnet"
-        },
-        {
-            "name": "ash_existing_pe_subnet_name",
-            "description": "String: Name of existing pe subnet to ingest.",
-            "type": "string",
-            "default": "my-vnet"
         }
     ]
 }
