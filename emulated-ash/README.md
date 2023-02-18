@@ -15,10 +15,10 @@ module "emulated-ash" {
 
   resource_group = module.rg_xxx.resource_group
   subnet_id      = module.rg_xxx.subnet_id
-  admin_password = var.xxx_admin_password
+  admin_password = var.xxx_ash_admin_password
 
-  asdk_vhd_source_uri  = var.xxx_asdk_vhd_source_uri
-  asdk_number_of_cores = var.xxx_asdk_number_of_cores
+  asdk_vhd_source_uri  = var.xxx_ash_vhd_source_uri
+  asdk_number_of_cores = var.xxx_ash_number_of_cores
 
   create_managed_identity        = var.xxx_ash_create_managed_identity
   existing_managed_identity_name = var.xxx_ash_existing_managed_identity_name
@@ -28,9 +28,11 @@ module "emulated-ash" {
   existing_key_vault_name = var.xxx_ash_existing_key_vault_name
   existing_key_vault_rg   = var.xxx_ash_existing_key_vault_rg
 
-  pe_subnet_address_prefixes = var.xxx_pe_subnet_address_prefixes
-  vnet_resource_group_name   = var.xxx_vnet_resource_group_name
-  vnetName                   = var.xxx_vnetName
+  create_pe_subnet              = var.xxx_ash_create_pe_subnet
+  new_pe_subnet_address_prefix  = var.xxx_ash_new_pe_subnet_address_prefix
+  pe_subnet_resource_group_name = var.xxx_ash_vnet_resource_group_name
+  pe_subnet_vnet_name           = var.xxx_ash_vnet_name
+  existing_pe_subnet_name       = var.xxx_ash_existing_pe_subnet_name
 }
 ```
 
@@ -43,13 +45,13 @@ module "emulated-ash" {
 #
 # vm
 #
-variable "xxx_admin_password" {
+variable "xxx_ash_admin_password" {
     type = string
 }
-variable "xxx_asdk_vhd_source_uri" {
+variable "xxx_ash_vhd_source_uri" {
   type = string
 }
-variable "xxx_asdk_number_of_cores" {
+variable "xxx_ash_number_of_cores" {
   default = 32
 }
 
@@ -85,13 +87,13 @@ variable "xxx_ash_existing_key_vault_rg" {
 #
 # Subnet for private endpoints
 #
-variable "xxx_pe_subnet_address_prefixes" {
+variable "xxx_ash_pe_subnet_address_prefixes" {
   type = list(string)
 }
-variable "xxx_vnet_resource_group_name" {
+variable "xxx_ash_vnet_resource_group_name" {
   type = string
 }
-variable "xxx_vnetName" {
+variable "xxx_ash_vnet_name" {
   type = string
 }
 
@@ -111,9 +113,9 @@ variable "xxx_vnetName" {
 # ########################
 
 # relevant to the VM
-xxx_admin_password                     = "some password"
-xxx_asdk_vhd_source_uri                = "https://some vhd uri"
-xxx_asdk_number_of_cores               = 32
+xxx_ash_admin_password                     = "some password"
+xxx_ash_vhd_source_uri                = "https://some vhd uri"
+xxx_ash_number_of_cores               = 32
 
 # managed identity
 xxx_ash_create_managed_identity        = true
@@ -126,7 +128,7 @@ xxx_ash_existing_key_vault_name        = ""
 xxx_ash_existing_key_vault_rg          = ""
 
 # private endpoint
-xxx_pe_subnet_address_prefixes         = ["10.1.5.0/24"]
-xxx_vnet_resource_group_name           = "rg-name"
-xxx_vnetName                           = "vnet-name"
+xxx_ash_pe_subnet_address_prefixes         = ["10.1.5.0/24"]
+xxx_ash_vnet_resource_group_name           = "rg-name"
+xxx_ash_vnet_name                           = "vnet-name"
 ```
