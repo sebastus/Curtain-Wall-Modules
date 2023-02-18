@@ -5,7 +5,7 @@
             "name": "base_name",
             "description": "String: base name of created resources",
             "type": "string",
-            "default": ""
+            "default": "my-resources"
         },
         {
             "name": "create_resource_group",

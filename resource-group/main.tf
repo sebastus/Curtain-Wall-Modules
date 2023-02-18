@@ -3,8 +3,8 @@
 #
 # Context module is always installed because the resource group is needed at the very least.
 module "context" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//context"
-  #source = "../context"
+  #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//context"
+  source = "../context"
 
   base_name = var.base_name
   location  = var.location
@@ -23,9 +23,10 @@ module "context" {
   existing_vnet_rg_name  = var.existing_vnet_rg_name
   existing_vnet_name     = var.existing_vnet_name
 
-  create_subnet               = var.create_subnet
-  existing_subnet_id          = var.existing_subnet_id
-  new_subnet_address_prefixes = split(",", var.new_subnet_address_prefixes)
+  # create_subnet               = var.create_subnet
+  # existing_subnet_id          = var.existing_subnet_id
+  # new_subnet_address_prefixes = split(",", var.new_subnet_address_prefixes)
+  create_well_known_subnets = true
 
   create_law = var.create_law
   create_acr = var.create_acr
@@ -33,8 +34,8 @@ module "context" {
 
 # Remote module creates AzDO artifacts needed to do installations with the pipeline.
 module "remote" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//remote"
-  #source = "../remote"
+  #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//remote"
+  source = "../remote"
 
   count  = var.install_remote ? 1 : 0
   is_hub = var.is_hub

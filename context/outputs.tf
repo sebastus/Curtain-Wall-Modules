@@ -2,26 +2,22 @@ output "resource_group" {
   value = data.azurerm_resource_group.rg
 }
 
-output "vnet_name" {
-  value = var.create_vnet ? azurerm_virtual_network.vnet[0].name : var.existing_vnet_name
+output "vnet" {
+  value = data.azurerm_virtual_network.vnet
 }
 
 output "managed_identity" {
   value = data.azurerm_user_assigned_identity.mi
 }
 
-output "subnet_id" {
-  value = var.create_subnet ? azurerm_subnet.subnet[0].id : var.existing_subnet_id
+output "log_analytics_workspace" {
+  value = var.create_law ? azurerm_log_analytics_workspace.law[0] : {}
 }
 
-output "law_id" {
-  value = var.create_law ? azurerm_log_analytics_workspace.law[0].workspace_id : ""
+output "azurerm_container_registry" {
+  value = var.create_acr ? azurerm_container_registry.acr[0] : {}
 }
 
-output "law_key" {
-  value = var.create_law ? azurerm_log_analytics_workspace.law[0].primary_shared_key : ""
-}
-
-output "acr_id" {
-  value = var.create_acr ? azurerm_container_registry.acr[0].id : ""
+output "well_known_subnets" {
+  value = data.azurerm_subnet.well_known_subnets
 }

@@ -62,6 +62,13 @@ variable "xxx_vfil_image_base_name" {
 
 ## outputs
 ```terraform
+# ########################
+# xxx - VM From Image - Linux
+# ########################
+output "vm-from-image-linux" {
+  value     = module.my-linux-vm
+  sensitive = true
+}
 ```
 
 ## tfvars
