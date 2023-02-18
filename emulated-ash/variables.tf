@@ -55,8 +55,8 @@ variable "pe_subnet_vnet_name" {
 variable "create_pe_subnet" {
   default = true
 }
-variable "new_pe_subnet_address_prefixes" {
-  type = list(string)
+variable "new_pe_subnet_address_prefix" {
+  type = string
 }
 variable "existing_pe_subnet_name" {
   type = string

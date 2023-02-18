@@ -22,7 +22,7 @@ resource "azurerm_subnet" "pe_subnet" {
   name                 = "PrivateEndpointsSubnet"
   resource_group_name  = data.azurerm_resource_group.vnet_rg.name
   virtual_network_name = var.pe_subnet_vnet_name
-  address_prefixes     = var.new_pe_subnet_address_prefixes
+  address_prefixes     = [var.new_pe_subnet_address_prefix]
 }
 
 locals {
