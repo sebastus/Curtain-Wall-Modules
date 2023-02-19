@@ -2,7 +2,7 @@ module "my-windows-vm" {
   #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vm-from-image-windows"
   source = "../../cs/Curtain-Wall-Modules/vm-from-image-windows"
 
-  base_name      = "azdo_server"
+  base_name      = "windows_vm"
   admin_password = var.xxx_vfiw_admin_password
 
   resource_group = module.rg_xxx.context_outputs.resource_group

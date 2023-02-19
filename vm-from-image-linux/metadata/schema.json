@@ -5,25 +5,29 @@
             "name": "vfil_create_pip",
             "description": "Boolean: Create public ip or not.",
             "type": "bool",
-            "default": "false"
+            "default": "false",
+            "secret": "false"
         },
         {
             "name": "vfil_install_omsagent",
             "description": "Boolean: Add the log analytics oms agent to the new VM or not.",
             "type": "bool",
-            "default": "true"
+            "default": "true",
+            "secret": "false"
         },
         {
             "name": "vfil_image_resource_group_name",
             "description": "String: Resource group that contains the incoming image.",
             "type": "string",
-            "default": ""
+            "default": "",
+            "secret": "false"
         },
         {
             "name": "vfil_image_base_name",
             "description": "String: Name of the incoming image.",
             "type": "string",
-            "default": ""
+            "default": "",
+            "secret": "false"
         }
     ]
 }

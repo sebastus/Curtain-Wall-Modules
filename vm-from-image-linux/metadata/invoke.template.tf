@@ -2,7 +2,7 @@ module "my-linux-vm" {
   #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vm-from-image-linux"
   source = "../../cs/Curtain-Wall-Modules/vm-from-image-linux"
 
-  base_name      = "my_vm"
+  base_name      = "linux_vm"
 
   resource_group = module.rg_xxx.context_outputs.resource_group
   identity_ids   = [
