@@ -46,6 +46,7 @@ module "remote" {
   azdo_service_connection  = var.azdo_service_connection
 
   azurerm_backend_key      = var.azurerm_backend_key
+  state_key                = var.azurerm_backend_key
 
   cw_tfstate_name          = var.cw_tfstate_name
   cw_environment_name      = var.cw_environment_name
