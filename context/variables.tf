@@ -20,7 +20,6 @@ variable "singleton_resource_names" {
     rg     = { resource_type = "azurerm_resource_group" },
     mi     = { resource_type = "azurerm_user_assigned_identity" },
     vnet   = { resource_type = "azurerm_virtual_network" },
-    subnet = { resource_type = "azurerm_subnet" },
     law    = { resource_type = "azurerm_log_analytics_workspace" },
     acr    = { resource_type = "azurerm_container_registry" },
   }

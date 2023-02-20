@@ -9,32 +9,32 @@ variable "is_hub" {
   default = false
 }
 
-variable "azdo_project_name" {
-  type    = string
-  default = null
-}
-
-variable "azdo_variable_group_name" {
-  type    = string
-  default = null
-}
-
-variable "azdo_org_name" {
-  type = string
-  default = ""
-}
-
-variable "azdo_pat" {
-  type    = string
-  default = null
-}
-
 variable "base_name" {
   type = string
 }
 
+variable "azdo_org_name" {
+  type = string
+}
+variable "azdo_project_name" {
+  type    = string
+}
+variable "azdo_pat" {
+  type    = string
+}
 variable "azdo_service_connection" {
   type = string
+  default = ""
+}
+
+
+variable "cw_tfstate_name" {
+  type    = string
+  default = null
+}
+variable "cw_environment_name" {
+  type    = string
+  default = null
 }
 
 # ########################
@@ -120,23 +120,3 @@ variable "existing_vnet_name" {
   default = ""
 }
 # if create_vnet Is true #################
-
-
-variable "create_subnet" {
-  type    = bool
-  default = true
-}
-
-## if create_subnet Is true #################
-variable "new_subnet_address_prefixes" {
-  # this is a comma-delimited list of cidr
-  type    = string
-  default = "10.0.1.0/28"
-}
-## else
-variable "existing_subnet_id" {
-  type    = string
-  default = ""
-}
-## if create_subnet Is true #################
-
