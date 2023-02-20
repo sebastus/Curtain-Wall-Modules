@@ -13,12 +13,7 @@ steps:
     echo "azdo_org_name = " ${{ variables.azdo_org_name }}
   displayName: 'examine var'
     
-- task: ShellScript@2
-  inputs:
-    scriptPath: 'remote/setenv.sh'
-  displayName: 'set env vars'
-
 - script: |
-    echo "azdo_org_name = " ${{ variables.azdo_org_name }}
-    echo "TF_VAR_azdo_org_name =" $TF_VAR_AZDO_ORG_NAME
+    export $TF_VAR_azdo_org_name=${{ variables.azdo_org_name }}
+    echo "TF_VAR_azdo_org_name =" $TF_VAR_azdo_org_name
   displayName: 'examine env vars'
