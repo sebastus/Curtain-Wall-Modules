@@ -10,14 +10,15 @@ variables:
 
 steps:
 - script: |
-    echo "TF_VAR_azdo_org_name = " $TF_VAR_azdo_org_name
-    echo "TF_VAR_azdo_pat = " $TF_VAR_azdo_pat
+    echo "azdo_org_name = " $(azdo_org_name)
   displayName: 'Run a one-line script'
-  env:
-    TF_VAR_azdo_org_name: "$(azdo_org_name)"
-    TF_VAR_azdo_pat: "$(azdo_pat)"
     
+- task: ShellScript@2
+  inputs:
+    scriptPath: 'setenv.sh'
+  displayName: 'set env vars'
+
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    echo "azdo_org_name = " $(azdo_org_name)
+    echo "TF_VAR_azdo_org_name = " $(TF_VAR_azdo_org_name)
+  displayName: 'Run a one-line script'
