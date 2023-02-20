@@ -10,10 +10,10 @@ variables:
 
 steps:
 - script: |
-    echo "azdo_org_name = " ${{ variables.azdo_org_name }}
+    echo "azdo_org_name = " $(azdo_org_name)
   displayName: 'examine var'
     
 - script: |
-    export TF_VAR_azdo_org_name=${{ variables.azdo_org_name }}
+    export TF_VAR_azdo_org_name=$(azdo_org_name)
     echo "TF_VAR_azdo_org_name =" $TF_VAR_azdo_org_name
   displayName: 'examine env vars'
