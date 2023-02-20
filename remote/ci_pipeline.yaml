@@ -10,7 +10,7 @@ variables:
 
 steps:
 - script: |
-    echo "azdo_org_name = " $(azdo_org_name)
+    echo "azdo_org_name = " ${{ variables.azdo_org_name }}
   displayName: 'Run a one-line script'
     
 - task: ShellScript@2
@@ -19,6 +19,6 @@ steps:
   displayName: 'set env vars'
 
 - script: |
-    echo "azdo_org_name = " $azdo_org_name
-    echo "TF_VAR_azdo_org_name =" $TF_VAR_azdo_org_name
+    echo "azdo_org_name = " ${{ variables.azdo_org_name }}
+    echo "TF_VAR_azdo_org_name =" $(TF_VAR_azdo_org_name)
   displayName: 'Run a one-line script'
