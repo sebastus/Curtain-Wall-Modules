@@ -10,13 +10,13 @@ variables:
 
 steps:
 - script: |
-    export TF_VAR_azdo_org_name = "$(azdo_org_name)"
-    export TF_VAR_azdo_pat = "$(azdo_pat)"
-
     echo "TF_VAR_azdo_org_name = " $TF_VAR_azdo_org_name
     echo "TF_VAR_azdo_pat = " $TF_VAR_azdo_pat
   displayName: 'Run a one-line script'
-
+  env:
+    TF_VAR_azdo_org_name: "$(azdo_org_name)"
+    TF_VAR_azdo_pat: "$(azdo_pat)"
+    
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
