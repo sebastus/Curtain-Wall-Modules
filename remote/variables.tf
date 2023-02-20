@@ -21,6 +21,10 @@ variable "azdo_service_connection" {
   type = string
 }
 
+variable "azurerm_backend_key" {
+  type = string
+}
+
 variable "cw_tfstate_name" {
   type = string
 }

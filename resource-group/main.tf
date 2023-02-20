@@ -23,7 +23,7 @@ module "context" {
   existing_vnet_rg_name  = var.existing_vnet_rg_name
   existing_vnet_name     = var.existing_vnet_name
 
-  create_well_known_subnets = true
+  create_well_known_subnets = var.create_vnet || var.create_well_known_subnets
 
   create_law = var.create_law
   create_acr = var.create_acr
@@ -44,6 +44,8 @@ module "remote" {
   azdo_project_name        = var.azdo_project_name
   azdo_pat                 = var.azdo_pat
   azdo_service_connection  = var.azdo_service_connection
+
+  azurerm_backend_key      = var.azurerm_backend_key
 
   cw_tfstate_name          = var.cw_tfstate_name
   cw_environment_name      = var.cw_environment_name

@@ -13,7 +13,8 @@
             "description": "Boolean: create the resource group or ingest existing.",
             "type": "bool",
             "default": "true",
-            "secret": "false"
+            "secret": "false",
+            "skip": "true"
         },
         {
             "name": "existing_resource_group_name",
@@ -27,14 +28,16 @@
             "description": "Boolean: create a log analytics workspace or not.",
             "type": "bool",
             "default": "true",
-            "secret": "false"
+            "secret": "false",
+            "skip": "true"
         },
         {
             "name": "create_managed_identity",
             "description": "Boolean: create a user defined managed identity or ingest existing.",
             "type": "bool",
             "default": "true",
-            "secret": "false"
+            "secret": "false",
+            "skip": "true"
         },
         {
             "name": "existing_managed_identity_name",
@@ -55,14 +58,16 @@
             "description": "Boolean: create an Azure Container Registry or not.",
             "type": "bool",
             "default": "false",
-            "secret": "false"
+            "secret": "false",
+            "skip": "true"
         },
         {
             "name": "create_vnet",
             "description": "Boolean: create a VNET or ingest existing.",
             "type": "bool",
             "default": "true",
-            "secret": "false"
+            "secret": "false",
+            "skip": "true"
         },
         {
             "name": "new_vnet_address_space",
@@ -93,25 +98,20 @@
             "secret": "false"
         },
         {
-            "name": "create_subnet",
-            "description": "Boolean: create a subnet or ingest existing.",
+            "name": "create_well_known_subnets",
+            "description": "Boolean: create the well known subnets or ingest existing.",
             "type": "bool",
             "default": "true",
-            "secret": "false"
+            "secret": "false",
+            "skip": "true"
         },
         {
-            "name": "new_subnet_address_prefixes",
-            "description": "String: if creating a new subnet, it's address space represented as a CIDR.",
-            "type": "string",
-            "default": "10.0.1.0/24",
-            "secret": "false"
-        },
-        {
-            "name": "existing_subnet_id",
-            "description": "String: if ingesting an existing subnet, it's Azure resource ID.",
-            "type": "string",
-            "default": "",
-            "secret": "false"
+            "name": "install_remote",
+            "description": "Boolean: create tfstate storage.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false",
+            "skip": "true"
         },
         {
             "name": "is_hub",
@@ -121,32 +121,12 @@
             "secret": "false"
         },
         {
-            "name": "install_remote",
-            "description": "Boolean: create tfstate storage.",
-            "type": "bool",
-            "default": "false",
-            "secret": "false"
-        },
-        {
-            "name": "azdo_service_connection",
-            "description": "String: name of existing AzDO service connection for use in pipelines.",
+            "name": "cw_environment_name",
+            "description": "String: name of folder containing all rg's and resources in this tfstate context.",
             "type": "string",
             "default": "",
-            "secret": "false"
-        },
-        {
-            "name": "azdo_project_name",
-            "description": "String: name of existing AzDO project that holds variable groups and pipelines.",
-            "type": "string",
-            "default": "",
-            "secret": "false"
-        },
-        {
-            "name": "azdo_variable_group_name",
-            "description": "String: name of AzDO variable group to contain resource group module vars.",
-            "type": "string",
-            "default": "",
-            "secret": "false"
-        }
+            "secret": "false",
+            "skip": "true"
+        }    
     ]
 }

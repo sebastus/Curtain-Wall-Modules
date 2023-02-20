@@ -26,6 +26,10 @@ variable "azdo_service_connection" {
   type = string
   default = ""
 }
+variable "azurerm_backend_key" {
+  type    = string
+  default = ""
+}
 
 
 variable "cw_tfstate_name" {
@@ -120,3 +124,8 @@ variable "existing_vnet_name" {
   default = ""
 }
 # if create_vnet Is true #################
+
+variable "create_well_known_subnets" {
+  type    = bool
+  default = true
+}

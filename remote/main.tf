@@ -30,7 +30,7 @@ data "azuredevops_project" "curtain_wall" {
 # Variable Group
 #
 resource "azuredevops_variable_group" "core" {
-  name         = "${var.cw_tfstate_name}__${var.cw_environment_name}__core"
+  name         = "${var.azurerm_backend_key}__${var.cw_environment_name}__core"
   project_id   = data.azuredevops_project.curtain_wall.id
   description  = "CW core variables for AzDO pipelines."
   allow_access = true
@@ -65,6 +65,10 @@ locals {
     },
     "azdo_project_name" = {
       value     = var.azdo_project_name
+      is_secret = false
+    },
+    "azurerm_backend_key" = {
+      value     = var.azurerm_backend_key
       is_secret = false
     }
 
