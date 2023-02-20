@@ -1,4 +1,4 @@
 #!/bin/bash
 
-echo "##vso[task.setvariable variable=TF_VAR_azdo_org_name]${{ variables.azdo_org_name }}"
-# echo "##vso[task.setvariable variable=TF_VAR_azdo_pat]${{ variables.azdo_pat }}"
+export TF_VAR_AZDO_ORG_NAME=${{ variables.azdo_org_name }}
+export TF_VAR_AZDO_PAT=${{ variables.azdo_pat }}
