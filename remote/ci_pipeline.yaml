@@ -10,8 +10,10 @@ variables:
 
 steps:
 - script: |
-    echo "azdo_org_name = " $(azdo_org_name)
-  displayName: 'examine var'
+    echo "TF_VAR_azdo_org_name =" $TF_VAR_azdo_org_name
+    python remote/main.py
+    echo "TF_VAR_azdo_org_name =" $TF_VAR_azdo_org_name
+  displayName: 'set var'
     
 - script: |
     export TF_VAR_azdo_org_name=$(azdo_org_name)
