@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "nexus.fullname" . }}-init-job
+  namespace: {{ include "nexus.fullname" . }}
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: init-nexus
+        image: "{{ .Values.initJob.repository }}:{{ .Values.initJob.tag }}"
+        volumeMounts:
+          - name: nexus-data
+            mountPath: /mnt/nexus-data
+        env:
+        - name: ADMIN_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "nexus.fullname" . }}-secret-init
+              key: admin_username
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "nexus.fullname" . }}-secret-init
+              key: admin_password
+        - name: SERVICE_URI
+          value: {{ .Values.nexus.serviceUri }}
+      volumes:
+      - name: nexus-data
+        persistentVolumeClaim:
+          claimName: {{ include "nexus.fullname" . }}-pvc
+  backoffLimit: 0
+  completions: 1
+  ttlSecondsAfterFinished: 10
+  activeDeadlineSeconds: 1200

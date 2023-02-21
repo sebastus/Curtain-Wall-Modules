@@ -7,6 +7,8 @@ AKS cluster creates and manages it's own managed identity.
 AKS cluster is allowed to pull images from the Azure container registry.
 Can add additional node pools via the node_pool variable.
 
+Note: The AKS cluster is deployed to a network with NSG rules in place to restrict traffic.  If you add Ingress resources to the cluster you will need to add NSG rules to allow inbound traffic.
+
 
 ## Invocation in parent
 ``` terraform
@@ -31,14 +33,9 @@ module "aks_xxx" {
 
   install_cert_manager = var.xxx_aks_install_cert_manager
 
-  acr_name = module.context_hub.acr_name
+  acr = module.rg_xxx.acr
 
-  node_pools = {
-    ## Example of adding a node pool
-    # "test" = {
-    #  vm_size = "Standard_DS2_v2"
-    #  node_count = 1
-    # } 
+  node_pools = var.xxx_aks_node_pools
   }
 }
 
@@ -109,10 +106,10 @@ Note: if deploying multiple AKS clusters the multiple helm providers will need t
 
 provider "helm" {
   kubernetes {
-    host                   = module.aks_xxx.aks_host
-    client_certificate     = base64decode(module.aks_xxx.aks_client_certificate_base64)
-    client_key             = base64decode(module.aks_xxx.aks_client_key_base64)
-    cluster_ca_certificate = base64decode(module.aks_xxx.aks_cluster_ca_certificate_base64)
+    host                   = module.aks_xxx.aks.kube_config.0.host
+    client_certificate     = base64decode(module.aks_xxx.aks.kube_config.0.client_certificate)
+    client_key             = base64decode(module.aks_xxx.aks.kube_config.0.client_key)
+    cluster_ca_certificate = base64decode(module.aks_xxx.aks.kube_config.0.cluster_ca_certificate)
   }
 }
 

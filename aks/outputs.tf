@@ -3,18 +3,11 @@ output "aks_ssh_private_key" {
   sensitive = true
 }
 
-output "aks_host" {
-  value = azurerm_kubernetes_cluster.main.kube_config.0.host
+output "aks" {
+  value = azurerm_kubernetes_cluster.main
 }
 
-output "aks_client_certificate_base64" {
-  value = azurerm_kubernetes_cluster.main.kube_config.0.client_certificate
+output "aks_managed_identity" {
+  value = azurerm_user_assigned_identity.mi_aks
 }
 
-output "aks_client_key_base64" {
-  value = azurerm_kubernetes_cluster.main.kube_config.0.client_key
-}
-
-output "aks_cluster_ca_certificate_base64" {
-  value = azurerm_kubernetes_cluster.main.kube_config.0.cluster_ca_certificate
-}
