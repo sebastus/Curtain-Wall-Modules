@@ -5,8 +5,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  - group: mycurtainwall__test-remote__core
-  - group: mycurtainwall__test-remote__hub
+  - template: variables.yaml
 
 steps:
 - script: |
@@ -19,6 +18,7 @@ steps:
     echo azdo org name is $AZDO_ORG_NAME
     envsubst < remote/tfvar.tmpl > remote/my.tfvars
     cat remote/my.tfvars
+    terraform plan
   displayName: 'tfvars'
   env:
-    AZDO_PAT: $(azdo_pat)
+    TF_VAR_azdo_pat: $(azdo_pat)
