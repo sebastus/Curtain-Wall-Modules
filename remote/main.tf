@@ -48,7 +48,7 @@ resource "azuredevops_variable_group" "core" {
 locals {
   core_variables = {
     "azdo_pat" = {
-      value = var.azdo_pat
+      secret_value = var.azdo_pat
       is_secret = true
     },
     "azdo_org_name" = {
