@@ -29,7 +29,7 @@ module "rg_xxx" {
 
   azdo_org_name           = var.azdo_org_name
   azdo_project_name       = var.azdo_project_name
-  azdo_service_connection = var.azdo_arm_svc_conn
+  azdo_arm_svc_conn       = var.azdo_arm_svc_conn
   azdo_pat                = var.azdo_pat
 
   azurerm_backend_key = var.azurerm_backend_key
