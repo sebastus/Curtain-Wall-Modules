@@ -17,7 +17,7 @@ variable "azdo_project_name" {
 variable "azdo_pat" {
   type = string
 }
-variable "azdo_service_connection" {
+variable "azdo_arm_svc_conn" {
   type = string
 }
 

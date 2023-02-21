@@ -59,8 +59,8 @@ locals {
       value = var.location
       is_secret = false
     },
-    "azdo_service_connection" = {
-      value     = var.azdo_service_connection
+    "azdo_arm_svc_conn" = {
+      value     = var.azdo_arm_svc_conn
       is_secret = false
     },
     "azdo_project_name" = {

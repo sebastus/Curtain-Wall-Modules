@@ -3,7 +3,7 @@
 #
 # Context module is always installed because the resource group is needed at the very least.
 module "context" {
-  source = "git::https://golive.visualstudio.com/CurtainWall/_git/Curtain-Wall-Modules//context?ref=118-remote-tfstate"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//context?ref=118-remote-tfstate"
   #source = "../context"
 
   base_name = var.base_name
@@ -31,7 +31,7 @@ module "context" {
 
 # Remote module creates AzDO artifacts needed to do installations with the pipeline.
 module "remote" {
-  source = "git::https://golive.visualstudio.com/CurtainWall/_git/Curtain-Wall-Modules//remote?ref=118-remote-tfstate"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//remote?ref=118-remote-tfstate"
   #source = "../remote"
 
   count  = var.install_remote ? 1 : 0
@@ -43,7 +43,7 @@ module "remote" {
   azdo_org_name            = var.azdo_org_name
   azdo_project_name        = var.azdo_project_name
   azdo_pat                 = var.azdo_pat
-  azdo_service_connection  = var.azdo_service_connection
+  azdo_arm_svc_conn        = var.azdo_arm_svc_conn
 
   azurerm_backend_key      = var.azurerm_backend_key
   state_key                = var.azurerm_backend_key
