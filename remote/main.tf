@@ -77,6 +77,11 @@ locals {
       secret_value = ""
       value     = var.azurerm_backend_key
       is_secret = false
+    },
+    "cw_environment_name" = {
+      secret_value = ""
+      value     = var.cw_environment_name
+      is_secret = false
     }
 
   }

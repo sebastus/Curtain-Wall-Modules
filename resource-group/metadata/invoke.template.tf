@@ -34,7 +34,7 @@ module "rg_xxx" {
 
   azurerm_backend_key = var.azurerm_backend_key
 
-  cw_environment_name = var.xxx_cw_environment_name
+  cw_environment_name = var.cw_environment_name
 
 }
 
