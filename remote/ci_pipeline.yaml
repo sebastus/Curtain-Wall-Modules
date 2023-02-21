@@ -10,12 +10,8 @@ variables:
 
 steps:
 - script: |
-    echo "TF_VAR_azdo_org_name =" $TF_VAR_azdo_org_name
-    python remote/main.py
-    echo "TF_VAR_azdo_org_name =" $TF_VAR_azdo_org_name
+    echo azdo org name is $AZDO_ORG_NAME
+    . remote/setenv.sh
+    echo tf var azdo org name is $TF_VAR_AZDO_ORG_NAME
   displayName: 'set var'
     
-- script: |
-    export TF_VAR_azdo_org_name=$(azdo_org_name)
-    echo "TF_VAR_azdo_org_name =" $TF_VAR_azdo_org_name
-  displayName: 'examine env vars'
