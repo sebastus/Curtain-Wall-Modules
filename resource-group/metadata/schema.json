@@ -119,14 +119,6 @@
             "type": "bool",
             "default": "false",
             "secret": "false"
-        },
-        {
-            "name": "cw_environment_name",
-            "description": "String: name of folder containing all rg's and resources in this tfstate context.",
-            "type": "string",
-            "default": "",
-            "secret": "false",
-            "skip": "true"
         }    
     ]
 }
