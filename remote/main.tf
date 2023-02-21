@@ -46,6 +46,7 @@ resource "azuredevops_variable_group" "core" {
   }
 }
 
+# this must be kept in sync with the schema.json in the metadata folder
 locals {
   core_variables = {
     "azdo_pat" = {

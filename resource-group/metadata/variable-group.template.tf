@@ -2,7 +2,7 @@
 # Variable Group
 #
 resource "azuredevops_variable_group" "core" {
-  name         = "${var.azurerm_backend_key}__${var.hub_cw_environment_name}__xxx"
+  name         = "${var.azurerm_backend_key}__${var.cw_environment_name}__xxx"
   project_id   = data.azuredevops_project.curtain_wall.id
   description  = "CW variables for resource group xxx."
   allow_access = true
