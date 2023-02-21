@@ -40,6 +40,7 @@ resource "azuredevops_variable_group" "core" {
     content {
       name = variable.key
       value = variable.value["value"]
+      secret_value = variable.value["secret_value"]
       is_secret = variable.value["is_secret"]
     }
   }
@@ -49,25 +50,31 @@ locals {
   core_variables = {
     "azdo_pat" = {
       secret_value = var.azdo_pat
+      value = ""
       is_secret = true
     },
     "azdo_org_name" = {
+      secret_value = ""
       value = var.azdo_org_name
       is_secret = false
     },
     "location" = {
+      secret_value = ""
       value = var.location
       is_secret = false
     },
     "azdo_arm_svc_conn" = {
+      secret_value = ""
       value     = var.azdo_arm_svc_conn
       is_secret = false
     },
     "azdo_project_name" = {
+      secret_value = ""
       value     = var.azdo_project_name
       is_secret = false
     },
     "azurerm_backend_key" = {
+      secret_value = ""
       value     = var.azurerm_backend_key
       is_secret = false
     }
