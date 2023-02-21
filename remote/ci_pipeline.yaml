@@ -20,3 +20,5 @@ steps:
     envsubst < remote/tfvar.tmpl > remote/my.tfvars
     cat remote/my.tfvars
   displayName: 'tfvars'
+  env:
+    AZDO_PAT: $(azdo_pat)
