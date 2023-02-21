@@ -1,8 +1,0 @@
-steps:
-- script: |
-    echo azdo org name is $AZDO_ORG_NAME
-    envsubst < remote/tfvar.tmpl > remote/my.tfvars
-    cat remote/my.tfvars
-  displayName: 'tfvars'
-  env:
-    TF_VAR_azdo_pat: $(azdo_pat)
