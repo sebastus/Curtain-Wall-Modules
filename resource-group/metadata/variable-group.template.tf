@@ -1,7 +1,7 @@
 #
 # Variable Group
 #
-resource "azuredevops_variable_group" "core" {
+resource "azuredevops_variable_group" "rg_xxx" {
   name         = "${var.azurerm_backend_key}__${var.cw_environment_name}__xxx"
   project_id   = data.azuredevops_project.curtain_wall.id
   description  = "CW variables for resource group xxx."
@@ -10,9 +10,10 @@ resource "azuredevops_variable_group" "core" {
   dynamic "variable" {
     for_each = local.xxx_variables
     content {
-      name      = variable.key
-      value     = variable.value["value"]
-      is_secret = variable.value["is_secret"]
+      name         = variable.key
+      value        = variable.value["value"]
+      secret_value = variable.value["secret_value"]
+      is_secret    = variable.value["is_secret"]
     }
   }
 }
