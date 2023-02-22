@@ -1,6 +1,6 @@
 module "my-windows-vm" {
-  #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vm-from-image-windows"
-  source = "../../cs/Curtain-Wall-Modules/vm-from-image-windows"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vm-from-image-windows"
+  #source = "../../cs/Curtain-Wall-Modules/vm-from-image-windows"
 
   base_name      = "windows_vm"
   admin_password = var.xxx_vfiw_admin_password

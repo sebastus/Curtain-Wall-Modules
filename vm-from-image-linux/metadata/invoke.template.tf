@@ -1,6 +1,6 @@
 module "my-linux-vm" {
-  #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vm-from-image-linux"
-  source = "../../cs/Curtain-Wall-Modules/vm-from-image-linux"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vm-from-image-linux"
+  #source = "../../cs/Curtain-Wall-Modules/vm-from-image-linux"
 
   base_name      = "linux_vm"
 

@@ -1,5 +1,5 @@
 module "rg_xxx" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//resource-group?ref=118-remote-tfstate"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//resource-group"
   #source = "../../cs/Curtain-Wall-Modules/resource-group"
 
   location  = var.location

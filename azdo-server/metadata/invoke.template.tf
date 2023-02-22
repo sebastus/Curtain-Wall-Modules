@@ -1,6 +1,6 @@
 module "azdo-server" {
-  #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//azdo-server"
-  source = "../../cs/Curtain-Wall-Modules/azdo-server"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//azdo-server"
+  #source = "../../cs/Curtain-Wall-Modules/azdo-server"
 
   base_name      = "azdo_server"
   admin_password = var.xxx_admin_password
