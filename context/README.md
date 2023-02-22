@@ -168,36 +168,11 @@ variable "existing_subnet_id" {
 # ###################
 # Context
 # ###################
-output "resource_group" {
-  value = module.context.resource_group
+output "context_outputs" {
+  value = module.context
 }
-
-output "vnet_name" {
-  value = module.context.vnet_name
-}
-
-output "managed_identity" {
-  value = module.context.managed_identity
-}
-
-output "subnet_id" {
-  value = module.context.subnet_id
-}
-
-output "law_id" {
-  value = module.context.law_id
-}
-
-output "law_key" {
-  value = module.context.law_key
-}
-
-output "acr_id" {
-  value = module.context.acr_id
-}
-
 ```
 
 # TFVARS
 
-Not relevant to Context because it's an internal module. Configuration of it is done through Resource Group
+Not relevant to Context because it's an internal module. Its configuration is done through Resource Group

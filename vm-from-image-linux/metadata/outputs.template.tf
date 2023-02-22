@@ -1,4 +1,4 @@
-output "private_key_openssh" {
-  value     = tls_private_key.ssh.private_key_openssh
+output "vm-from-image-linux" {
+  value     = module.my-linux-vm
   sensitive = true
 }

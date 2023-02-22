@@ -5,92 +5,107 @@
             "name": "create_vm",
             "description": "Boolean: Whether to create the AzDO vm or not.",
             "type": "bool",
-            "default": "true"
+            "default": "true",
+            "secret": "false"
         },
         {
             "name": "admin_password",
             "description": "String: Administrator password of the new vm.",
             "type": "string",
-            "default": "secret"
+            "default": "secret",
+            "secret": "true"
         },
         {
             "name": "create_pip",
             "description": "Boolean: Whether to add a public ip to the AzDO vm or not.",
             "type": "bool",
-            "default": "false"
+            "default": "false",
+            "secret": "false"
         },
         {
             "name": "install_omsagent",
             "description": "Boolean: Whether to install the log analytics oms agent into the AzDO vm or not.",
             "type": "bool",
-            "default": "false"
+            "default": "false",
+            "secret": "false"
         },
         {
             "name": "vhd_or_image",
             "description": "String: Create a vhd or an image.",
             "type": "string",
-            "default": "image"
+            "default": "image",
+            "secret": "false"
         },
 
         {
             "name": "vhd_capture_container_name",
             "description": "String: Storage container where VHD will initially be stored.",
             "type": "string",
-            "default": "vhds"
+            "default": "vhds",
+            "secret": "false"
         },
         {
             "name": "vhd_capture_name_prefix",
             "description": "String: Prefix of the new VHD.",
             "type": "string",
-            "default": "myvhd"
+            "default": "myvhd",
+            "secret": "false"
         },
         {
             "name": "vhd_resource_group_name",
             "description": "String: Resource group of the storage account where the VHD is stored.",
             "type": "string",
-            "default": "rg-misc"
+            "default": "rg-misc",
+            "secret": "false"
         },
         {
             "name": "vhd_storage_account",
             "description": "String: Name of the storage account where the VHD is stored.",
             "type": "string",
-            "default": "somestorage"
+            "default": "somestorage",
+            "secret": "false"
         },
         {
             "name": "image_resource_group_name",
             "description": "String: Resource group of the new image.",
             "type": "string",
-            "default": "somestorage"
+            "default": "somestorage",
+            "secret": "false"
         },
         {
             "name": "image_base_name",
             "description": "String: Name of the new image.",
             "type": "string",
-            "default": "myimage"
+            "default": "myimage",
+            "secret": "false"
         },
         {
             "name": "arm_client_id",
             "description": "String: Client ID of the credential used to run Packer.",
             "type": "string",
-            "default": "a-guid"
+            "default": "a-guid",
+            "secret": "false"
         },
         {
             "name": "arm_client_secret",
             "description": "String: Client secret / password of the credential used to run Packer.",
             "type": "string",
-            "default": "a-secret"
+            "default": "a-secret",
+            "secret": "true"
         },
         {
             "name": "arm_installer_password",
             "description": "String: Admin password of temp vm used by packer to create the new vhd or image.",
             "type": "string",
-            "default": "a-password"
+            "default": "a-password",
+            "secret": "true"
         },
         {
             "name": "local_temp",
             "description": "String: Packer uses a temp folder on the machine that is running Packer.",
             "type": "string",
-            "default": "C:\\Users\\me\\AppData\\Local\\temp"
+            "default": "C:/Users/me/AppData/Local/temp",
+            "secret": "false"
         }
     ]
 }

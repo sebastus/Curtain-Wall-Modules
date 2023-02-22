@@ -5,91 +5,106 @@
             "name": "hcl_path_and_file_name",
             "description": "String: Relative (to main.tf) or fully qualified path and file name of hcl file.",
             "type": "string",
-            "default": ""
+            "default": "",
+            "secret": "false"
         },
         {
             "name": "arm_client_id",
             "description": "String: Credentials used by packer to create Azure resources.",
             "type": "string",
-            "default": ""
+            "default": "a-guid",
+            "secret": "false"
         },
         {
             "name": "arm_client_secret",
             "description": "String: Credentials used by packer to create Azure resources.",
             "type": "string",
-            "default": ""
+            "default": "a-secret",
+            "secret": "true"
         },
         {
             "name": "install_password",
             "description": "String: Password used in the Windows Packer vm during installation of software.",
             "type": "string",
-            "default": ""
+            "default": "a-password",
+            "secret": "true"
         },
         {
             "name": "local_temp",
             "description": "String: The toowoxx/packer provider uses a temp folder on the system where Packer is being run.",
             "type": "string",
-            "default": ""
+            "default": "c:/users/somebody/AppData/Local/temp",
+            "secret": "false"
         },
         {
             "name": "vnet_name",
             "description": "String: Name of existing vnet to use.",
             "type": "string",
-            "default": ""
+            "default": "",
+            "secret": "false"
         },
         {
             "name": "vnet_resource_group",
             "description": "String: Resource group containing existing vnet.",
             "type": "string",
-            "default": ""
+            "default": "",
+            "secret": "false"
         },
         {
             "name": "vnet_subnet",
             "description": "String: Name of existing subnet to use.",
             "type": "string",
-            "default": ""
+            "default": "",
+            "secret": "false"
         },
         {
             "name": "vhd_or_image",
             "description": "String: Permitted values are 'vhd' and 'image'.",
             "type": "string",
-            "default": "image"
+            "default": "image",
+            "secret": "false"
         },
         {
             "name": "image_base_name",
             "description": "String: Base name of new image resource in Azure.",
             "type": "string",
-            "default": "myimage"
+            "default": "myimage",
+            "secret": "false"
         },
         {
             "name": "image_resource_group_name",
             "description": "String: Resource group to contain the new image.",
             "type": "string",
-            "default": ""
+            "default": "",
+            "secret": "false"
         },
         {
             "name": "vhd_resource_group_name",
             "description": "String: Resource group to contain the new vhd.",
             "type": "string",
-            "default": ""
+            "default": "",
+            "secret": "false"
         },
         {
             "name": "vhd_capture_container_name",
             "description": "String: Previously existing storage container in which to capture image as it's being built.",
             "type": "string",
-            "default": ""
+            "default": "",
+            "secret": "false"
         },
         {
             "name": "vhd_capture_name_prefix",
             "description": "String: Prefix of vhd name in storage.",
             "type": "string",
-            "default": ""
+            "default": "",
+            "secret": "false"
         },
         {
             "name": "vhd_storage_account",
             "description": "String: Name of storage account that will receive the vhd.",
             "type": "string",
-            "default": ""
+            "default": "",
+            "secret": "false"
         }
     ]
 }
