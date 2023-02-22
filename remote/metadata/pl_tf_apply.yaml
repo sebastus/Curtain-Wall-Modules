@@ -1,15 +1,11 @@
 steps:
+
 - script: |
     cd $(cw_environment_name)
-    envsubst < pipeline.tfvars.tmpl > my.auto.tfvars
-    cat my.auto.tfvars
-    echo ""
-    terraform plan -input=false -out my.tfplan
-  displayName: 'tf plan'
+    terraform apply my.tfplan
+  displayName: 'tf apply'
   env:
     ARM_CLIENT_ID: $(ARM_CLIENT_ID)
     ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
     ARM_TENANT_ID: $(ARM_TENANT_ID)
     ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-
-# code generator will include secrets as TF_VAR_ below
