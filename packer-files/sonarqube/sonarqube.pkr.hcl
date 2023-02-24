@@ -1,6 +1,11 @@
 #
-# SonarQube 
+# SonarQube 1
 #
+variable "location" {
+  type    = string
+  default = "${env("ARM_RESOURCE_LOCATION")}"
+}
+
 variable "allowed_inbound_ip_addresses" {
   type    = list(string)
   default = []
@@ -107,6 +112,16 @@ variable "storage_account" {
   default = "${env("VHD_STORAGE_ACCOUNT")}"
 }
 
+variable "image_folder" {
+  type    = string
+  default = "/imagegeneration"
+}
+
+variable "installer_script_folder" {
+  type    = string
+  default = "/imagegeneration/installers"
+}
+
 source "azure-arm" "build_vhd" {
 
   # ingested resources
@@ -128,6 +143,8 @@ source "azure-arm" "build_vhd" {
   location        = "${var.location}"
   os_type         = "Linux"
 
+  ssh_username    = "adminaz"
+
   private_virtual_network_with_public_ip = "${var.private_virtual_network_with_public_ip}"
   virtual_network_name                   = "${var.virtual_network_name}"
   virtual_network_resource_group_name    = "${var.virtual_network_resource_group_name}"
@@ -148,4 +165,39 @@ source "azure-arm" "build_vhd" {
       value = azure_tag.value
     }
   }
+}
+
+build {
+  sources = ["source.azure-arm.build_vhd"]
+
+  provisioner "shell" {
+    execute_command = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
+    inline = [
+      "mkdir ${var.image_folder}",
+      "chmod 777 ${var.image_folder}",
+    ]
+  }
+
+  provisioner "file" {
+    destination = "${var.installer_script_folder}"
+    source      = "${path.root}/scripts/installers"
+  }
+
+  provisioner "shell" {
+    environment_vars = ["INSTALLER_SCRIPT_FOLDER=${var.installer_script_folder}", "DEBIAN_FRONTEND=noninteractive"]
+    execute_command  = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
+    scripts          = [
+      "${path.root}/scripts/installers/docker_ce.sh",
+      "${path.root}/scripts/installers/sonarqube/sonarqube.sh"
+    ]
+  }
+
+provisioner "shell" {
+    execute_command = "sudo sh -c '{{ .Vars }} {{ .Path }}'"
+    inline = [
+      "echo Generalizing the image.",
+      "sleep 60",
+    "/usr/sbin/waagent -force -deprovision && export HISTSIZE=0 && sync"]
+  }
+
 }

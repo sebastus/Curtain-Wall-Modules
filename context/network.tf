@@ -23,12 +23,10 @@ data "azurerm_virtual_network" "vnet" {
 resource "azurerm_subnet" "well_known_subnets" {
   for_each = var.create_well_known_subnets ? var.well_known_subnets : {}
 
-  name                        = each.key
-  resource_group_name         = data.azurerm_virtual_network.vnet.resource_group_name
-  virtual_network_name        = data.azurerm_virtual_network.vnet.name
-  address_prefixes            = [each.value.address_prefix]
-  service_endpoint_policy_ids = []
-  service_endpoints           = []
+  name                 = each.key
+  resource_group_name  = data.azurerm_virtual_network.vnet.resource_group_name
+  virtual_network_name = data.azurerm_virtual_network.vnet.name
+  address_prefixes     = [each.value.address_prefix]
 }
 
 resource "azurerm_network_security_group" "nsg" {

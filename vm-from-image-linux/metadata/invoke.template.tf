@@ -22,4 +22,9 @@ module "my-linux-vm" {
   image_resource_group_name = var.xxx_vfil_image_resource_group_name
   image_base_name           = var.xxx_vfil_image_base_name
 
+  # correct this for your configuration so the vm
+  # depends on the right image 
+  depends_on = [
+    module.myvhd
+  ]
 }
