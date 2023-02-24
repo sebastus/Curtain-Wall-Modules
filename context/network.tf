@@ -2,8 +2,8 @@
 # network
 #
 resource "azurerm_virtual_network" "vnet" {
-  count               = var.create_vnet ? 1 : 0
-  
+  count = var.create_vnet ? 1 : 0
+
   name                = azurecaf_name.generated["vnet"].result
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
@@ -16,17 +16,19 @@ locals {
 }
 
 data "azurerm_virtual_network" "vnet" {
-    name                = var.create_vnet ? azurerm_virtual_network.vnet[0].name : var.existing_vnet_name
-    resource_group_name = var.create_vnet ? azurerm_virtual_network.vnet[0].resource_group_name : var.existing_vnet_rg_name
+  name                = var.create_vnet ? azurerm_virtual_network.vnet[0].name : var.existing_vnet_name
+  resource_group_name = var.create_vnet ? azurerm_virtual_network.vnet[0].resource_group_name : var.existing_vnet_rg_name
 }
 
 resource "azurerm_subnet" "well_known_subnets" {
   for_each = var.create_well_known_subnets ? var.well_known_subnets : {}
 
-  name = each.key
-  resource_group_name = data.azurerm_virtual_network.vnet.resource_group_name
-  virtual_network_name = data.azurerm_virtual_network.vnet.name
-  address_prefixes = [each.value.address_prefix]
+  name                        = each.key
+  resource_group_name         = data.azurerm_virtual_network.vnet.resource_group_name
+  virtual_network_name        = data.azurerm_virtual_network.vnet.name
+  address_prefixes            = [each.value.address_prefix]
+  service_endpoint_policy_ids = []
+  service_endpoints           = []
 }
 
 resource "azurerm_network_security_group" "nsg" {
@@ -59,6 +61,10 @@ resource "azurerm_subnet_network_security_group_association" "subnetnsg" {
 
   subnet_id                 = azurerm_subnet.well_known_subnets[each.key].id
   network_security_group_id = azurerm_network_security_group.nsg[each.key].id
+
+  depends_on = [
+    azurerm_network_security_rule.bastionnsgrules
+  ]
 }
 
 data "azurerm_subnet" "well_known_subnets" {
@@ -67,4 +73,8 @@ data "azurerm_subnet" "well_known_subnets" {
   name                 = each.key
   virtual_network_name = data.azurerm_virtual_network.vnet.name
   resource_group_name  = data.azurerm_virtual_network.vnet.resource_group_name
+
+  depends_on = [
+    azurerm_subnet.well_known_subnets
+  ]
 }

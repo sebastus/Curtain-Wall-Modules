@@ -17,24 +17,24 @@ variable "singleton_resource_names" {
   ))
 
   default = {
-    rg     = { resource_type = "azurerm_resource_group" },
-    mi     = { resource_type = "azurerm_user_assigned_identity" },
-    vnet   = { resource_type = "azurerm_virtual_network" },
-    law    = { resource_type = "azurerm_log_analytics_workspace" },
-    acr    = { resource_type = "azurerm_container_registry" },
+    rg   = { resource_type = "azurerm_resource_group" },
+    mi   = { resource_type = "azurerm_user_assigned_identity" },
+    vnet = { resource_type = "azurerm_virtual_network" },
+    law  = { resource_type = "azurerm_log_analytics_workspace" },
+    acr  = { resource_type = "azurerm_container_registry" },
   }
 }
 
 variable "create_resource_group" {
   description = "Create the resource group or ingest existing"
-  default = true
+  default     = true
 }
 variable "existing_resource_group_name" {
   default = "dummy"
 }
 
 variable "base_name" {
-  type    = string
+  type = string
 }
 
 variable "create_vnet" {

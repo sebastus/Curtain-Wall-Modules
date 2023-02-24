@@ -1,8 +1,9 @@
 #
 # Get the packer definition 
-#
+# This is the absolute path and file name of the HCL file.
+# 
 data "packer_files" "hcl" {
-  file = "${path.module}/${var.hcl_path_and_file_name}"
+  file = "${var.hcl_path_and_file_name}"
 }
 
 # if vhd_or_image == "image"

@@ -2,7 +2,7 @@ module "myvhd" {
   source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vhd-or-image"
   #source = "../../Curtain-Wall-Modules/vhd-or-image"
 
-  hcl_path_and_file_name = var.xxx_azdo_hcl_path_and_file_name
+  hcl_path_and_file_name = var.xxx_hcl_path_and_file_name
 
   arm_client_id     = var.xxx_arm_client_id
   arm_client_secret = var.xxx_arm_client_secret
