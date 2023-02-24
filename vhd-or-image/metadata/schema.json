@@ -3,7 +3,7 @@
     [
         {
             "name": "hcl_path_and_file_name",
-            "description": "String: Relative (to main.tf) or fully qualified path and file name of hcl file.",
+            "description": "String: Relative (to main.tf) path and file name of hcl file.",
             "type": "string",
             "default": "",
             "secret": "false"

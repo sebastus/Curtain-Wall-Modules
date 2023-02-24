@@ -73,7 +73,7 @@
             "name": "new_vnet_address_space",
             "description": "String: if creating a new VNET, it's address space represented as a CIDR.",
             "type": "string",
-            "default": "10.0.0.0/16",
+            "default": "10.1.0.0/16",
             "secret": "false"
         },
         {
