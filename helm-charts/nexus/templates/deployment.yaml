@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ include "nexus.fullname" . }}
+  name: {{ include "nexus.fullname" . }}
+  namespace: {{ include "nexus.fullname" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "nexus.fullname" . }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: {{ include "nexus.fullname" . }}
+    spec:
+      nodeSelector:
+        agentpool: {{.Values.agentPoolNodeSelector }}
+      containers:
+      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: nexus3
+        ports:
+          - containerPort: 8081
+        volumeMounts:
+          - name: nexus-data
+            mountPath: /nexus-data
+        resources:
+          requests:
+            cpu: "4"
+      volumes:
+      - name: nexus-data
+        persistentVolumeClaim:
+          claimName: {{ include "nexus.fullname" . }}-pvc
+      

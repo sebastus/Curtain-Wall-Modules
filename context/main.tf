@@ -48,6 +48,10 @@ resource "azurerm_container_registry" "acr" {
   sku                 = "Standard"
 }
 
+# data "azurerm_container_registry" "acr" {
+#   name = var.create_resource_group ? azurerm_container_registry.acr[0].name : null
+# }
+
 #
 # managed identity
 #  * will be installed in the build agent VM
@@ -70,6 +74,6 @@ resource "azurerm_role_assignment" "contributor" {
 
 # this ingests a previously provisioned UAMI 
 data "azurerm_user_assigned_identity" "mi" {
-  name                = var.create_managed_identity ? azurerm_user_assigned_identity.mi[0].name : var.existing_managed_identity_name
-  resource_group_name = var.create_managed_identity ? data.azurerm_resource_group.rg.name : var.existing_managed_identity_rg
+  name = var.create_managed_identity ? azurerm_user_assigned_identity.mi[0].name : var.existing_managed_identity_name
+  resource_group_name = var.create_resource_group ? data.azurerm_resource_group.rg.name : var.existing_resource_group_name
 }

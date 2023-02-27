@@ -8,5 +8,9 @@ terraform {
       source  = "aztfmod/azurecaf"
       version = "~>1.2.17"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "2.8.0"
+    }
   }
 }
