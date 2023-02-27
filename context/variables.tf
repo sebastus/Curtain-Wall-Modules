@@ -17,25 +17,24 @@ variable "singleton_resource_names" {
   ))
 
   default = {
-    rg     = { resource_type = "azurerm_resource_group" },
-    mi     = { resource_type = "azurerm_user_assigned_identity" },
-    vnet   = { resource_type = "azurerm_virtual_network" },
-    subnet = { resource_type = "azurerm_subnet" },
-    law    = { resource_type = "azurerm_log_analytics_workspace" },
-    acr    = { resource_type = "azurerm_container_registry" },
+    rg   = { resource_type = "azurerm_resource_group" },
+    mi   = { resource_type = "azurerm_user_assigned_identity" },
+    vnet = { resource_type = "azurerm_virtual_network" },
+    law  = { resource_type = "azurerm_log_analytics_workspace" },
+    acr  = { resource_type = "azurerm_container_registry" },
   }
 }
 
 variable "create_resource_group" {
   description = "Create the resource group or ingest existing"
-  default = true
+  default     = true
 }
 variable "existing_resource_group_name" {
   default = "dummy"
 }
 
 variable "base_name" {
-  type    = string
+  type = string
 }
 
 variable "create_vnet" {
@@ -53,15 +52,24 @@ variable "existing_vnet_name" {
   default = ""
 }
 
-variable "create_subnet" {
+variable "create_well_known_subnets" {
   type = bool
 }
-variable "existing_subnet_id" {
-  type = string
-  default = ""
-}
-variable "new_subnet_address_prefixes" {
-  type = list(string)
+variable "well_known_subnets" {
+  type = map(object({
+    address_prefix = string
+  }))
+  default = {
+    default = {
+      address_prefix = "10.1.0.0/24"
+    },
+    AzureBastionSubnet = {
+      address_prefix = "10.1.1.0/24"
+    },
+    PrivateEndpointsSubnet = {
+      address_prefix = "10.1.2.0/24"
+    }
+  }
 }
 
 variable "create_managed_identity" {
@@ -83,4 +91,82 @@ variable "create_law" {
 variable "create_acr" {
   type    = bool
   default = false
+}
+
+variable "bastion_nsg_rules" {
+  type = map(object({
+    priority                   = number,
+    direction                  = string,
+    destination_port_range     = string,
+    destination_port_ranges    = list(string),
+    source_address_prefix      = string,
+    destination_address_prefix = string,
+  }))
+
+  default = {
+    AllowGatewayManager = {
+      priority                   = 2702,
+      direction                  = "Inbound",
+      destination_port_range     = "443",
+      destination_port_ranges    = [],
+      source_address_prefix      = "GatewayManager",
+      destination_address_prefix = "*",
+    },
+    AllowHttpsInBound = {
+      priority                   = 2703,
+      direction                  = "Inbound",
+      destination_port_range     = "443",
+      destination_port_ranges    = [],
+      source_address_prefix      = "Internet",
+      destination_address_prefix = "*",
+    },
+    AllowBastionHostCommunication = {
+      priority                   = 2704,
+      direction                  = "Inbound",
+      destination_port_range     = "",
+      destination_port_ranges    = ["5701", "8080"],
+      source_address_prefix      = "VirtualNetwork",
+      destination_address_prefix = "VirtualNetwork",
+    },
+    AllowAzureLoadBalancerInbound = {
+      priority                   = 2705,
+      direction                  = "Inbound",
+      destination_port_range     = "443",
+      destination_port_ranges    = [],
+      source_address_prefix      = "AzureLoadBalancer",
+      destination_address_prefix = "*",
+    },
+    AllowSshRdpOutbound = {
+      priority                   = 100,
+      direction                  = "Outbound",
+      destination_port_range     = "",
+      destination_port_ranges    = ["22", "3389"],
+      source_address_prefix      = "*",
+      destination_address_prefix = "VirtualNetwork",
+    },
+    AllowBastionCommunication = {
+      priority                   = 110,
+      direction                  = "Outbound",
+      destination_port_range     = "",
+      destination_port_ranges    = ["8080", "5701"],
+      source_address_prefix      = "VirtualNetwork",
+      destination_address_prefix = "VirtualNetwork",
+    },
+    AllowAzureCloudOutbound = {
+      priority                   = 115,
+      direction                  = "Outbound",
+      destination_port_range     = "443",
+      destination_port_ranges    = [],
+      source_address_prefix      = "*",
+      destination_address_prefix = "AzureCloud",
+    },
+    AllowGetSessionInformation = {
+      priority                   = 120,
+      direction                  = "Outbound",
+      destination_port_range     = "80",
+      destination_port_ranges    = [],
+      source_address_prefix      = "*",
+      destination_address_prefix = "Internet",
+    },
+  }
 }

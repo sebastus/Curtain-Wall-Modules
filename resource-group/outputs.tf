@@ -1,30 +1,6 @@
 # outputs from context
-output "resource_group" {
-  value = module.context.resource_group
-}
-
-output "vnet_name" {
-  value = module.context.vnet_name
-}
-
-output "managed_identity" {
-  value = module.context.managed_identity
-}
-
-output "subnet_id" {
-  value = module.context.subnet_id
-}
-
-output "law_id" {
-  value = module.context.law_id
-}
-
-output "law_key" {
-  value = module.context.law_key
-}
-
-output "acr_id" {
-  value = module.context.acr_id
+output "context_outputs" {
+  value = module.context
 }
 
 # outputs from remote

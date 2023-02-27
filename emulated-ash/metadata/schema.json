@@ -1,0 +1,69 @@
+{
+    "variables":
+    [
+        {
+            "name": "ash_admin_password",
+            "description": "String: Administrator password of emulated ASH host vm.",
+            "type": "string",
+            "default": "V3r7S3cret",
+            "secret": "true"
+        },
+        {
+            "name": "ash_vhd_source_uri",
+            "description": "String: URI of the downloaded OS-disk VHD.",
+            "type": "string",
+            "default": "https://blobaccount.blob.core.windows.net/downloads/CloudBuilder.vhd",
+            "secret": "false"
+        },
+        {
+            "name": "ash_number_of_cores",
+            "description": "String: Number of cores in the ASH host vm - usually 32 or 48.",
+            "type": "string",
+            "default": "32",
+            "secret": "false"
+        },
+        {
+            "name": "ash_create_managed_identity",
+            "description": "Boolean: Create (true) a user defined managed identity or ingest (false) an existing one.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false"
+        },
+        {
+            "name": "ash_existing_managed_identity_name",
+            "description": "String: Name of existing managed identity to ingest.",
+            "type": "string",
+            "default": "my-managed-identity",
+            "secret": "false"
+        },
+        {
+            "name": "ash_existing_managed_identity_rg",
+            "description": "String: Resource group containing the existing managed identity to ingest.",
+            "type": "string",
+            "default": "rg-misc",
+            "secret": "false"
+        },
+        {
+            "name": "ash_create_key_vault",
+            "description": "Boolean: Create (true) a key vault or ingest (false) an existing one.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false"
+        },
+        {
+            "name": "ash_existing_key_vault_name",
+            "description": "String: Name of existing key vault to ingest.",
+            "type": "string",
+            "default": "kv-existing",
+            "secret": "false"
+        },
+        {
+            "name": "ash_existing_key_vault_rg",
+            "description": "String: Resource group containing the existing key vault to ingest.",
+            "type": "string",
+            "default": "rg-misc",
+            "secret": "false"
+        }
+    ]
+}
+

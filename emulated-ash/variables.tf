@@ -52,12 +52,6 @@ variable "pe_subnet_resource_group_name" {
 variable "pe_subnet_vnet_name" {
   type = string
 }
-variable "create_pe_subnet" {
-  default = true
-}
-variable "new_pe_subnet_address_prefixes" {
-  type = list(string)
-}
 variable "existing_pe_subnet_name" {
   type = string
 }

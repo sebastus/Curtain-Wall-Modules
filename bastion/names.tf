@@ -11,7 +11,6 @@ variable "singleton_resource_names" {
 
   default = {
     bastion_pip = { resource_type = "azurerm_public_ip", base_name = "bastion" },
-    bastion_nsg = { resource_type = "azurerm_network_security_group", base_name = "bastion-subnet" },
     bastion     = { resource_type = "azurerm_bastion_host", base_name = "bastion" },
   }
 }

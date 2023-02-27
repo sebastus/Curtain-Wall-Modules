@@ -1,0 +1,124 @@
+{
+    "variables":
+    [
+        {
+            "name": "base_name",
+            "description": "String: base name of created resources",
+            "type": "string",
+            "default": "my-resources",
+            "secret": "false"
+        },
+        {
+            "name": "create_resource_group",
+            "description": "Boolean: create the resource group or ingest existing.",
+            "type": "bool",
+            "default": "true",
+            "secret": "false",
+            "skip": "true"
+        },
+        {
+            "name": "existing_resource_group_name",
+            "description": "String: name of the existing resource group to ingest.",
+            "type": "string",
+            "default": "",
+            "secret": "false"
+        },
+        {
+            "name": "create_law",
+            "description": "Boolean: create a log analytics workspace or not.",
+            "type": "bool",
+            "default": "true",
+            "secret": "false",
+            "skip": "true"
+        },
+        {
+            "name": "create_managed_identity",
+            "description": "Boolean: create a user defined managed identity or ingest existing.",
+            "type": "bool",
+            "default": "true",
+            "secret": "false",
+            "skip": "true"
+        },
+        {
+            "name": "existing_managed_identity_name",
+            "description": "String: name of the existing managed identity to ingest.",
+            "type": "string",
+            "default": "",
+            "secret": "false"
+        },
+        {
+            "name": "existing_managed_identity_rg",
+            "description": "String: name of the resource group of the existing managed identity to ingest.",
+            "type": "string",
+            "default": "",
+            "secret": "false"
+        },
+        {
+            "name": "create_acr",
+            "description": "Boolean: create an Azure Container Registry or not.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false",
+            "skip": "true"
+        },
+        {
+            "name": "create_vnet",
+            "description": "Boolean: create a VNET or ingest existing.",
+            "type": "bool",
+            "default": "true",
+            "secret": "false",
+            "skip": "true"
+        },
+        {
+            "name": "new_vnet_address_space",
+            "description": "String: if creating a new VNET, it's address space represented as a CIDR.",
+            "type": "string",
+            "default": "10.1.0.0/16",
+            "secret": "false"
+        },
+        {
+            "name": "existing_vnet_rg_name",
+            "description": "String: if ingesting an existing VNET, it's resource group.",
+            "type": "string",
+            "default": "rg-networking",
+            "secret": "false"
+        },
+        {
+            "name": "existing_vnet_rg_location",
+            "description": "String: if ingesting an existing VNET, it's Azure region.",
+            "type": "string",
+            "default": "uksouth",
+            "secret": "false"
+        },
+        {
+            "name": "existing_vnet_name",
+            "description": "String: if ingesting an existing VNET, it's name.",
+            "type": "string",
+            "default": "vnet",
+            "secret": "false"
+        },
+        {
+            "name": "create_well_known_subnets",
+            "description": "Boolean: create the well known subnets or ingest existing.",
+            "type": "bool",
+            "default": "true",
+            "secret": "false",
+            "skip": "true"
+        },
+        {
+            "name": "install_remote",
+            "description": "Boolean: create tfstate storage.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false",
+            "skip": "true"
+        },
+        {
+            "name": "is_hub",
+            "description": "Boolean: is the home of the tfstate storage account.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false"
+        }    
+    ]
+}

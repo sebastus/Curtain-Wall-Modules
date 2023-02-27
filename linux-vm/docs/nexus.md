@@ -11,7 +11,7 @@ module "nexus" {
   #source = "../../Curtain-Wall-Module/linux-vm"
 
   count               = var.count_of_nexus
-  vm_size             = var.xxx_vm_size
+  vm_size             = var.xxx_nx_vm_size
   instance_index      = count.index
   base_name           = "nexus"
   managed_identity_id = module.rg_xxx.managed_identity.id
@@ -22,7 +22,7 @@ module "nexus" {
   identity_ids   = [module.rg_xxx.managed_identity.id]
   subnet_id      = module.rg_xxx.subnet_id
 
-  law_installed               = var.xxx_create_law
+  law_installed               = var.xxx_nx_create_law
   install_omsagent            = true
   log_analytics_workspace_id  = module.rg_xxx.law_id
   log_analytics_workspace_key = module.rg_xxx.law_key
@@ -39,10 +39,10 @@ module "nexus" {
 # ########################
 # xxx - Nexus
 # ########################
-variable "xxx_count_of_nexus" {
+variable "xxx_nx_count_of_nexus" {
   default = 0
 }
-variable "xxx_vm_size" {
+variable "xxx_nx_vm_size" {
   type = string
   default = "Standard_B4ms"
 }
@@ -57,7 +57,7 @@ variable "xxx_vm_size" {
 # xxx - Nexus
 # ########################
 output "nexus" {
-  value     = var.xxx_count_of_nexus != 0 ? module.nexus : null
+  value     = var.xxx_nx_count_of_nexus != 0 ? module.nexus : null
   sensitive = true
 }
 
@@ -70,8 +70,8 @@ output "nexus" {
 # ########################
 # xxx - Nexus
 # ########################
-xxx_count_of_nexus   = 1
-xxx_vm_size          = "Standard_B4ms"
+xxx_nx_count_of_nexus   = 1
+xxx_nx_vm_size          = "Standard_B4ms"
 
 ```
 

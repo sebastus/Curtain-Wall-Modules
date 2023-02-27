@@ -1,0 +1,12 @@
+steps:
+
+- script: |
+    cd $(cw_environment_name)
+    terraform apply my.tfplan
+  displayName: 'tf apply'
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+  env:
+    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    ARM_TENANT_ID: $(ARM_TENANT_ID)
+    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
