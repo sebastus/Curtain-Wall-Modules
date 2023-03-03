@@ -25,6 +25,8 @@ module "context" {
 
   create_well_known_subnets = var.create_vnet || var.create_well_known_subnets
 
+  well_known_subnets = var.well_known_subnets
+
   create_law = var.create_law
   create_acr = var.create_acr
 }
@@ -37,18 +39,18 @@ module "remote" {
   count  = var.install_remote ? 1 : 0
   is_hub = var.is_hub
 
-  location                 = var.location
-  resource_group           = module.context.resource_group
+  location       = var.location
+  resource_group = module.context.resource_group
 
-  azdo_org_name            = var.azdo_org_name
-  azdo_project_name        = var.azdo_project_name
-  azdo_pat                 = var.azdo_pat
-  azdo_arm_svc_conn        = var.azdo_arm_svc_conn
+  azdo_org_name     = var.azdo_org_name
+  azdo_project_name = var.azdo_project_name
+  azdo_pat          = var.azdo_pat
+  azdo_arm_svc_conn = var.azdo_arm_svc_conn
 
-  azurerm_backend_key      = var.azurerm_backend_key
-  state_key                = var.azurerm_backend_key
+  azurerm_backend_key = var.azurerm_backend_key
+  state_key           = var.azurerm_backend_key
 
-  cw_tfstate_name          = var.cw_tfstate_name
-  cw_environment_name      = var.cw_environment_name
+  cw_tfstate_name     = var.cw_tfstate_name
+  cw_environment_name = var.cw_environment_name
 
 }

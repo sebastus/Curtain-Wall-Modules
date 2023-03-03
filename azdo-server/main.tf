@@ -47,7 +47,7 @@ data "packer_files" "azdo_server_hcl" {
 }
 
 locals {
-  image_name = "${var.image_base_name}"
+  image_name = var.image_base_name
 }
 
 #
@@ -66,9 +66,9 @@ resource "packer_image" "azdo_server_image" {
   force = true
 
   environment = {
-    ARM_RESOURCE_LOCATION     = data.azurerm_resource_group.rg_artefact.location
+    ARM_RESOURCE_LOCATION = data.azurerm_resource_group.rg_artefact.location
 
-    VHD_OR_IMAGE              = var.vhd_or_image
+    VHD_OR_IMAGE = var.vhd_or_image
     # if vhd
     VHD_CAPTURE_CONTAINER_NAME = var.vhd_capture_container_name
     VHD_CAPTURE_NAME_PREFIX    = var.vhd_capture_name_prefix
@@ -79,13 +79,16 @@ resource "packer_image" "azdo_server_image" {
     ARM_MANAGED_IMAGE_NAME    = local.image_name
     # end
 
-    ARM_USE_INTERACTIVE_AUTH  = false
-    ARM_TENANT_ID             = data.azurerm_subscription.env.tenant_id
-    ARM_SUBSCRIPTION_ID       = data.azurerm_subscription.env.subscription_id
-    ARM_CLIENT_ID             = var.arm_client_id
-    ARM_CLIENT_SECRET         = var.arm_client_secret
-    ARM_INSTALLER_PASSWORD    = var.arm_installer_password
-    TMP                       = var.local_temp
+    ARM_USE_INTERACTIVE_AUTH                = false
+    ARM_TENANT_ID                           = data.azurerm_subscription.env.tenant_id
+    ARM_SUBSCRIPTION_ID                     = data.azurerm_subscription.env.subscription_id
+    ARM_CLIENT_ID                           = var.arm_client_id
+    ARM_CLIENT_SECRET                       = var.arm_client_secret
+    ARM_INSTALLER_PASSWORD                  = var.arm_installer_password
+    ARM_VIRTUAL_NETWORK_NAME                = var.vnet_name
+    ARM_VIRTUAL_NETWORK_RESOURCE_GROUP_NAME = var.vnet_rg_name
+    ARM_VIRTUAL_NETWORK_SUBNET_NAME         = var.subnet_name
+    TMP                                     = var.local_temp
   }
 
   ignore_environment = true

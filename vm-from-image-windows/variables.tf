@@ -39,11 +39,11 @@ variable "install_omsagent" {
 }
 
 variable "image_resource_group_name" {
-  type    = string
+  type = string
 }
 
 variable "image_base_name" {
-  type    = string
+  type = string
 }
 
 #

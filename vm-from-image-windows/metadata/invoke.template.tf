@@ -6,10 +6,10 @@ module "my-windows-vm" {
   admin_password = var.xxx_vfiw_admin_password
 
   resource_group = module.rg_xxx.context_outputs.resource_group
-  identity_ids   = [
+  identity_ids = [
     module.rg_xxx.context_outputs.managed_identity == null ? null : module.rg_xxx.context_outputs.managed_identity.id
   ]
-  subnet_id      = module.rg_xxx.context_outputs.well_known_subnets["default"].id
+  subnet_id = module.rg_xxx.context_outputs.well_known_subnets["default"].id
 
   # optionally install public ip
   create_pip = var.xxx_vfiw_create_pip
@@ -17,7 +17,7 @@ module "my-windows-vm" {
   # optionally install oms agent
   install_omsagent = var.xxx_vfiw_install_omsagent
 
-  log_analytics_workspace_id = module.rg_xxx.context_outputs.log_analytics_workspace == null ? null : module.rg_xxx.context_outputs.log_analytics_workspace.workspace_id
+  log_analytics_workspace_id  = module.rg_xxx.context_outputs.log_analytics_workspace == null ? null : module.rg_xxx.context_outputs.log_analytics_workspace.workspace_id
   log_analytics_workspace_key = module.rg_xxx.context_outputs.log_analytics_workspace == null ? null : module.rg_xxx.context_outputs.log_analytics_workspace.primary_shared_key
 
   image_resource_group_name = var.xxx_vfiw_image_resource_group_name

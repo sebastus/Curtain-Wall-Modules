@@ -25,7 +25,7 @@ variable "container-memory" {
 }
 
 variable "container-envvars" {
-  type = map
+  type = map(any)
 }
 
 variable "azurerm_container_registry_id" {

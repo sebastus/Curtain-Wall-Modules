@@ -84,6 +84,18 @@ variable "arm_installer_password" {
   type = string
 }
 
+variable "vnet_name" {
+  type = string
+}
+
+variable "vnet_rg_name" {
+  type = string
+}
+
+variable "subnet_name" {
+  type = string
+}
+
 variable "local_temp" {
   type = string
 }

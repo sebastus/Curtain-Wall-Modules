@@ -1,0 +1,26 @@
+{
+    "variables":
+    [
+        {
+            "name": "aks_admin_username",
+            "description": "String: Administrator user name.",
+            "type": "string",
+            "default": "azureuser",
+            "secret": "false"
+        },
+        {
+            "name": "aks_default_aks_pool_vm_sku",
+            "description": "String: Size of vms in the default pool, such as Standard_D4ds_v5.",
+            "type": "string",
+            "default": "Standard_D4ds_v5",
+            "secret": "false"
+        },
+        {
+            "name": "aks_install_cert_manager",
+            "description": "Boolean: whether or not to install the cert manager",
+            "type": "bool",
+            "default": "false",
+            "secret": "false"
+        }
+    ]
+}

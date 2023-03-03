@@ -35,6 +35,12 @@ data "template_cloudinit_config" "config_cloud_init" {
 
   part {
     content_type = "text/cloud-config"
+    content      = data.template_file.docker.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
+
+  part {
+    content_type = "text/cloud-config"
     content      = data.template_file.terraform.rendered
     merge_type   = "list(append)+dict(recurse_array)+str()"
   }
@@ -96,6 +102,18 @@ runcmd:
 # az cli - not included
  - echo ********************************
  - echo az CLI is not included
+ - echo ********************************
+EOT
+}
+
+data "template_file" "docker" {
+
+  template = var.include_docker ? "${file("${path.module}/ciparts/docker.tftpl")}" : <<-EOT
+# cloud-config
+runcmd:
+# docker - not included
+ - echo ********************************
+ - echo docker is not included
  - echo ********************************
 EOT
 }

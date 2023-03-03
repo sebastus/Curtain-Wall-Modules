@@ -14,25 +14,6 @@ resource "tls_private_key" "ssh" {
   rsa_bits  = 2048
 }
 
-resource "azurerm_subnet" "subnet" {
-  name                 = azurecaf_name.generated["subnet"].result
-  resource_group_name  = var.vnet_rg_name
-  virtual_network_name = var.vnet_name
-  address_prefixes     = var.new_subnet_address_prefixes
-}
-
-resource "azurerm_network_security_group" "nsg" {
-  # this name is formatted according to MS standard so policy will leave it be
-  name                = "${var.vnet_name}-${azurerm_subnet.subnet.name}-nsg-${var.resource_group.location}"
-  resource_group_name = var.resource_group.name
-  location            = var.resource_group.location
-}
-
-resource "azurerm_subnet_network_security_group_association" "subnetnsg" {
-  subnet_id                 = azurerm_subnet.subnet.id
-  network_security_group_id = azurerm_network_security_group.nsg.id
-}
-
 resource "azurerm_user_assigned_identity" "mi_aks" {
   name                = azurecaf_name.generated["mi_aks"].result
   location            = var.resource_group.location
@@ -67,7 +48,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     max_count           = 10
     node_count          = 5
     vm_size             = var.default_aks_pool_vm_sku
-    vnet_subnet_id      = azurerm_subnet.subnet.id
+    vnet_subnet_id      = var.subnet_id
     enable_auto_scaling = true
   }
 

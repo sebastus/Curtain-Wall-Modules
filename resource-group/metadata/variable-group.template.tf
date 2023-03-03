@@ -2,8 +2,8 @@
 # Variable Group
 #
 resource "azuredevops_variable_group" "rg_xxx" {
-  count        = var.hub_install_remote ? 1 : 0
-  
+  count = var.hub_install_remote ? 1 : 0
+
   name         = "${var.azurerm_backend_key}__${var.cw_environment_name}__xxx"
   project_id   = data.azuredevops_project.curtain_wall.id
   description  = "CW variables for resource group xxx."

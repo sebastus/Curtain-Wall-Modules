@@ -98,6 +98,11 @@ variable "include_azcli" {
   default = false
 }
 
+variable "include_docker" {
+  type    = bool
+  default = false
+}
+
 variable "include_pwsh" {
   type    = bool
   default = false
@@ -120,7 +125,7 @@ variable "install_omsagent" {
 
 variable "law_installed" {
   description = "tells this module if log analytics workspace is available"
-  type    = bool
+  type        = bool
 }
 
 variable "log_analytics_workspace_id" {

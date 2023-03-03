@@ -15,10 +15,9 @@ module "myvhd" {
   image_resource_group_name = var.xxx_image_resource_group_name
   image_base_name           = var.xxx_image_base_name
 
-  vhd_capture_container_name = var.xxx_vhd_capture_container_name
-  vhd_capture_name_prefix    = var.xxx_vhd_capture_name_prefix
-  vhd_resource_group_name    = var.xxx_vhd_resource_group_name
-  vhd_storage_account        = var.xxx_vhd_storage_account
+  vhd_capture_name_prefix = var.xxx_vhd_capture_name_prefix
+  vhd_resource_group_name = var.xxx_vhd_resource_group_name
+  vhd_storage_account     = var.xxx_vhd_storage_account
 
   # if using existing network
   vnet_name           = var.xxx_vnet_name

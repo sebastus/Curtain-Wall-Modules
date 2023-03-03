@@ -46,6 +46,10 @@ module "azdo-server" {
   arm_client_secret      = var.xxx_arm_client_secret
   arm_installer_password = var.xxx_arm_installer_password
 
+  vnet_name              = var.xxx_vnet_name
+  vnet_rg_name           = var.xxx_vnet_rg_name
+  subnet_name            = var.xxx_subnet_name
+
   local_temp             = var.xxx_local_temp
 
 }
@@ -106,6 +110,18 @@ variable "xxx_arm_installer_password" {
   type = string
 }
 
+variable "xxx_vnet_name" {
+  type =  string
+}
+
+variable "xxx_vnet_rg_name" {
+  type =  string
+}
+
+variable "xxx_subnet_name" {
+  type =  string
+}
+
 variable "xxx_local_temp" {
   type = string
 }
@@ -146,6 +162,10 @@ xxx_arm_client_id              = "a-guid"
 xxx_arm_client_secret          = "password"
 
 xxx_arm_installer_password     = "password"
+
+xxx_vnet_name                  = "vn_CRS_UKS_D"
+xxx_vnet_rg_name               = "rg_CRS_UKS_D_Networking"
+xxx_subnet_name                = "sub_CRS_UKS_D_Project"
 xxx_local_temp                 = "c:\\users\\me\\AppData\\Local\\temp"
 ```
 

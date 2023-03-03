@@ -1,6 +1,6 @@
 locals {
-  image_name = "nexus-init"
-  nexus_ingress_class_name          = var.nexus_instance_name
+  image_name               = "nexus-init"
+  nexus_ingress_class_name = var.nexus_instance_name
 }
 
 #Azure Storage Account
@@ -36,7 +36,7 @@ resource "azurerm_storage_share" "nexus_storage_share" {
 # Public IP for ingress (if required)
 
 resource "azurerm_public_ip" "nexus_ingress" {
-  count = var.enable_ingress ? 1 : 0
+  count               = var.enable_ingress ? 1 : 0
   name                = azurecaf_name.generated["nexuspublicip"].result
   resource_group_name = var.resource_group.name
   location            = var.resource_group.location
@@ -50,14 +50,14 @@ resource "azurerm_public_ip" "nexus_ingress" {
 }
 
 resource "azurerm_role_assignment" "aks_ip_contributor_role" {
-  count = var.enable_ingress ? 1 : 0
+  count                = var.enable_ingress ? 1 : 0
   scope                = azurerm_public_ip.nexus_ingress[0].id
   role_definition_name = "Contributor"
   principal_id         = var.aks_managed_identity.principal_id
 }
 
 resource "azurerm_role_assignment" "aks_kubelet_id_ip_contributor_role" {
-  count = var.enable_ingress ? 1 : 0
+  count                = var.enable_ingress ? 1 : 0
   scope                = azurerm_public_ip.nexus_ingress[0].id
   role_definition_name = "Contributor"
   principal_id         = var.aks.kubelet_identity[0].object_id
