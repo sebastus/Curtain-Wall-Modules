@@ -9,10 +9,6 @@ variable "is_hub" {
   default = false
 }
 
-variable "base_name" {
-  type = string
-}
-
 variable "azdo_org_name" {
   type = string
 }
@@ -47,6 +43,10 @@ variable "cw_environment_name" {
 variable "location" {
   type    = string
   default = "uksouth"
+}
+
+variable "base_name" {
+  type = string
 }
 
 variable "subscription_id" {

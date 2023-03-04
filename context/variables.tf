@@ -2,6 +2,10 @@ variable "location" {
   type = string
 }
 
+variable "base_name" {
+  type = string
+}
+
 variable "subscription_id" {
   type = string
 }
@@ -32,10 +36,6 @@ variable "create_resource_group" {
 }
 variable "existing_resource_group_name" {
   default = "dummy"
-}
-
-variable "base_name" {
-  type = string
 }
 
 variable "create_vnet" {
