@@ -1,5 +1,5 @@
 module "aks_build_agents" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//aks-build-agent"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//aks-build-agent?ref=merge-from-cs"
   # source = "../../Curtain-Wall-Modules/aks-build-agent"
 
   resource_group = module.rg_xxx.resource_group

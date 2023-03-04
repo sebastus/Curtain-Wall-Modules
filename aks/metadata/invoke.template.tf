@@ -1,6 +1,6 @@
 module "aks_xxx" {
-  #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//aks"
-  source = "../../Curtain-Wall-Modules/aks"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//aks?ref=merge-from-cs"
+  #source = "../../Curtain-Wall-Modules/aks"
 
   base_name = "aks-xxx"
 
