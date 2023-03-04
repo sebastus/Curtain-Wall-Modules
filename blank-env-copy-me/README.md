@@ -6,5 +6,3 @@ To use:
    In powershell, this is: cp .\blank-env-copy-me c:\whatever\newenv -Recurse
    
 2. Confirm the values in the terraform.tfvars for this new environment.
-
-NOTE: ensure that terraform.tfvars in the new env is *not* committed to source control.

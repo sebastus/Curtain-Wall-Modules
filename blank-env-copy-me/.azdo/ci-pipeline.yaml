@@ -4,12 +4,6 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-parameters:
-- name: cwEnvironmentName
-  displayName: Curtain Wall Environment Name
-  type: string
-  default: 'remote-test'
-
 variables:
   - group: mycurtainwall__vars
 
@@ -23,7 +17,6 @@ steps:
     AZDO_PERSONAL_ACCESS_TOKEN: $(AZDO-PAT)
 
 - script: |
-    cd $(cw_environment_name)
     terraform init -backend-config="storage_account_name=$ARM_STATE_STORAGE_NAME" -backend-config="container_name=$ARM_STATE_CONTAINER_NAME" -backend-config="key=$ARM_STATE_STORAGE_KEY" -backend-config="resource_group_name=$ARM_STATE_RG_NAME"
   displayName: 'tf init'
   env:
@@ -38,7 +31,6 @@ steps:
     CURTAIN_WALL_ENVIRONMENT: 
 
 - script: |
-    cd $(cw_environment_name)
     terraform plan -input=false -out my.tfplan -var-file=dev.tfvars
   displayName: 'tf plan'
   env:
@@ -49,7 +41,6 @@ steps:
     TF_VAR_azdo_pat: $(AZDO-PAT)
 
 - script: |
-    cd $(cw_environment_name)
     terraform apply my.tfplan
   displayName: 'tf apply'
   condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
