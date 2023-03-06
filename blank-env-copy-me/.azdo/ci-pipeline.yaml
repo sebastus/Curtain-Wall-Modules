@@ -28,7 +28,6 @@ steps:
     ARM_STATE_STORAGE_NAME: $(ARM-STATE-STORAGE-NAME)
     ARM_STATE_CONTAINER_NAME: $(ARM-STATE-CONTAINER-NAME)
     ARM_STATE_STORAGE_KEY: $(ARM-STATE-STORAGE-KEY)
-    CURTAIN_WALL_ENVIRONMENT: 
 
 - script: |
     terraform plan -input=false -out my.tfplan -var-file=dev.tfvars
