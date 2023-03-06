@@ -9,21 +9,17 @@ variable "is_hub" {
   default = false
 }
 
-variable "base_name" {
-  type = string
-}
-
 variable "azdo_org_name" {
   type = string
 }
 variable "azdo_project_name" {
-  type    = string
+  type = string
 }
 variable "azdo_pat" {
-  type    = string
+  type = string
 }
 variable "azdo_arm_svc_conn" {
-  type = string
+  type    = string
   default = ""
 }
 variable "azurerm_backend_key" {
@@ -47,6 +43,10 @@ variable "cw_environment_name" {
 variable "location" {
   type    = string
   default = "uksouth"
+}
+
+variable "base_name" {
+  type = string
 }
 
 variable "subscription_id" {
@@ -128,4 +128,10 @@ variable "existing_vnet_name" {
 variable "create_well_known_subnets" {
   type    = bool
   default = true
+}
+
+variable "well_known_subnets" {
+  type = map(object({
+    address_prefix = string
+  }))
 }

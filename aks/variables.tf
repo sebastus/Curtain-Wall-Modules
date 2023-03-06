@@ -14,7 +14,6 @@ variable "singleton_resource_names" {
 
   default = {
     aks         = { resource_type = "azurerm_kubernetes_cluster" },
-    subnet      = { resource_type = "azurerm_subnet" },
     mi_aks      = { resource_type = "azurerm_user_assigned_identity" },
     rg_aks_node = { resource_type = "azurerm_resource_group" },
   }
@@ -29,17 +28,9 @@ variable "admin_username" {
   type = string
 }
 
-variable "vnet_name" {
-  type = string
-}
-variable "vnet_rg_name" {
-  type = string
-}
-variable "new_subnet_address_prefixes" {
-  type = list(string)
-  default = [
-    "10.0.2.0/28"
-  ]
+variable "subnet_id" {
+  type        = string
+  description = "The azure resource id of the subnet that the aks node pools will join."
 }
 
 variable "default_aks_pool_vm_sku" {
@@ -55,6 +46,11 @@ variable "install_cert_manager" {
 
 variable "acr" {
   type = any
+
+  validation {
+    condition = var.acr != null
+    error_message = "An ACR must be in the configuration in order to use the AKS module."
+  }
 }
 
 variable "node_pools" {
@@ -67,5 +63,10 @@ variable "node_pools" {
     max_count           = optional(number, null)
   }))
 
-  default = {}
-} 
+  default = {
+    "buildagents" = {
+      vm_size    = "Standard_DS2_v2"
+      node_count = 1
+    }
+  }
+}

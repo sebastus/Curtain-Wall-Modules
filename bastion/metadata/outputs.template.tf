@@ -1,4 +1,4 @@
 output "bastion" {
-    value     = module.bastion
-    sensitive = true
+  value     = module.bastion
+  sensitive = true
 }

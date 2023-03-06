@@ -25,14 +25,23 @@ variable "vhd_or_image" {
   }
 }
 
+variable "image_publisher" {
+  default = "canonical"
+}
+variable "image_offer" {
+  default = "0001-com-ubuntu-server-focal"
+}
+variable "image_sku" {
+  default = "20_04-lts"
+}
+
+locals  {
+  capture_container_name = replace(lower("${var.image_publisher}-${var.image_offer}-${var.image_sku}"), "_", "-")
+}
+
 variable "capture_name_prefix" {
   type    = string
   default = "${env("VHD_CAPTURE_NAME_PREFIX")}"
-}
-
-variable "capture_container_name" {
-  type    = string
-  default = "${env("VHD_CAPTURE_CONTAINER_NAME")}"
 }
 
 variable "resource_group_name" {
@@ -116,9 +125,9 @@ variable "location" {
   default = "${env("ARM_RESOURCE_LOCATION")}"
 }
 
-variable "managed_image_name" {
+variable "managed_image_base_name" {
   type    = string
-  default = "${env("ARM_MANAGED_IMAGE_NAME")}"
+  default = "${env("ARM_MANAGED_IMAGE_BASE_NAME")}"
 }
 
 variable "managed_image_resource_group_name" {
@@ -192,9 +201,9 @@ source "azure-arm" "build_vhd" {
   vm_size         = "${var.vm_size}"
   os_disk_size_gb = "86"
 
-  image_offer     = "0001-com-ubuntu-server-focal"
-  image_publisher = "canonical"
-  image_sku       = "20_04-lts"
+  image_publisher = "${var.image_publisher}"
+  image_offer     = "${var.image_offer}"
+  image_sku       = "${var.image_sku}"
   location        = "${var.location}"
   os_type         = "Linux"
 
@@ -203,10 +212,16 @@ source "azure-arm" "build_vhd" {
   virtual_network_resource_group_name    = "${var.virtual_network_resource_group_name}"
   virtual_network_subnet_name            = "${var.virtual_network_subnet_name}"
 
-  managed_image_name                = var.vhd_or_image == "image" ? var.managed_image_name : ""
+  azure_tags = {
+    "image_publisher": "${var.image_publisher}",
+    "image_offer": "${var.image_offer}",
+    "image_sku": "${var.image_sku}"
+  }
+
+  managed_image_name                = var.vhd_or_image == "image" ? var.managed_image_base_name : ""
   managed_image_resource_group_name = var.vhd_or_image == "image" ? var.managed_image_resource_group_name : ""
 
-  capture_container_name = var.vhd_or_image == "vhd" ? var.capture_container_name : ""
+  capture_container_name = var.vhd_or_image == "vhd" ? local.capture_container_name : ""
   capture_name_prefix    = var.vhd_or_image == "vhd" ? var.capture_name_prefix : ""
   resource_group_name    = var.vhd_or_image == "vhd" ? var.resource_group_name : ""
   storage_account        = var.vhd_or_image == "vhd" ? var.storage_account : ""

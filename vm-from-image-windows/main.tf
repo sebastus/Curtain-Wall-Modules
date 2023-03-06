@@ -52,7 +52,7 @@ data "azurerm_image" "imagevm" {
 # Create a new VM from the image - admin account is adminaz
 #
 resource "azurerm_windows_virtual_machine" "imagevm" {
-  for_each = var.os_variant 
+  for_each = var.os_variant
 
   name                  = azurecaf_name.generated["vm"].result
   location              = var.resource_group.location

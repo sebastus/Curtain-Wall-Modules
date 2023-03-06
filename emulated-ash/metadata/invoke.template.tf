@@ -1,8 +1,8 @@
 module "emulated-ash" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//emulated-ash"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//emulated-ash?ref=merge-from-cs"
   #source = "../../cs/Curtain-Wall-Modules/emulated-ash"
 
-  base_name      = "cw-ash"
+  base_name = "cw-ash"
 
   resource_group = module.rg_xxx.context_outputs.resource_group
   subnet_id      = module.rg_xxx.context_outputs.well_known_subnets["default"].id

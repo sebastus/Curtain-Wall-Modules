@@ -21,13 +21,13 @@ variable "aks_managed_identity" {
 variable "singleton_resource_names" {
   type = map(object(
     {
-      resource_type = optional(string,null)
+      resource_type = optional(string, null)
     }
   ))
 
   default = {
-    nexusstore  = { resource_type = "azurerm_storage_account" }
-    nexuspublicip    = { resource_type = "azurerm_public_ip"}
+    nexusstore    = { resource_type = "azurerm_storage_account" }
+    nexuspublicip = { resource_type = "azurerm_public_ip" }
   }
 }
 
@@ -40,27 +40,27 @@ variable "storage_file_share_name" {
 }
 
 variable "nexus_readiness_timeout" {
-  type = number
+  type    = number
   default = 900
 }
 
 variable "enable_ingress" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "init-nexus-container-tag" {
-  type = string
+  type    = string
   default = "1.0"
 }
 
 variable "agentPoolNodeSelector" {
-  type = string
+  type    = string
   default = "default"
 }
 
 variable "nexus_admin_password" {
-  type = string
+  type      = string
   sensitive = true
 }
 
@@ -69,7 +69,7 @@ variable "cluster_issuer_email" {
 }
 
 variable "use_production_certificate_issuer" {
-  type = bool
+  type    = bool
   default = false
 }
 

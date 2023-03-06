@@ -7,8 +7,9 @@ runcmd:
  - echo ********************************
 
  - cd /etc/profile.d/
+ - touch /etc/profile.d/ciparts.env /etc/profile.d/ciparts.path
  - echo '#! /bin/bash' >> ciparts.sh
- - echo 'export $(cat /etc/profile.d/ciparts.env | xargs)' >> ciparts.sh
+ - echo 'export $(cat /etc/profile.d/ciparts.env | xargs) > /dev/null' >> ciparts.sh
  - echo 'export PATH=$PATH:$(cat /etc/profile.d/ciparts.path)' >> ciparts.sh
  - chmod +x ciparts.sh
 

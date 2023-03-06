@@ -48,9 +48,18 @@ variable "vhd_or_image" {
   }
 }
 
-variable "capture_container_name" {
-  type    = string
-  default = "${env("VHD_CAPTURE_CONTAINER_NAME")}"
+variable "image_publisher" {
+  default = "MicrosoftWindowsServer"
+}
+variable "image_offer" {
+  default = "WindowsServer"
+}
+variable "image_sku" {
+  default = "2022-datacenter"
+}
+
+locals  {
+  capture_container_name = replace(lower("${var.image_publisher}-${var.image_offer}-${var.image_sku}"), "_", "-")
 }
 
 variable "capture_name_prefix" {
@@ -73,9 +82,9 @@ variable "managed_image_resource_group_name" {
   default = "${env("ARM_MANAGED_IMAGE_RG_NAME")}"
 }
 
-variable "managed_image_name" {
+variable "managed_image_base_name" {
   type    = string
-  default = "${env("ARM_MANAGED_IMAGE_NAME")}"
+  default = "${env("ARM_MANAGED_IMAGE_BASE_NAME")}"
 }
 
 variable "vm_size" {
@@ -104,9 +113,9 @@ source "azure-arm" "build_vhd" {
   os_disk_size_gb = "256"
 
   # the "azure-edition" versions of 2022 don't support vhd
-  image_publisher = "MicrosoftWindowsServer"
-  image_offer     = "WindowsServer"
-  image_sku       = "2022-datacenter"
+  image_publisher = "${var.image_publisher}"
+  image_offer     = "${var.image_offer}"
+  image_sku       = "${var.image_sku}"
   location        = "${var.location}"
   os_type         = "Windows"
 
@@ -119,10 +128,16 @@ source "azure-arm" "build_vhd" {
   winrm_insecure = "true"
   winrm_username = "packer"
 
-  managed_image_name                = var.vhd_or_image == "image" ? var.managed_image_name : ""
+  azure_tags = {
+    "image_publisher": "${var.image_publisher}",
+    "image_offer": "${var.image_offer}",
+    "image_sku": "${var.image_sku}"
+  }
+
+  managed_image_name                = var.vhd_or_image == "image" ? var.managed_image_base_name : ""
   managed_image_resource_group_name = var.vhd_or_image == "image" ? var.managed_image_resource_group_name : ""
 
-  capture_container_name = var.vhd_or_image == "vhd" ? var.capture_container_name : ""
+  capture_container_name = var.vhd_or_image == "vhd" ? local.capture_container_name : ""
   capture_name_prefix    = var.vhd_or_image == "vhd" ? var.capture_name_prefix : ""
   resource_group_name    = var.vhd_or_image == "vhd" ? var.resource_group_name : ""
   storage_account        = var.vhd_or_image == "vhd" ? var.storage_account : ""

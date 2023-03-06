@@ -1,0 +1,14 @@
+# cloud-config
+runcmd:
+
+ # docker
+ - echo ********************************
+ - echo Including docker
+ - echo ********************************
+
+ - curl -sSL https://get.docker.com/ | sh
+ - usermod -aG docker adminbs
+ - sudo newgrp docker
+ - echo "0 0 * * * root /bin/bash docker system prune -af" > /etc/cron.d/docker_prune
+ - sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+ - sudo chmod +x /usr/local/bin/docker-compose

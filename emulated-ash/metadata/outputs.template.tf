@@ -1,4 +1,4 @@
 output "emulated-ash" {
-    value     = module.emulated-ash
-    sensitive = true
+  value     = module.emulated-ash
+  sensitive = true
 }

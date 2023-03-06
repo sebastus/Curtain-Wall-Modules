@@ -17,7 +17,7 @@ resource "azurerm_container_group" "cg" {
 
 
     environment_variables = var.container-envvars
-    
+
     ports {
       port     = 443
       protocol = "TCP"

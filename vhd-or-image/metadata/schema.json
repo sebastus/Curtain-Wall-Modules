@@ -86,13 +86,6 @@
             "secret": "false"
         },
         {
-            "name": "vhd_capture_container_name",
-            "description": "String: Previously existing storage container in which to capture image as it's being built.",
-            "type": "string",
-            "default": "",
-            "secret": "false"
-        },
-        {
             "name": "vhd_capture_name_prefix",
             "description": "String: Prefix of vhd name in storage.",
             "type": "string",

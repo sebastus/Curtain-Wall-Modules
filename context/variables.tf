@@ -2,6 +2,10 @@ variable "location" {
   type = string
 }
 
+variable "base_name" {
+  type = string
+}
+
 variable "subscription_id" {
   type = string
 }
@@ -13,15 +17,16 @@ variable "singleton_resource_names" {
   type = map(object(
     {
       resource_type = string,
+      random_length = number
     }
   ))
 
   default = {
-    rg   = { resource_type = "azurerm_resource_group" },
-    mi   = { resource_type = "azurerm_user_assigned_identity" },
-    vnet = { resource_type = "azurerm_virtual_network" },
-    law  = { resource_type = "azurerm_log_analytics_workspace" },
-    acr  = { resource_type = "azurerm_container_registry" },
+    rg   = { resource_type = "azurerm_resource_group", random_length=0 },
+    mi   = { resource_type = "azurerm_user_assigned_identity", random_length=0 },
+    vnet = { resource_type = "azurerm_virtual_network", random_length=0 },
+    law  = { resource_type = "azurerm_log_analytics_workspace", random_length=4 },
+    acr  = { resource_type = "azurerm_container_registry", random_length=4 },
   }
 }
 
@@ -31,10 +36,6 @@ variable "create_resource_group" {
 }
 variable "existing_resource_group_name" {
   default = "dummy"
-}
-
-variable "base_name" {
-  type = string
 }
 
 variable "create_vnet" {
@@ -59,17 +60,6 @@ variable "well_known_subnets" {
   type = map(object({
     address_prefix = string
   }))
-  default = {
-    default = {
-      address_prefix = "10.1.0.0/24"
-    },
-    AzureBastionSubnet = {
-      address_prefix = "10.1.1.0/24"
-    },
-    PrivateEndpointsSubnet = {
-      address_prefix = "10.1.2.0/24"
-    }
-  }
 }
 
 variable "create_managed_identity" {
@@ -77,11 +67,9 @@ variable "create_managed_identity" {
 }
 variable "existing_managed_identity_name" {
   type = string
-  default = ""
 }
 variable "existing_managed_identity_rg" {
   type = string
-  default = ""
 }
 
 variable "create_law" {
