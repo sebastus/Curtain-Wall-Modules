@@ -13,7 +13,7 @@ steps:
 
 - bash: |
     export HOME=/root
-    git config --system url."https://pat:$AZDO_PERSONAL_ACCESS_TOKEN@dev.azure.com/CrossSight".insteadOf "https://dev.azure.com/CrossSight"
+    git config --system url."https://pat:$AZDO_PERSONAL_ACCESS_TOKEN@dev.azure.com/golive".insteadOf "https://dev.azure.com/golive"
     git config --list
   displayName: Add auth to git config  
   env: 
