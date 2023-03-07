@@ -1,0 +1,48 @@
+{
+    "variables":
+    [
+        {
+            "name": "ba_count_of_build_agents",
+            "description": "Number: Number of build agents to build.",
+            "type": "number",
+            "default": "1",
+            "secret": "false"
+        },
+        {
+            "name": "ba_azdo_agent_version",
+            "description": "String: Version number of agent software.",
+            "type": "string",
+            "default": "2.206.1",
+            "secret": "false"
+        },
+        {
+            "name": "ba_azdo_pool_name",
+            "description": "String: name of build agent pool to join.",
+            "type": "string",
+            "default": "myPool",
+            "secret": "false",
+            "skip": "true"
+        },
+        {
+            "name": "ba_azdo_build_agent_name",
+            "description": "String: base name of build agents.",
+            "type": "string",
+            "default": "agent",
+            "secret": "false"
+        },
+        {
+            "name": "ba_environment_demand_name",
+            "description": "String: Demand/capability of this agent.",
+            "type": "string",
+            "default": "InfraInstaller",
+            "secret": "false"
+        },
+        {
+            "name": "ba_vm_size",
+            "description": "String: size of vm to use.",
+            "type": "string",
+            "default": "Standard_D4ds_v5",
+            "secret": "false"
+        }
+    ]
+}
