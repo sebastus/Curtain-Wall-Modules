@@ -3,7 +3,7 @@
 #
 # Context module is always installed because the resource group is needed at the very least.
 module "context" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//context?ref=merge-from-cs-again"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//context?ref=main"
   #source = "../context"
 
   base_name = var.base_name
@@ -33,7 +33,7 @@ module "context" {
 
 # Remote module creates AzDO artifacts needed to do installations with the pipeline.
 module "remote" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//remote?ref=merge-from-cs-again"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//remote?ref=main"
   #source = "../remote"
 
   count  = var.install_remote ? 1 : 0

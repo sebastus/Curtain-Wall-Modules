@@ -1,5 +1,5 @@
 module "build-agent" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//linux-vm?ref=merge-from-cs-again"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//linux-vm?ref=main"
 
   count            = var.xxx_ba_count_of_build_agents
   vm_size          = var.xxx_ba_vm_size

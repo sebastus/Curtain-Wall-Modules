@@ -1,5 +1,5 @@
 module "nexus_xxx" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//aks-nexus?ref=merge-from-cs-again"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//aks-nexus?ref=main"
   # source = "../../Curtain-Wall-Modules/aks-nexus"
 
   nexus_instance_name               = var.xxx_nexus_instance_name

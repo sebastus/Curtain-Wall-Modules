@@ -1,5 +1,5 @@
 module "myvhd" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vhd-or-image?ref=merge-from-cs-again"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vhd-or-image?ref=main"
   #source = "../../Curtain-Wall-Modules/vhd-or-image"
 
   hcl_path_and_file_name = var.xxx_hcl_path_and_file_name

@@ -1,5 +1,5 @@
 module "rg_xxx" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//resource-group?ref=merge-from-cs-again"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//resource-group?ref=main"
   #source = "../../Curtain-Wall-Modules/resource-group"
 
   location  = var.location

@@ -1,5 +1,5 @@
 module "bastion" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//bastion?ref=merge-from-cs-again"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//bastion?ref=main"
   #source = "../../cs/Curtain-Wall-Modules/bastion"
 
   resource_group = module.rg_xxx.context_outputs.resource_group

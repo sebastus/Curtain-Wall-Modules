@@ -1,5 +1,5 @@
 module "my-windows-vm" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vm-from-image-windows?ref=merge-from-cs-again"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vm-from-image-windows?ref=main"
   #source = "../../cs/Curtain-Wall-Modules/vm-from-image-windows"
 
   base_name      = "windows_vm"
