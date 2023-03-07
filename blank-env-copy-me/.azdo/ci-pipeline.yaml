@@ -1,43 +1,55 @@
 trigger:
 - main
 
-pool:
-  vmImage: ubuntu-latest
+pool: 
+  name: myAgentPool
+  demands: InfraInstaller
+  
 
 variables:
-  - group: mycurtainwall__vars
+  - group: myVariableGroup
 
 steps:
 
+- checkout: self
+  persistCredentials: true
+
 - bash: |
-    git config --global url."https://pat:$AZDO_PERSONAL_ACCESS_TOKEN@dev.azure.com/golive".insteadOf "https://dev.azure.com/golive"
+    export HOME=/root
+    git config --system url."https://pat:$AZDO_PERSONAL_ACCESS_TOKEN@dev.azure.com/CrossSight".insteadOf "https://dev.azure.com/CrossSight"
     git config --list
   displayName: Add auth to git config  
   env: 
-    AZDO_PERSONAL_ACCESS_TOKEN: $(AZDO-PAT)
+    AZDO_PERSONAL_ACCESS_TOKEN: $(AZDO-PERSONAL-TOKEN)
 
 - script: |
     terraform init -backend-config="storage_account_name=$ARM_STATE_STORAGE_NAME" -backend-config="container_name=$ARM_STATE_CONTAINER_NAME" -backend-config="key=$ARM_STATE_STORAGE_KEY" -backend-config="resource_group_name=$ARM_STATE_RG_NAME"
   displayName: 'tf init'
   env:
     ARM_CLIENT_ID: $(ARM-CLIENT-ID)
-    ARM_CLIENT_SECRET: $(ARM-CLIENT-SECRET)
     ARM_TENANT_ID: $(ARM-TENANT-ID)
     ARM_SUBSCRIPTION_ID: $(ARM-SUBSCRIPTION-ID)
     ARM_STATE_RG_NAME: $(ARM-STATE-RG-NAME)
     ARM_STATE_STORAGE_NAME: $(ARM-STATE-STORAGE-NAME)
     ARM_STATE_CONTAINER_NAME: $(ARM-STATE-CONTAINER-NAME)
     ARM_STATE_STORAGE_KEY: $(ARM-STATE-STORAGE-KEY)
+    ARM_ACCESS_KEY: $(ARM-STORAGE-ACCT-KEY)
+    ARM_USE_MSI: true
 
 - script: |
     terraform plan -input=false -out my.tfplan -var-file=dev.tfvars
   displayName: 'tf plan'
   env:
     ARM_CLIENT_ID: $(ARM-CLIENT-ID)
-    ARM_CLIENT_SECRET: $(ARM-CLIENT-SECRET)
     ARM_TENANT_ID: $(ARM-TENANT-ID)
     ARM_SUBSCRIPTION_ID: $(ARM-SUBSCRIPTION-ID)
-    TF_VAR_azdo_pat: $(AZDO-PAT)
+    ARM_STATE_RG_NAME: $(ARM-STATE-RG-NAME)
+    ARM_STATE_STORAGE_NAME: $(ARM-STATE-STORAGE-NAME)
+    ARM_STATE_CONTAINER_NAME: $(ARM-STATE-CONTAINER-NAME)
+    ARM_STATE_STORAGE_KEY: $(ARM-STATE-STORAGE-KEY)
+    TF_VAR_azdo_pat: $(AZDO-PERSONAL-TOKEN)
+    ARM_ACCESS_KEY: $(ARM-STORAGE-ACCT-KEY)
+    ARM_USE_MSI: true
 
 - script: |
     terraform apply my.tfplan
@@ -45,6 +57,7 @@ steps:
   condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
   env:
     ARM_CLIENT_ID: $(ARM-CLIENT-ID)
-    ARM_CLIENT_SECRET: $(ARM-CLIENT-SECRET)
     ARM_TENANT_ID: $(ARM-TENANT-ID)
     ARM_SUBSCRIPTION_ID: $(ARM-SUBSCRIPTION-ID)
+    ARM_ACCESS_KEY: $(ARM-STORAGE-ACCT-KEY)
+    ARM_USE_MSI: true
