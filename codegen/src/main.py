@@ -21,7 +21,8 @@ module_choices = [
     'vm-from-image-linux',
     'vm-from-image-windows',
     'azdo-server',
-    "emulated-ash"
+    "emulated-ash",
+    "linux-vm"
 ]
 
 cwd = os.getcwd()

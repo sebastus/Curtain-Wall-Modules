@@ -1,5 +1,5 @@
 module "emulated-ash" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//emulated-ash?ref=merge-from-cs"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//emulated-ash?ref=main"
   #source = "../../cs/Curtain-Wall-Modules/emulated-ash"
 
   base_name = "cw-ash"
