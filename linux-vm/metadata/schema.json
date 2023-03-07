@@ -16,6 +16,13 @@
             "secret": "false"
         },
         {
+            "name": "ba_vm_size",
+            "description": "String: size of vm to use.",
+            "type": "string",
+            "default": "Standard_D4ds_v5",
+            "secret": "false"
+        },
+        {
             "name": "ba_azdo_pool_name",
             "description": "String: name of build agent pool to join.",
             "type": "string",
@@ -35,13 +42,6 @@
             "description": "String: Demand/capability of this agent.",
             "type": "string",
             "default": "InfraInstaller",
-            "secret": "false"
-        },
-        {
-            "name": "ba_vm_size",
-            "description": "String: size of vm to use.",
-            "type": "string",
-            "default": "Standard_D4ds_v5",
             "secret": "false"
         }
     ]
