@@ -5,11 +5,11 @@ module "build-agent" {
   vm_size          = var.xxx_ba_vm_size
   instance_index   = count.index
   base_name        = "build_agent"
-  managed_identity = module.rg_xxx.managed_identity
+  managed_identity = module.rg_xxx.context_outputs.managed_identity
 
-  resource_group = module.rg_xxx.resource_group
-  identity_ids   = [module.rg_xxx.managed_identity.id]
-  subnet_id      = module.rg_xxx.subnet_id
+  resource_group = module.rg_xxx.context_outputs.resource_group
+  identity_ids   = [module.rg_xxx.context_outputs.managed_identity.id]
+  subnet_id      = module.rg_xxx.well_known_subnets["default"].id
 
   include_azdo_ba         = true
   azdo_pat                = var.azdo_pat
@@ -19,10 +19,10 @@ module "build-agent" {
   azdo_pool_name          = var.xxx_ba_azdo_pool_name
   azdo_build_agent_name   = var.xxx_ba_azdo_build_agent_name
 
-  law_installed               = var.xxx_ba_create_law
+  law_installed               = var.rg_xxx.context_outputs.log_analytics_workspace != null
   install_omsagent            = true
-  log_analytics_workspace_id  = module.rg_xxx.law_id
-  log_analytics_workspace_key = module.rg_xxx.law_key
+  log_analytics_workspace_id  = var.law_installed ? module.rg_xxx.context_outputs.log_analytics_workspace.workspace_id : null
+  log_analytics_workspace_key = var.law_installed ? module.rg_xxx.context_outputs.log_analytics_workspace.primary_shared_key : null
 
   include_terraform = true
   terraform_version = "1.3.2"
