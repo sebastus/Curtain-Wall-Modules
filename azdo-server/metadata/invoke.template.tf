@@ -1,5 +1,5 @@
 module "azdo-server" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//azdo-server?ref=merge-from-cs"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//azdo-server?ref=merge-from-cs-again"
   #source = "../../cs/Curtain-Wall-Modules/azdo-server"
 
   base_name      = "azdo_server"

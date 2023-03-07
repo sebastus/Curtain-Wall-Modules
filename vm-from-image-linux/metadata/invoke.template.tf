@@ -1,5 +1,5 @@
 module "my-linux-vm" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vm-from-image-linux?ref=merge-from-cs"
+  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vm-from-image-linux?ref=merge-from-cs-again"
   #source = "../../cs/Curtain-Wall-Modules/vm-from-image-linux"
 
   base_name = "linux_vm"
