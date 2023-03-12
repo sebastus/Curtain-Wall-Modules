@@ -25,6 +25,11 @@ module_choices = [
     "linux-vm"
 ]
 
+# tbd
+# aks-build-agent
+# aks-nexus
+# vmss-ba
+
 cwd = os.getcwd()
 print("")   # blank line
 
@@ -148,7 +153,7 @@ def write_outputs_file(resource_group, module_id, add):
         f.write(f'# Instance ID: {module_id}\n')
         f.write('# ############################\n')
 
-        f.write(get_module_outputs_code(resource_group, add if add!=None else "resource-group"))
+        f.write(get_module_outputs_code(resource_group, add if add!=None else "trust-group"))
 
         f.write('# ############################\n')
         f.write(f'# END: {module_id}\n')
@@ -166,7 +171,7 @@ def write_invocation_file(resource_group, file_name, module_id, add, index, appe
         f.write(f'# Instance ID: {module_id}\n')
         f.write('# ############################\n')
 
-        f.write(get_module_invocation_code(resource_group, add if add!=None else "resource-group", index))
+        f.write(get_module_invocation_code(resource_group, add if add!=None else "trust-group", index))
 
         f.write('# ############################\n')
         f.write(f'# END: {module_id}\n')
@@ -203,7 +208,7 @@ def write_vars_file(resource_group, vars, file_name, module_id, add, index, appe
             f.write('}\n')
 
         f.write('\n')
-        f.write(get_complex_vars_code(resource_group, add if add!=None else "resource-group"))
+        f.write(get_complex_vars_code(resource_group, add if add!=None else "trust-group"))
 
         f.write('# ############################\n')
         f.write(f'# END: {module_id}\n')
@@ -242,7 +247,7 @@ def write_tfvars_file(vars, file_name, resource_group, add, index, module_id, co
 
         if not resource_group == None:
             f.write('\n')
-            f.write(get_complex_tfvars_code(resource_group, add if add!=None else "resource-group"))
+            f.write(get_complex_tfvars_code(resource_group, add if add!=None else "trust-group"))
 
         f.write('# ############################\n')
         if core:
@@ -263,7 +268,7 @@ def write_variable_group_file(resource_group, file_name, module_id, add, index, 
         f.write(f'# Instance ID: {module_id}\n')
         f.write('# ############################\n')
 
-        f.write(get_module_variable_group_code(resource_group, add if add!=None else "resource-group", index))
+        f.write(get_module_variable_group_code(resource_group, add if add!=None else "trust-group", index))
 
         f.write('# ############################\n')
         f.write(f'# END: {module_id}\n')
@@ -440,7 +445,7 @@ def add_resource_group(args):
 
     print(f'Adding resource group {args.g}')
 
-    schema = get_module_schema("resource-group")
+    schema = get_module_schema("trust-group")
     vars = schema['variables']
 
     module_id = uuid.uuid4()

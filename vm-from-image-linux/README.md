@@ -10,7 +10,7 @@
 # #########################
 
 module "my-linux-vm" {
-  #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vm-from-image-linux"
+  #source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//vm-from-image-linux"
   source = "../../cs/Curtain-Wall-Modules/vm-from-image-linux"
 
   base_name      = "my_vm"

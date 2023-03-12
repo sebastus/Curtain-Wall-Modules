@@ -9,7 +9,7 @@ WARNING: this module has not been tested recently.
 # xxx - Docker BA 
 # ########################
 module "docker-ba" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//docker-ba"
+  source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//docker-ba"
   #source = "../../Curtain-Wall-Modules/docker-ba"
 
   count = var.xxx_create_docker_ba ? 1 : 0

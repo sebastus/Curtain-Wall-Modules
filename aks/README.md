@@ -17,7 +17,7 @@ Note: The AKS cluster is deployed to a network with NSG rules in place to restri
 # xxx - AKS
 # ########################
 module "aks_xxx" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//aks"
+  source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//aks"
   # source = "../../Curtain-Wall-Modules/aks"
 
   base_name = "${var.base_name}-aks-xxx"

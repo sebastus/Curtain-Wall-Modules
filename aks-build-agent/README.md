@@ -7,7 +7,7 @@ Agents are implemented as Kubernetes Jobs and will scale based on the number of 
 ``` terraform
 
 module "aks_build_agents" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//aks-build-agent"
+  source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//aks-build-agent"
   # source = "../../Curtain-Wall-Modules/aks-build-agent"
 
   resource_group      = module.rg_xxx.resource_group

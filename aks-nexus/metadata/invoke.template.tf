@@ -1,11 +1,11 @@
 module "nexus_xxx" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//aks-nexus?ref=main"
+  source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//aks-nexus?ref=main"
   # source = "../../Curtain-Wall-Modules/aks-nexus"
 
   nexus_instance_name               = var.xxx_nexus_instance_name
   base_name                         = "${var.base_name}-nexus-xxx"
-  resource_group                    = module.rg_xxx.resource_group
-  acr                               = module.rg_xxx.acr
+  resource_group                    = module.tg_xxx.resource_group
+  acr                               = module.tg_xxx.acr
   aks                               = module.aks_xxx.aks
   aks_managed_identity              = module.aks_xxx.aks_managed_identity
   storage_file_share_name           = var.xxx_nexus_storage_file_share_name

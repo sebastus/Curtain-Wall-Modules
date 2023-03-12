@@ -5,7 +5,7 @@
 # xxx - Build Agents
 # ########################
 module "build-agent" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//linux-vm"
+  source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//linux-vm"
 
   count            = var.xxx_ba_count_of_build_agents
   vm_size          = var.xxx_ba_vm_size

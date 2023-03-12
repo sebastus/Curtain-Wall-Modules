@@ -8,7 +8,7 @@
 # xxx - VMSS build agent
 # ########################
 module "vmss-ba" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vmss-ba"
+  source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//vmss-ba"
   #source = "../../Curtain-Wall-Modules/vmss-ba"
   
   count          = var.create_vmss_ba ? 1 : 0

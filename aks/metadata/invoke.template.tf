@@ -1,5 +1,5 @@
 module "aks_xxx" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//aks?ref=main"
+  source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//aks?ref=main"
   #source = "../../Curtain-Wall-Modules/aks"
 
   base_name = "aks-xxx"
@@ -8,10 +8,10 @@ module "aks_xxx" {
 
   default_aks_pool_vm_sku = var.xxx_aks_default_aks_pool_vm_sku
 
-  resource_group = module.rg_xxx.context_outputs.resource_group
-  subnet_id      = module.rg_xxx.context_outputs.well_known_subnets["default"].id
+  resource_group = module.tg_xxx.resource_group
+  subnet_id      = module.tg_xxx.well_known_subnets["default"].id
 
   install_cert_manager = var.xxx_aks_install_cert_manager
 
-  acr = module.rg_xxx.context_outputs.azurerm_container_registry
+  acr = module.tg_xxx.azurerm_container_registry
 }
