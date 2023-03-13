@@ -10,5 +10,5 @@ configuration:
     role: Maintain
   - team: golive
     role: Maintain
-  - member: CSE-GOV-Lever
+  - member: CSE-GOV-lever
     role: Maintain
