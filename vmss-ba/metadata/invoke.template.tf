@@ -1,6 +1,6 @@
 module "vmss-ba" {
-  #source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//vmss-ba"
-  source = "../../Curtain-Wall-Modules/vmss-ba"
+  source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//vmss-ba?ref=main"
+  #source = "../../Curtain-Wall-Modules/vmss-ba"
 
   count          = var.xxx_create_vmss_ba ? 1 : 0
   instance_index = count.index

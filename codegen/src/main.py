@@ -53,7 +53,11 @@ CURTAIN_WALL_BACKEND_KEY = os.environ.get('CURTAIN_WALL_BACKEND_KEY')
 
 def get_module_schema(add):
 
-    with open(f'{CURTAIN_WALL_MODULES_HOME}/{add}/metadata/schema.json',"r") as f:
+    file_name = f'{CURTAIN_WALL_MODULES_HOME}/{add}/metadata/schema.json'
+    if add == 'remote':
+        file_name = f'{CURTAIN_WALL_MODULES_HOME}/trust-group/metadata/core-schema.json'
+
+    with open(file_name,"r") as f:
         schema = json.load(f)
 
     return(schema)

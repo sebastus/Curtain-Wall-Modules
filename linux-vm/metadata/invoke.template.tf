@@ -1,5 +1,5 @@
 module "linux-vm" {
-  source = "git::https://dev.azure.com/CrossSight/CrossSight/_git/Curtain-Wall-Modules//linux-vm?ref=main"
+  source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//linux-vm?ref=main"
 
   count            = var.xxx_count_of_vm
   instance_index   = count.index
