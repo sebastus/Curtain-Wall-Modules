@@ -8,3 +8,5 @@ configuration:
   manageAccess:
   - team: innersourceise
     role: Maintain
+  - member: golive
+    role: Maintain
