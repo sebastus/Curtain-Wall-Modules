@@ -1,0 +1,26 @@
+{
+    "variables":
+    [
+        {
+            "name": "create_vmss_ba",
+            "description": "Boolean: Create build agent or not.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false"
+        },
+        {
+            "name": "existing_image_name",
+            "description": "String: if ingesting an existing image, its name.",
+            "type": "string",
+            "default": "",
+            "secret": "false"
+        },
+        {
+            "name": "existing_image_rg_name",
+            "description": "String: if ingesting an existing image, its resource group",
+            "type": "string",
+            "default": "",
+            "secret": "false"
+        }
+    ]
+}
