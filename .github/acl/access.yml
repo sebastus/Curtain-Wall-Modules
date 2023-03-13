@@ -8,5 +8,7 @@ configuration:
   manageAccess:
   - team: innersourceise
     role: Maintain
-  - member: golive
+  - team: golive
+    role: Maintain
+  - member: CSE-GOV-Lever
     role: Maintain
