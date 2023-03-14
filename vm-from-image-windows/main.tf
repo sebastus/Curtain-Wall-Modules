@@ -79,6 +79,12 @@ resource "azurerm_windows_virtual_machine" "imagevm" {
   depends_on = [
     azurerm_network_interface.imagevm
   ]
+
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
 }
 
 resource "azurerm_virtual_machine_extension" "omsagent" {

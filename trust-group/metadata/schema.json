@@ -2,10 +2,10 @@
     "variables":
     [
         {
-            "name": "base_name",
+            "name": "tg_base_name",
             "description": "String: base name of created resources",
             "type": "string",
-            "default": "my-resources",
+            "default": "my-trust",
             "secret": "false"
         },
         {
@@ -62,6 +62,27 @@
             "skip": "true"
         },
         {
+            "name": "create_kv",
+            "description": "Boolean: create a Key Vault or not.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false"
+        },
+        {
+            "name": "existing_kv_name",
+            "description": "String: if ingesting an existing KV, its name.",
+            "type": "string",
+            "default": "",
+            "secret": "false"
+        },
+        {
+            "name": "existing_kv_rg_name",
+            "description": "String: if ingesting an existing KV, its resource group",
+            "type": "string",
+            "default": "",
+            "secret": "false"
+        },
+        {
             "name": "create_vnet",
             "description": "Boolean: create a VNET or ingest existing.",
             "type": "bool",
@@ -71,28 +92,21 @@
         },
         {
             "name": "new_vnet_address_space",
-            "description": "String: if creating a new VNET, it's address space represented as a CIDR.",
+            "description": "String: if creating a new VNET, its address space represented as a CIDR.",
             "type": "string",
             "default": "10.1.0.0/16",
             "secret": "false"
         },
         {
             "name": "existing_vnet_rg_name",
-            "description": "String: if ingesting an existing VNET, it's resource group.",
+            "description": "String: if ingesting an existing VNET, its resource group.",
             "type": "string",
             "default": "rg-networking",
             "secret": "false"
         },
         {
-            "name": "existing_vnet_rg_location",
-            "description": "String: if ingesting an existing VNET, it's Azure region.",
-            "type": "string",
-            "default": "uksouth",
-            "secret": "false"
-        },
-        {
             "name": "existing_vnet_name",
-            "description": "String: if ingesting an existing VNET, it's name.",
+            "description": "String: if ingesting an existing VNET, its name.",
             "type": "string",
             "default": "vnet",
             "secret": "false"
@@ -106,19 +120,19 @@
             "skip": "true"
         },
         {
-            "name": "install_remote",
-            "description": "Boolean: create tfstate storage.",
+            "name": "is_tfstate_home",
+            "description": "Boolean: create the tfstate storage.",
             "type": "bool",
             "default": "false",
             "secret": "false",
             "skip": "true"
         },
         {
-            "name": "is_hub",
-            "description": "Boolean: is the home of the tfstate storage account.",
-            "type": "bool",
-            "default": "false",
+            "name": "tfstate_storage_key",
+            "description": "String: Name of the tfstate storage blob.",
+            "type": "string",
+            "default": "state",
             "secret": "false"
-        }    
+        }
     ]
 }

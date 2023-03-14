@@ -2,46 +2,147 @@
     "variables":
     [
         {
-            "name": "ba_count_of_build_agents",
-            "description": "Number: Number of build agents to build.",
+            "name": "count_of_vm",
+            "description": "Number: Number of instances to build.",
             "type": "number",
             "default": "1",
             "secret": "false"
         },
         {
-            "name": "ba_azdo_agent_version",
-            "description": "String: Version number of agent software.",
+            "name": "linuxvm_base_name",
+            "description": "String: base name of resources allocated.",
             "type": "string",
-            "default": "2.206.1",
+            "default": "linux-vm",
             "secret": "false"
         },
         {
-            "name": "ba_vm_size",
+            "name": "linuxvm_vm_size",
             "description": "String: size of vm to use.",
             "type": "string",
             "default": "Standard_D4ds_v5",
             "secret": "false"
         },
         {
-            "name": "ba_azdo_pool_name",
-            "description": "String: name of build agent pool to join.",
-            "type": "string",
-            "default": "myPool",
+            "name": "linuxvm_create_pip",
+            "description": "Boolean: Whether to create a public ip for the vm.",
+            "type": "bool",
+            "default": "false",
             "secret": "false",
             "skip": "true"
         },
         {
-            "name": "ba_azdo_build_agent_name",
+            "name": "include_azdo_ba",
+            "description": "Boolean: Whether to make the vm an azdo build agent.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false",
+            "skip": "true"
+        },
+        {
+            "name": "azdo_agent_version",
+            "description": "String: Version number of agent software.",
+            "type": "string",
+            "default": "2.206.1",
+            "secret": "false"
+        },
+        {
+            "name": "azdo_pool_name",
+            "description": "String: name of build agent pool to join.",
+            "type": "string",
+            "default": "myPool",
+            "secret": "false"
+        },
+        {
+            "name": "azdo_build_agent_name",
             "description": "String: base name of build agents.",
             "type": "string",
             "default": "agent",
             "secret": "false"
         },
         {
-            "name": "ba_environment_demand_name",
+            "name": "azdo_environment_demand_name",
             "description": "String: Demand/capability of this agent.",
             "type": "string",
             "default": "InfraInstaller",
+            "secret": "false"
+        },
+        {
+            "name": "linuxvm_install_omsagent",
+            "description": "Boolean: Whether to install the OMS agent in the vm.",
+            "type": "bool",
+            "default": "true",
+            "secret": "false",
+            "skip": "true"
+        },
+        {
+            "name": "include_sonarqube_server",
+            "description": "Boolean: Whether to install sonarqube server in the vm.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false"
+        },
+        {
+            "name": "include_azcli",
+            "description": "Boolean: Whether to install AZ cli in the vm.",
+            "type": "bool",
+            "default": "true",
+            "secret": "false"
+        },
+        {
+            "name": "include_nexus",
+            "description": "Boolean: Whether to install Nexus Repository in the vm.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false"
+        },
+        {
+            "name": "include_docker",
+            "description": "Boolean: Whether to install Docker in the vm.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false"
+        },
+        {
+            "name": "include_pwsh",
+            "description": "Boolean: Whether to install PowerShell for Linux in the vm.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false"
+        },
+        {
+            "name": "include_packer",
+            "description": "Boolean: Whether to install Packer in the vm.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false"
+        },
+        {
+            "name": "include_dotnetsdk",
+            "description": "Boolean: Whether to install the .NET SDK in the vm.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false"
+        },
+        {
+            "name": "include_maven",
+            "description": "Boolean: Whether to install Java and Maven in the vm.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false"
+        },
+        {
+            "name": "include_terraform",
+            "description": "Boolean: Whether to install terraform in the vm.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false",
+            "skip": "true"
+        },
+        {
+            "name": "terraform_version",
+            "description": "String: Version number of terraform software.",
+            "type": "string",
+            "default": "1.3.2",
             "secret": "false"
         }
     ]

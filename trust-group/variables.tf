@@ -1,69 +1,66 @@
-variable "location" {
-  type = string
-}
-
-variable "base_name" {
-  type = string
-}
-
-variable "subscription_id" {
-  type = string
-}
-
 #
 # Names to be generated
 #
 variable "singleton_resource_names" {
   type = map(object(
     {
+      base_name     = string,
       resource_type = string,
       random_length = number
     }
   ))
 
   default = {
-    rg   = { resource_type = "azurerm_resource_group", random_length=0 },
-    mi   = { resource_type = "azurerm_user_assigned_identity", random_length=0 },
-    vnet = { resource_type = "azurerm_virtual_network", random_length=0 },
-    law  = { resource_type = "azurerm_log_analytics_workspace", random_length=4 },
-    acr  = { resource_type = "azurerm_container_registry", random_length=4 },
+    rg                = { resource_type = "azurerm_resource_group", base_name = "", random_length = 0 },
+    mi                = { resource_type = "azurerm_user_assigned_identity", base_name = "", random_length = 0 },
+    vnet              = { resource_type = "azurerm_virtual_network", base_name = "", random_length = 0 },
+    law               = { resource_type = "azurerm_log_analytics_workspace", base_name = "", random_length = 4 },
+    acr               = { resource_type = "azurerm_container_registry", base_name = "", random_length = 4 },
+    kv                = { resource_type = "azurerm_key_vault", base_name = "", random_length = 4 },
+    tfstate_sa        = { resource_type = "azurerm_storage_account", base_name = "tf", random_length = 4 },
+    tfstate_container = { resource_type = "azurerm_storage_container", base_name = "tfstate", random_length = 0 },
   }
 }
 
+variable "is_tfstate_home" {
+  type = bool
+}
+
+variable "tfstate_storage_key" {
+  type = string
+}
+
+variable "location" {
+  type = string
+}
+
+variable "tg_base_name" {
+  type = string
+}
+
+#
+#  Optionally create resource group
+#
 variable "create_resource_group" {
-  description = "Create the resource group or ingest existing"
-  default     = true
+  type = string
 }
 variable "existing_resource_group_name" {
-  default = "dummy"
+  type = string
 }
 
-variable "create_vnet" {
+#
+#  * Optionally create Log Analytics Workspace
+#
+variable "create_law" {
   type = bool
 }
-variable "new_vnet_address_space" {
-  type = list(string)
-}
-variable "existing_vnet_rg_name" {
-  type    = string
-  default = ""
-}
-variable "existing_vnet_name" {
-  type    = string
-  default = ""
-}
 
-variable "create_well_known_subnets" {
-  type = bool
-}
-variable "well_known_subnets" {
-  type = map(object({
-    address_prefix = string
-  }))
-}
-
+#
+#  * Optionally create MI
+#
 variable "create_managed_identity" {
-  type = bool
+  type    = bool
+  default = true
 }
 variable "existing_managed_identity_name" {
   type = string
@@ -72,13 +69,59 @@ variable "existing_managed_identity_rg" {
   type = string
 }
 
-variable "create_law" {
+#
+#  * Optionally create ACR
+#
+variable "create_acr" {
   type = bool
 }
 
-variable "create_acr" {
+#
+#  * Optionally create Key Vault
+#  * Otherwise, use existing
+#
+variable "create_kv" {
+  type = bool
+}
+# if create kv is false
+variable "existing_kv_rg_name" {
+  type = string
+}
+variable "existing_kv_name" {
+  type = string
+}
+
+#
+#  * Optionally create vnet & subnet
+#  * Otherwise, use existing
+#
+variable "create_vnet" {
   type    = bool
-  default = false
+  default = true
+}
+
+# if create_vnet Is true #################
+variable "new_vnet_address_space" {
+  # this is a comma-delimited list of cidr
+  # e.g. "10.0.0.0/16,172.16.0.0/16"
+  type = string
+}
+# else
+variable "existing_vnet_rg_name" {
+  type = string
+}
+variable "existing_vnet_name" {
+  type = string
+}
+# END: if create_vnet Is true #############
+
+variable "create_well_known_subnets" {
+  type = bool
+}
+variable "well_known_subnets" {
+  type = map(object({
+    address_prefix = string
+  }))
 }
 
 variable "bastion_nsg_rules" {

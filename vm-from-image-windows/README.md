@@ -10,7 +10,7 @@
 # #########################
 
 module "my-windows-vm" {
-  #source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vm-from-image-windows"
+  #source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//vm-from-image-windows"
   source = "../../cs/Curtain-Wall-Modules/vm-from-image-windows"
 
   base_name      = "azdo_server"

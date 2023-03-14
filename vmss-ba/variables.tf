@@ -23,9 +23,13 @@ variable "identity_ids" {
   type = list(string)
 }
 
-variable "managed_image_id" {
-  type        = string
-  description = "The resource id of the OS-disk managed image."
+variable "existing_image_rg_name" {
+  type    = string
+  default = ""
+}
+variable "existing_image_name" {
+  type    = string
+  default = ""
 }
 
 # include only one os variant in this variable at a time.

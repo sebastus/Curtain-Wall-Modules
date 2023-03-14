@@ -22,8 +22,13 @@ module_choices = [
     'vm-from-image-windows',
     'azdo-server',
     "emulated-ash",
+    "vmss-ba",
     "linux-vm"
 ]
+
+# Tbd
+# aks-build-agent
+# aks-nexus
 
 cwd = os.getcwd()
 print("")   # blank line
@@ -37,10 +42,10 @@ def exiting_the_program():
 
 atexit.register(exiting_the_program)
 
-# the folder containing the curtain wall modules repo
+# The folder containing the curtain wall modules repo
 CURTAIN_WALL_MODULES_HOME = os.environ.get('CURTAIN_WALL_MODULES_HOME')
 
-# the folder where resource groups and modules invocations should be placed
+# The folder where resource groups and modules invocations should be placed
 CURTAIN_WALL_ENVIRONMENT = os.environ.get('CURTAIN_WALL_ENVIRONMENT')
 
 # the name of the tfstate file in azurerm backend remote storage
@@ -48,12 +53,16 @@ CURTAIN_WALL_BACKEND_KEY = os.environ.get('CURTAIN_WALL_BACKEND_KEY')
 
 def get_module_schema(add):
 
-    with open(f'{CURTAIN_WALL_MODULES_HOME}/{add}/metadata/schema.json',"r") as f:
+    file_name = f'{CURTAIN_WALL_MODULES_HOME}/{add}/metadata/schema.json'
+    if add == 'remote':
+        file_name = f'{CURTAIN_WALL_MODULES_HOME}/trust-group/metadata/core-schema.json'
+
+    with open(file_name,"r") as f:
         schema = json.load(f)
 
     return(schema)
 
-def get_module_invocation_code(resource_group, add, index):
+def get_module_invocation_code(trust_group, add, index):
 
     with open(f'{CURTAIN_WALL_MODULES_HOME}/{add}/metadata/invoke.template.tf',"r") as f:
         lines = f.readlines()
@@ -62,11 +71,11 @@ def get_module_invocation_code(resource_group, add, index):
     for line in lines:
         if index != None and line.find('xxx_') >= 0:
             line = line.strip('\n') + f'_{index}' + '\n'
-        code += line.replace('xxx', f'{resource_group}')
+        code += line.replace('xxx', f'{trust_group}')
 
     return(code)
 
-def get_module_variable_group_code(resource_group, add, index):
+def get_module_variable_group_code(trust_group, add, index):
 
     with open(f'{CURTAIN_WALL_MODULES_HOME}/{add}/metadata/variable-group.template.tf',"r") as f:
         lines = f.readlines()
@@ -75,11 +84,11 @@ def get_module_variable_group_code(resource_group, add, index):
     for line in lines:
         if index != None and line.find('xxx_') >= 0:
             line = line.strip('\n') + f'_{index}' + '\n'
-        code += line.replace('xxx', f'{resource_group}')
+        code += line.replace('xxx', f'{trust_group}')
 
     return(code)
 
-def get_module_outputs_code(resource_group, add):
+def get_module_outputs_code(trust_group, add):
 
     file_name = f'{CURTAIN_WALL_MODULES_HOME}/{add}/metadata/outputs.template.tf'
     if (not os.path.isfile(file_name)):
@@ -90,11 +99,11 @@ def get_module_outputs_code(resource_group, add):
 
     code = ""
     for line in lines:
-        code += line.replace('xxx', f'{resource_group}')
+        code += line.replace('xxx', f'{trust_group}')
 
     return(code)
 
-def get_complex_vars_code(resource_group, add):
+def get_complex_vars_code(trust_group, add):
     
     file_name = f'{CURTAIN_WALL_MODULES_HOME}/{add}/metadata/complex-vars.template.tf'
     if (not os.path.isfile(file_name)):
@@ -105,11 +114,11 @@ def get_complex_vars_code(resource_group, add):
 
     code = ""
     for line in lines:
-        code += line.replace('xxx', f'{resource_group}')
+        code += line.replace('xxx', f'{trust_group}')
 
     return(code)
 
-def get_complex_tfvars_code(resource_group, add):
+def get_complex_tfvars_code(trust_group, add):
 
     file_name = f'{CURTAIN_WALL_MODULES_HOME}/{add}/metadata/complex-tfvars.template.tf'
     if (not os.path.isfile(file_name)):
@@ -120,7 +129,7 @@ def get_complex_tfvars_code(resource_group, add):
 
     code = ""
     for line in lines:
-        code += line.replace('xxx', f'{resource_group}')
+        code += line.replace('xxx', f'{trust_group}')
 
     return(code)
 
@@ -136,49 +145,49 @@ def init_terraform_yaml_files():
 
 
 
-def write_outputs_file(resource_group, module_id, add):
+def write_outputs_file(trust_group, module_id, add):
 
     with open('outputs.tf', "a" if os.path.isfile('outputs.tf') else "w") as f:
 
         f.write('\n\n')
         f.write('# ############################\n')
-        f.write(f'# Resource group: {resource_group}\n')
+        f.write(f'# Trust group: {trust_group}\n')
         if add != None:
             f.write(f'# Module name: {add}\n')
         f.write(f'# Instance ID: {module_id}\n')
         f.write('# ############################\n')
 
-        f.write(get_module_outputs_code(resource_group, add if add!=None else "resource-group"))
+        f.write(get_module_outputs_code(trust_group, add if add!=None else "trust-group"))
 
         f.write('# ############################\n')
         f.write(f'# END: {module_id}\n')
         f.write('# ############################\n')
 
-def write_invocation_file(resource_group, file_name, module_id, add, index, append):
+def write_invocation_file(trust_group, file_name, module_id, add, index, append):
 
     with open(file_name, "a" if append else "w") as f:
 
         f.write('\n\n')
         f.write('# ############################\n')
-        f.write(f'# Resource group: {resource_group}\n')
+        f.write(f'# Trust group: {trust_group}\n')
         if add != None:
             f.write(f'# Module name: {add}\n')
         f.write(f'# Instance ID: {module_id}\n')
         f.write('# ############################\n')
 
-        f.write(get_module_invocation_code(resource_group, add if add!=None else "resource-group", index))
+        f.write(get_module_invocation_code(trust_group, add if add!=None else "trust-group", index))
 
         f.write('# ############################\n')
         f.write(f'# END: {module_id}\n')
         f.write('# ############################\n')
 
-def write_vars_file(resource_group, vars, file_name, module_id, add, index, append):
+def write_vars_file(trust_group, vars, file_name, module_id, add, index, append):
 
     with open(file_name, "a" if append else "w") as f:
 
         f.write('\n\n')
         f.write('# ############################\n')
-        f.write(f'# Resource group: {resource_group}\n')
+        f.write(f'# Trust group: {trust_group}\n')
         if add != None:
             f.write(f'# Module name: {add}\n')
         f.write(f'# Instance ID: {module_id}\n')
@@ -189,7 +198,7 @@ def write_vars_file(resource_group, vars, file_name, module_id, add, index, appe
                 f.write("\n")
 
             index_snip = "" if (index == None) else f"_{index}"
-            f.write(f'variable \"{resource_group}_{var["name"]}{index_snip}\" {{ \n')
+            f.write(f'variable \"{trust_group}_{var["name"]}{index_snip}\" {{ \n')
 
             f.write(f'\tdescription = \"{var["description"]}\"\n')
 
@@ -203,13 +212,13 @@ def write_vars_file(resource_group, vars, file_name, module_id, add, index, appe
             f.write('}\n')
 
         f.write('\n')
-        f.write(get_complex_vars_code(resource_group, add if add!=None else "resource-group"))
+        f.write(get_complex_vars_code(trust_group, add if add!=None else "trust-group"))
 
         f.write('# ############################\n')
         f.write(f'# END: {module_id}\n')
         f.write('# ############################\n')
 
-def write_tfvars_file(vars, file_name, resource_group, add, index, module_id, core):
+def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core):
 
     with open(file_name, "w" if core else "a") as f:
 
@@ -218,7 +227,7 @@ def write_tfvars_file(vars, file_name, resource_group, add, index, module_id, co
         if core:
             f.write(f'# Core/global\n')
         else:
-            f.write(f'# Resource group: {resource_group}\n')
+            f.write(f'# Trust group: {trust_group}\n')
         if add != None:
             f.write(f'# Module name: {add}\n')
         if not module_id == None:
@@ -234,15 +243,15 @@ def write_tfvars_file(vars, file_name, resource_group, add, index, module_id, co
                 f.write("\n")
 
             index_snip = "" if (index == None) else f"_{index}"
-            rg_snip = "" if resource_group == None else f'{resource_group}_'
+            rg_snip = "" if trust_group == None else f'{trust_group}_'
             if (var["type"] == 'string'):
                 f.write(f'{rg_snip}{var["name"]}{index_snip} = \"{var["default"]}\"\n')
             else:
                 f.write(f'{rg_snip}{var["name"]}{index_snip} = {var["default"]}\n')
 
-        if not resource_group == None:
+        if not trust_group == None:
             f.write('\n')
-            f.write(get_complex_tfvars_code(resource_group, add if add!=None else "resource-group"))
+            f.write(get_complex_tfvars_code(trust_group, add if add!=None else "trust-group"))
 
         f.write('# ############################\n')
         if core:
@@ -251,30 +260,30 @@ def write_tfvars_file(vars, file_name, resource_group, add, index, module_id, co
             f.write(f'# END: {module_id}\n')
         f.write('# ############################\n')
 
-def write_variable_group_file(resource_group, file_name, module_id, add, index, append):
+def write_variable_group_file(trust_group, file_name, module_id, add, index, append):
 
     with open(file_name, "a" if append else "w") as f:
 
         f.write('\n\n')
         f.write('# ############################\n')
-        f.write(f'# Resource group: {resource_group}\n')
+        f.write(f'# Trust group: {trust_group}\n')
         if add != None:
             f.write(f'# Module name: {add}\n')
         f.write(f'# Instance ID: {module_id}\n')
         f.write('# ############################\n')
 
-        f.write(get_module_variable_group_code(resource_group, add if add!=None else "resource-group", index))
+        f.write(get_module_variable_group_code(trust_group, add if add!=None else "trust-group", index))
 
         f.write('# ############################\n')
         f.write(f'# END: {module_id}\n')
         f.write('# ############################\n')
 
-def write_variable_group_file_locals(vars, file_name, resource_group, add, index, module_id):
+def write_variable_group_file_locals(vars, file_name, trust_group, add, index, module_id):
 
     with open(file_name, "a") as f:
         f.write('\n\n')
         f.write('# ############################\n')
-        f.write(f'# Resource group: {resource_group}\n')
+        f.write(f'# Trust group: {trust_group}\n')
         if add != None:
             f.write(f'# Module name: {add}\n')
         f.write(f'# Instance ID: {module_id}\n')
@@ -282,7 +291,7 @@ def write_variable_group_file_locals(vars, file_name, resource_group, add, index
 
         f.write('\n')
         f.write('locals {\n')
-        f.write(f'\t{resource_group}_variables = {{\n')
+        f.write(f'\t{trust_group}_variables = {{\n')
 
         for var in vars:
 
@@ -291,14 +300,14 @@ def write_variable_group_file_locals(vars, file_name, resource_group, add, index
 
             index_snip = "" if (index == None) else f"_{index}"
 
-            f.write(f'\"{resource_group}_{var["name"]}{index_snip}\" = {{\n')
+            f.write(f'\"{trust_group}_{var["name"]}{index_snip}\" = {{\n')
 
             if (var["secret"] == "true"):
-                f.write(f'secret_value = var.{resource_group}_{var["name"]}{index_snip} \n')
+                f.write(f'secret_value = var.{trust_group}_{var["name"]}{index_snip} \n')
                 f.write(f'value = \"\" \n')
             else:
                 f.write(f'secret_value = \"\" \n')
-                f.write(f'value = var.{resource_group}_{var["name"]}{index_snip} \n')
+                f.write(f'value = var.{trust_group}_{var["name"]}{index_snip} \n')
 
             f.write(f'is_secret = {var["secret"]}\n')
             f.write(f'}},\n')
@@ -310,7 +319,7 @@ def write_variable_group_file_locals(vars, file_name, resource_group, add, index
         f.write(f'# END: {module_id}\n')
         f.write('# ############################\n')
 
-def write_pipeline_tfvars_template(vars, resource_group, append):
+def write_pipeline_tfvars_template(vars, trust_group, append):
 
     core_schema = get_module_schema("remote")
     core_vars = core_schema['variables']
@@ -341,9 +350,9 @@ def write_pipeline_tfvars_template(vars, resource_group, append):
                 continue
 
             var_name = var["name"]
-            f.write(f'{resource_group}_{var_name} = \"${resource_group.upper()}_{var_name.upper()}\"\n')
+            f.write(f'{trust_group}_{var_name} = \"${trust_group.upper()}_{var_name.upper()}\"\n')
 
-def write_variables_yaml_file(backend_key, abs_environment, resource_group):
+def write_variables_yaml_file(backend_key, abs_environment, trust_group):
 
     file_exists = os.path.isfile(PIPELINE_VARIABLES_FILE_NAME)
 
@@ -354,12 +363,12 @@ def write_variables_yaml_file(backend_key, abs_environment, resource_group):
         if not file_exists:
             f.write("variables:\n")
 
-        if (resource_group == None):
+        if (trust_group == None):
             f.write(f'- group: {backend_key}__tfcreds\n')
             f.write(f'- group: {backend_key}__tfstate_backend\n')
             f.write(f'- group: {backend_key}__{environment}__core\n')
         else:
-            f.write(f'- group: {backend_key}__{environment}__{resource_group}\n')
+            f.write(f'- group: {backend_key}__{environment}__{trust_group}\n')
 
 def write_terraform_plan_yaml_file(vars):
 
@@ -390,12 +399,12 @@ def write_terraform_plan_yaml_file(vars):
             var_name = var["name"]
             f.write(f'    TF_VAR_{var_name}: \"$({var_name.upper()})\"\n')
 
-def write_banner(file, banner, resource_group, module):
+def write_banner(file, banner, trust_group, module):
     
     file.write('# ############################\n')
 
-    if resource_group != None:
-        file.write(f'# Resource group: {resource_group}\n')        
+    if trust_group != None:
+        file.write(f'# Trust group: {trust_group}\n')        
 
     if module != None:
         file.write(f'# Module: {module}\n')        
@@ -403,7 +412,7 @@ def write_banner(file, banner, resource_group, module):
     file.write(f"# {banner}\n")
     file.write('# ############################\n')
 
-def write_dotenv_file(file_name, resource_group, index, vars, banner, format):
+def write_dotenv_file(file_name, trust_group, index, vars, banner, format):
 
     file_exists = os.path.isfile(file_name)
     banner_written = False
@@ -423,24 +432,24 @@ def write_dotenv_file(file_name, resource_group, index, vars, banner, format):
 
             var_name = var["name"]
             prefix = '' if format=='bash' else '$env:'
-            rg_snip = '' if resource_group == None else f'{resource_group}_'
+            rg_snip = '' if trust_group == None else f'{trust_group}_'
             index_snip = '' if index == None else f'_{index}'
             f.write(f'{prefix}TF_VAR_{rg_snip}{var_name}{index_snip}=\"changeme\"\n')
 
-def write_dotenv_files(resource_group, index, vars, banner):
-    write_dotenv_file(DOTENV_POSH_FILE_NAME, resource_group, index, vars, banner, 'powershell')
-    write_dotenv_file(DOTENV_BASH_FILE_NAME, resource_group, index, vars, banner, 'bash')
+def write_dotenv_files(trust_group, index, vars, banner):
+    write_dotenv_file(DOTENV_POSH_FILE_NAME, trust_group, index, vars, banner, 'powershell')
+    write_dotenv_file(DOTENV_BASH_FILE_NAME, trust_group, index, vars, banner, 'bash')
     
-def add_resource_group(args):
+def add_trust_group(args):
 
     fileset_exists = os.path.isfile(f'{args.g}.tf')
     if fileset_exists:
-        print('Resource group already exists.')
+        print('trust group already exists.')
         exit(0)
 
-    print(f'Adding resource group {args.g}')
+    print(f'Adding trust group {args.g}')
 
-    schema = get_module_schema("resource-group")
+    schema = get_module_schema("trust-group")
     vars = schema['variables']
 
     module_id = uuid.uuid4()
@@ -461,14 +470,14 @@ def add_resource_group(args):
     write_dotenv_files(args.g, None, vars, 'Secret variables for the module')
 
 
-def add_module_to_resource_group(args):
+def add_module_to_trust_group(args):
 
     fileset_exists = os.path.isfile(f'{args.g}.tf')
     if not fileset_exists:
-        print('Resource group does not exist.')
+        print('trust group does not exist.')
         exit(0)
 
-    print(f'Adding module {args.m}, to resource group {args.g}')
+    print(f'Adding module {args.m}, to trust group {args.g}')
     schema = get_module_schema(args.m)
 
     vars = schema['variables']
@@ -504,13 +513,13 @@ def main():
     subparsers = parser.add_subparsers(title = "Available commands", metavar='')
 
     add_parser = subparsers.add_parser('add', 
-        help='Add a module to the given resource group.',
-        description='Add a module to the given resource group.'
+        help='Add a module to the given trust group.',
+        description='Add a module to the given trust group.'
     )
     add_parser.add_argument('-g', 
-        help = 'Base name of resource group to be added to the environment.',
+        help = 'Base name of trust group to be added to the environment.',
         required = True,
-        metavar='resource_group'
+        metavar='trust_group'
     )
     add_parser.add_argument('-m', 
         help = 'Name of module to be added.',
@@ -523,18 +532,18 @@ def main():
         metavar='index',
         help='Index of the variable if multiple. 0,1,2...'
     )
-    add_parser.set_defaults(func=add_module_to_resource_group)
+    add_parser.set_defaults(func=add_module_to_trust_group)
 
     create_parser = subparsers.add_parser('create', 
-        help='Create a new resource group.',
-        description='Create a new resource group.'
+        help='Create a new trust group.',
+        description='Create a new trust group.'
     )
     create_parser.add_argument('-g', 
         required = True,
-        help = 'Base name of resource group to which module will be added to the environment.',
-        metavar='resource_group'
+        help = 'Base name of trust group to which module will be added to the environment.',
+        metavar='trust_group'
     )
-    create_parser.set_defaults(func=add_resource_group)
+    create_parser.set_defaults(func=add_trust_group)
 
     args = parser.parse_args()
 

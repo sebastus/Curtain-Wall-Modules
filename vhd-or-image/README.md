@@ -8,7 +8,7 @@
 # xxx - VHD-OR-IMAGE
 # ########################
 module "myvhd" {
-  source = "git::https://dev.azure.com/golive/CurtainWall/_git/Curtain-Wall-Modules//vhd-or-image"
+  source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//vhd-or-image"
   #source = "../../Curtain-Wall-Modules/vhd-or-image"
 
   hcl_path_and_file_name = var.xxx_azdo_hcl_path_and_file_name

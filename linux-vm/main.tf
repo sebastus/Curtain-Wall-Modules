@@ -95,6 +95,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
   depends_on = [
     azurerm_network_interface.linux_vm
   ]
+
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
 }
 
 resource "azurerm_virtual_machine_extension" "omsagent" {
