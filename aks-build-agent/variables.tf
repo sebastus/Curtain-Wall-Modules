@@ -26,10 +26,4 @@ variable "agent_pools" {
     azdo_agent_pool   = string
     aks_node_selector = optional(string, "default")
   }))
-  default = {
-    "buildagents" = {
-      azdo_agent_pool   = "BuildAgents"
-      aks_node_selector = "buildagents"
-    }
-  }
 } 
