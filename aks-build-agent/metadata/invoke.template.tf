@@ -3,11 +3,11 @@ module "aks_build_agents" {
   source = "../Curtain-Wall-Modules/aks-build-agent"
 
   resource_group = module.tg_xxx.resource_group
-  acr            = module.tg_xxx.azure_container_registry
-  agent_tag      = var.agent_tag
+  acr            = module.tg_xxx.azurerm_container_registry
+  agent_tag      = var.xxx_agent_tag
 
   azdo_pat      = var.azdo_pat
-  azdo_repo_url = var.azdo_repo_url
+  azdo_repo_url = "https://dev.azure.com/${var.azdo_org_name}"
 
   agent_pools = var.xxx_agent_pools
 }

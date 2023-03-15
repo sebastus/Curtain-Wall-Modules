@@ -7,20 +7,6 @@
             "type": "string",
             "default": "1.0",
             "secret": "false"
-        },
-        {
-            "name": "azdo_pat",
-            "description": "String: Azure devops personal access token.",
-            "type": "string",
-            "default": "",
-            "secret": "true"
-        },
-        {
-            "name": "azdo_repo_url",
-            "description": "String: Comma-delimited list of CIDR ranges for subnet.",
-            "type": "string",
-            "default": "",
-            "secret": "false"
         }
     ]
 }

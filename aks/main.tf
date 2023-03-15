@@ -77,7 +77,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   lifecycle {
     ignore_changes = [
       default_node_pool[0].node_count,
-
+      tags,
     ]
   }
 }
@@ -94,7 +94,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "node_pools" {
 
   lifecycle {
     ignore_changes = [
-      vnet_subnet_id
+      vnet_subnet_id,
+      tags,
     ]
   }
 }
