@@ -13,8 +13,6 @@ First you need to set up a new Terraform environment. Use the module `blank-env-
    
 2. Confirm the values in the dev.tfvars for this new environment.
 
-NOTE: ensure that dev.tfvars in the new env is *not* committed to source control.
-
 Once this is done use the Python codegen module to write necessary code into this environment. It uses environment variables populate details needed by the code generator. Set them as below:
 
 ```
