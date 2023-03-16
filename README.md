@@ -10,10 +10,17 @@ First you need to set up a new Terraform environment. Use the module `blank-env-
 
 1. Copy/paste the template folder and rename it to the new environment name.
    In powershell, this is: `cp .\blank-env-copy-me\ c:\whatever\newenv -Recurse`
+   In this new environment folder yu should see the following files:
+   - .azdo/ci-pipeline.yaml
+   - .gitignore
+   - dev_override.tf
+   - migrate_state.ps1
+   - migrate_stash.sh
+   - README.md
+   - terraform.tf
+   - variables.tf
    
-2. Confirm the values in the dev.tfvars for this new environment.
-
-Once this is done use the Python codegen module to write necessary code into this environment. It uses environment variables populate details needed by the code generator. Set them as below:
+2. Set your environment variables:
 
 ```
 $env:CURTAIN_WALL_MODULES_HOME = "C:\{path}\Curtain-Wall-Modules"
@@ -21,14 +28,19 @@ $env:CURTAIN_WALL_ENVIRONMENT = "C:\Users\{user}\{path for wherever your new env
 $env:CURTAIN_WALL_BACKEND_KEY = "example"
 ```
 
-To create a new set of resources, at the Curtain Wall Modules level run:
+3. At the Curtain Wall Modules level run:
 
 `python codegen/src/main.py create -g {resource group name}`
 
+This will add config and terraform files to your environment needed for the base layer of Curtain Wall.
 
 You can then add other modules to your environment with the command:
 
 `python codegen/src/main.py add -m {module you want to add} -g {resource group name}`
+
+
+4. Confirm the values in the dev.tfvars and .env/.env.ps1 for this new environment to reflect your azdo org and secrets.
+
 
 # Running the Terraform
 
@@ -51,3 +63,7 @@ Running these three commands should populate your Azure Portal with a resource g
 - Disk
  
  and the modules you added.
+
+# Curtain Wall Architecture
+
+TODO
