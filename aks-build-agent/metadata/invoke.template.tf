@@ -6,6 +6,8 @@ module "aks_build_agents" {
   acr            = module.tg_xxx.azurerm_container_registry
   agent_tag      = var.xxx_agent_tag
 
+  aks = module.aks_xxx.aks
+
   azdo_pat      = var.azdo_pat
   azdo_repo_url = "https://dev.azure.com/${var.azdo_org_name}"
 

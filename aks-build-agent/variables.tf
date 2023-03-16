@@ -6,6 +6,10 @@ variable "acr" {
   type = any
 }
 
+variable "aks" {
+  type = any
+}
+
 variable "agent_tag" {
   type    = string
   default = "1.0"
