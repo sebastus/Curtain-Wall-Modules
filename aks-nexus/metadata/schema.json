@@ -12,7 +12,7 @@
             "name": "nexus_storage_file_share_name",
             "description": "String: Name of the file share used by nexus.",
             "type": "string",
-            "default": "",
+            "default": "nexus-file-share",
             "secret": "false"
         },
         {
