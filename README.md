@@ -34,8 +34,7 @@ You can then add other modules to your environment with the command:
 
 # Running the Terraform
 
-Rename your dev.tfvars file to terraform.tfvars
-Change the appropriate variables to reflect your azdo org and connections etc.S
+Change the appropriate variables in your tfvars file to reflect your azdo org and connections etc.
 
 Then run:
 
