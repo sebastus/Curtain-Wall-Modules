@@ -11,9 +11,9 @@ First you need to set up a new Terraform environment. Use the module `blank-env-
 1. Copy/paste the template folder and rename it to the new environment name.
    In powershell, this is: `cp .\blank-env-copy-me\ c:\whatever\newenv -Recurse`
    
-2. Confirm the values in the terraform.tfvars for this new environment.
+2. Confirm the values in the dev.tfvars for this new environment.
 
-NOTE: ensure that terraform.tfvars in the new env is *not* committed to source control.
+NOTE: ensure that dev.tfvars in the new env is *not* committed to source control.
 
 Once this is done use the Python codegen module to write necessary code into this environment. It uses environment variables populate details needed by the code generator. Set them as below:
 
@@ -40,18 +40,16 @@ Change the appropriate variables to reflect your azdo org and connections etc.S
 Then run:
 
 `terraform init`
-`terraform plan`
-`terraform apply -var-file="terraform.tfvars"`
+`terraform plan with -var-file=dev.tfvars and -out my.tfplan`
+`terraform apply my.tfplan`
 
 Running these three commands should populate your Azure Portal with a resource group containing:
 
 - Key vault
 - Log analytics workspace
 - Managed identity
-- Virtual machines
 - Virtual networks
 - Network security groups
-- Public IP address
 - Network interface
 - Disk
  
