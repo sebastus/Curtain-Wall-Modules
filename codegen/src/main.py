@@ -6,6 +6,7 @@ import json
 import uuid
 import shutil
 import inquirer
+import validation
 
 PIPELINE_TF_PLAN_FILE_NAME = "pl_tf_plan.yaml"
 PIPELINE_TF_APPLY_FILE_NAME = "pl_tf_apply.yaml"
@@ -261,8 +262,15 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core)
             value = ""
                         
             if ("query" in var and is_used):
-                query = [inquirer.Text("query", message=var["query"], default=var["default"])]
-                answer = inquirer.prompt(query)
+                
+                if(var["type"] == "bool"):
+                    query = [inquirer.Text(name="query", message=var["query"], default=var["default"], validate = validation.validation_bool)]
+                elif(var["type"] == "number"):
+                    query = [inquirer.Text(name="query", message=var["query"], default=var["default"], validate = validation.validation_number)]
+                else: 
+                    query = [inquirer.Text(name="query", message=var["query"], default=var["default"])]
+
+                answer = inquirer.prompt(query)                
                 value = answer["query"]
                 var["value"] = value
             else:
