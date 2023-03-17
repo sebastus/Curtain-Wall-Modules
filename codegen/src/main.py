@@ -220,7 +220,7 @@ def write_vars_file(trust_group, vars, file_name, module_id, add, index, append)
         f.write('# ############################\n')
 
 def evaluate_usage(variable, variables):
-    usage = "true"
+    usage = True
     if ("condition" in variable):
         expression = variable["condition"].split('?')[0].strip()
         terms = expression.split('==')
@@ -236,7 +236,7 @@ def evaluate_usage(variable, variables):
             option = options[1].strip()
         
         if(option == '0'):
-            usage = "false"
+            usage = False
     return(usage)
                          
 def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core):
@@ -259,7 +259,7 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core)
             is_used = evaluate_usage(var, vars)
             value = ""
                         
-            if ("query" in var and is_used == "true"):
+            if ("query" in var and is_used):
                 query = [inquirer.Text("query", message=var["query"], default=var["default"])]
                 answer = inquirer.prompt(query)
                 value = answer["query"]
