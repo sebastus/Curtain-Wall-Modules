@@ -8,7 +8,12 @@ Curtain Wall is intended to make it easy to on-board new users to working with T
 
 First you need to set up a new Terraform environment. Use the module `blank-env-copy-me` for this in the following way:
 
-1. Copy/paste the template folder and rename it to the new environment name.
+1. Install pre-requisites
+   To do this, run: 
+   
+   `pip install -r codegen/requirements.txt`
+
+2. Copy/paste the template folder and rename it to the new environment name.
    In powershell, this is: 
    
    `Copy-Item .\blank-env-copy-me\ c:\whatever\newenv -Recurse`
@@ -22,10 +27,8 @@ First you need to set up a new Terraform environment. Use the module `blank-env-
    - README.md
    - terraform.tf
    - variables.tf
-   
 
-
-2. Set your environment variables:
+3. Set your environment variables:
 
 ```pwsh
 $env:CURTAIN_WALL_MODULES_HOME = "C:\{path}\Curtain-Wall-Modules"
@@ -33,7 +36,7 @@ $env:CURTAIN_WALL_ENVIRONMENT = "C:\Users\{user}\{path for wherever your new env
 $env:CURTAIN_WALL_BACKEND_KEY = "example"
 ```
 
-3. At the Curtain Wall Modules level run:
+4. At the Curtain Wall Modules level run:
 
 `python codegen/src/main.py create -g {resource group name}`
 
@@ -44,7 +47,7 @@ You can then add other modules to your environment with the command:
 `python codegen/src/main.py add -m {module you want to add} -g {resource group name}`
 
 
-4. Confirm the values in the dev.tfvars and .env/.env.ps1 for this new environment to reflect your azdo org and secrets.
+5. Confirm the values in the dev.tfvars and .env/.env.ps1 for this new environment to reflect your azdo org and secrets.
 
 
 # Running the Terraform
