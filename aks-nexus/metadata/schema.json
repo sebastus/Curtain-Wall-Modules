@@ -6,56 +6,64 @@
             "description": "String: Name of the nexus instance.",
             "type": "string",
             "default": "mynexus",
-            "secret": "false"
+            "secret": "false",
+            "query": "What is the name of the new Nexus instance?"
         },
         {
             "name": "nexus_storage_file_share_name",
             "description": "String: Name of the file share used by nexus.",
             "type": "string",
             "default": "",
-            "secret": "false"
+            "secret": "false",
+            "query": "What file share should be used by Nexus?"
         },
         {
             "name": "nexus_enable_ingress",
             "description": "Boolean: Use the ingress controller with nexus.",
             "type": "bool",
             "default": "false",
-            "secret": "false"
+            "secret": "false",
+            "query": "Switch: Should the ingress controller be used with Nexus (true) or not (false)?"
         },
         {
             "name": "nexus_init_nexus_container_tag",
             "description": "String: Docker tag on the nexus container image to pull.",
             "type": "string",
             "default": "1.0",
-            "secret": "false"
+            "secret": "false",
+            "query": "What is the Docker tag of the Nexus image to pull?"
         },
         {
             "name": "nexus_admin_password",
             "description": "String: Password of nexus admin user.",
             "type": "string",
             "default": "",
-            "secret": "true"
+            "secret": "true",
+            "query": "What admin password should be installed in the Nexus instance?"
         },
         {
             "name": "nexus_agentPoolNodeSelector",
             "description": "String: Which AKS node pool to use.",
             "type": "string",
             "default": "default",
-            "secret": "false"
+            "secret": "false",
+            "query": "Which AKS node pool should the Nexus instance be installed into?"
         },
         {
             "name": "nexus_cluster_issuer_email",
             "description": "String: Email address of nexus cluster issuer.",
             "type": "string",
             "default": "",
-            "secret": "false"
+            "secret": "false",
+            "query": "Email address of person to notify about Nexus topics?"
         },
         {
             "name": "nexus_use_production_certificate_issuer",
             "description": "Boolean: Use the production cert issuer.",
             "type": "bool",
             "default": "false",
-            "secret": "false"
+            "secret": "false",
+            "query": "Switch: Use the production certificate issuer (true) or not (false)?"
         }
     ]
 }
