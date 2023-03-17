@@ -220,7 +220,6 @@ def write_vars_file(trust_group, vars, file_name, module_id, add, index, append)
         f.write('# ############################\n')
 
 def evaluate_usage(variable, variables):
-    usage = True
     if ("condition" in variable):
         expression = variable["condition"].split('?')[0].strip()
         terms = expression.split('==')
@@ -236,8 +235,8 @@ def evaluate_usage(variable, variables):
             option = options[1].strip()
         
         if(option == '0'):
-            usage = False
-    return(usage)
+            return(False)
+    return(True)
                          
 def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core):
 
