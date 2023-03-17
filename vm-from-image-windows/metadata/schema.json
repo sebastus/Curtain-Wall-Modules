@@ -2,39 +2,45 @@
     "variables":
     [
         {
-            "name": "vfiw_admin_password",
-            "description": "String: Admin password of the new VM",
-            "type": "string",
-            "default": "a-password",
-            "secret": "true"
-        },
-        {
             "name": "vfiw_image_resource_group_name",
             "description": "String: Resource group that contains the incoming image.",
             "type": "string",
             "default": "",
-            "secret": "false"
+            "secret": "false",
+            "query": "What is the name of the resource group containing the managed image to use?"
         },
         {
             "name": "vfiw_image_base_name",
             "description": "String: Name of the incoming image.",
             "type": "string",
             "default": "",
-            "secret": "false"
+            "secret": "false",
+            "query": "What is the name of the managed image to use?"
+        },
+        {
+            "name": "vfiw_admin_password",
+            "description": "String: Admin password of the new VM",
+            "type": "string",
+            "default": "a-password",
+            "secret": "true",
+            "query": "What admin password should be installed in the new vm?"
         },
         {
             "name": "vfiw_create_pip",
             "description": "Boolean: Create a public ip for the VM or not.",
             "type": "bool",
             "default": "false",
-            "secret": "false"
+            "secret": "false",
+            "query": "Switch: create a public ip address for the vm (true) or not (false)?",
+            "skip": "true"
         },
         {
             "name": "vfiw_install_omsagent",
             "description": "Boolean: Install the log analytics oms agent in the new VM.",
             "type": "bool",
             "default": "true",
-            "secret": "false"
+            "secret": "false",
+            "query": "Install the OMS agent into the vm (true) or not (false)?"
         }
     ]
 }

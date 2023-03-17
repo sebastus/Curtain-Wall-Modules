@@ -1,6 +1,6 @@
 module "aks_build_agents" {
-  #source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//aks-build-agent?ref=main"
-  source = "../Curtain-Wall-Modules/aks-build-agent"
+  source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//aks-build-agent?ref=main"
+  #source = "../Curtain-Wall-Modules/aks-build-agent"
 
   resource_group = module.tg_xxx.resource_group
   acr            = module.tg_xxx.azurerm_container_registry

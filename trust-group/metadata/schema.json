@@ -6,7 +6,8 @@
             "description": "String: base name of created resources",
             "type": "string",
             "default": "my-trust",
-            "secret": "false"
+            "secret": "false",
+            "query": "What base name would you like new resource names to be built from?"
         },
         {
             "name": "create_resource_group",
@@ -14,14 +15,17 @@
             "type": "bool",
             "default": "true",
             "secret": "false",
-            "skip": "true"
+            "skip": "true",
+            "query": "Switch: create a new resource group (true) or use an existing one (false)?"
         },
         {
             "name": "existing_resource_group_name",
             "description": "String: name of the existing resource group to ingest.",
             "type": "string",
             "default": "",
-            "secret": "false"
+            "secret": "false",
+            "query": "Not creating a new resource group - what is the name of the existing one to use?",
+            "condition": "create_resource_group ? 0 : 1"
         },
         {
             "name": "create_law",
@@ -29,7 +33,8 @@
             "type": "bool",
             "default": "true",
             "secret": "false",
-            "skip": "true"
+            "skip": "true",
+            "query": "Switch: create a new log analytics workspace (true) or not (false)?"
         },
         {
             "name": "create_managed_identity",
@@ -37,21 +42,26 @@
             "type": "bool",
             "default": "true",
             "secret": "false",
-            "skip": "true"
+            "skip": "true",
+            "query": "Switch: create a new user assigned managed identity (true) or use an existing one (false)?"
         },
         {
             "name": "existing_managed_identity_name",
             "description": "String: name of the existing managed identity to ingest.",
             "type": "string",
             "default": "",
-            "secret": "false"
+            "secret": "false",
+            "query": "Not creating a new managed identity - what is the name of the existing one to use?",
+            "condition": "create_managed_identity ? 0 : 1"
         },
         {
             "name": "existing_managed_identity_rg",
             "description": "String: name of the resource group of the existing managed identity to ingest.",
             "type": "string",
             "default": "",
-            "secret": "false"
+            "secret": "false",
+            "query": "Not creating a new managed identity - what is the name of the resource group containing the existing one to use?",
+            "condition": "create_managed_identity ? 0 : 1"
         },
         {
             "name": "create_acr",
@@ -59,28 +69,34 @@
             "type": "bool",
             "default": "false",
             "secret": "false",
-            "skip": "true"
+            "skip": "true",
+            "query": "Switch: create a new Azure Container Registry (true) or not (false)?"
         },
         {
             "name": "create_kv",
             "description": "Boolean: create a Key Vault or not.",
             "type": "bool",
             "default": "false",
-            "secret": "false"
+            "secret": "false",
+            "query": "Switch: create a new Key Vault (true) or use an existing one (false)?"
         },
         {
             "name": "existing_kv_name",
             "description": "String: if ingesting an existing KV, its name.",
             "type": "string",
             "default": "",
-            "secret": "false"
+            "secret": "false",
+            "query": "Not creating a new Key Vault - what's the name of the existing one to use?",
+            "condition": "create_kv ? 0 : 1"
         },
         {
             "name": "existing_kv_rg_name",
             "description": "String: if ingesting an existing KV, its resource group",
             "type": "string",
             "default": "",
-            "secret": "false"
+            "secret": "false",
+            "query": "Not creating a new Key Vault - what's the name of the resource group containing the existing one to use?",
+            "condition": "create_kv ? 0 : 1"
         },
         {
             "name": "create_vnet",
@@ -88,28 +104,35 @@
             "type": "bool",
             "default": "true",
             "secret": "false",
-            "skip": "true"
+            "skip": "true",
+            "query": "Switch: create a new Virtual Network (true) or use an existing one (false)?"
         },
         {
             "name": "new_vnet_address_space",
             "description": "String: if creating a new VNET, its address space represented as a CIDR.",
             "type": "string",
             "default": "10.1.0.0/16",
-            "secret": "false"
+            "secret": "false",
+            "query": "Creating a new Virtual Network - what's it's address space CIDR?",
+            "condition": "create_vnet ? 1 : 0"
         },
         {
             "name": "existing_vnet_rg_name",
             "description": "String: if ingesting an existing VNET, its resource group.",
             "type": "string",
             "default": "rg-networking",
-            "secret": "false"
+            "secret": "false",
+            "query": "Not creating a new Virtual Network - what's the name of the resource group containing the existing one to use?",
+            "condition": "create_vnet ? 0 : 1"
         },
         {
             "name": "existing_vnet_name",
             "description": "String: if ingesting an existing VNET, its name.",
             "type": "string",
             "default": "vnet",
-            "secret": "false"
+            "secret": "false",
+            "query": "Not creating a new Virtual Network - what's the name of the existing one to use?",
+            "condition": "create_vnet ? 0 : 1"
         },
         {
             "name": "create_well_known_subnets",
@@ -117,7 +140,8 @@
             "type": "bool",
             "default": "true",
             "secret": "false",
-            "skip": "true"
+            "skip": "true",
+            "query": "Switch: create the well known subnets (true) or use existing (false)?"
         },
         {
             "name": "is_tfstate_home",
@@ -125,14 +149,17 @@
             "type": "bool",
             "default": "false",
             "secret": "false",
-            "skip": "true"
+            "skip": "true",
+            "query": "Switch: Create tfstate storage in this trust group (true) or not (false)?"
         },
         {
             "name": "tfstate_storage_key",
             "description": "String: Name of the tfstate storage blob.",
             "type": "string",
             "default": "state",
-            "secret": "false"
+            "secret": "false",
+            "query": "This trust group contains tfstate storage - what is the value of 'key' in the AzureRM backend configuration?",
+            "condition": "is_tfstate_home ? 1 : 0"
         }
     ]
 }
