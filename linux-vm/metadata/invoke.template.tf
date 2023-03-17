@@ -42,4 +42,6 @@ module "linux-vm" {
   include_packer           = var.xxx_include_packer
   include_dotnetsdk        = var.xxx_include_dotnetsdk
   include_maven            = var.xxx_include_maven
+
+  powershell_command       = "powershell"
 }

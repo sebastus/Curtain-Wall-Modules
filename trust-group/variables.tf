@@ -19,6 +19,9 @@ variable "singleton_resource_names" {
     kv                = { resource_type = "azurerm_key_vault", base_name = "", random_length = 4 },
     tfstate_sa        = { resource_type = "azurerm_storage_account", base_name = "tf", random_length = 4 },
     tfstate_container = { resource_type = "azurerm_storage_container", base_name = "tfstate", random_length = 0 },
+    virtual_wan       = { resource_type = "azurerm_virtual_wan", base_name = "vpn", random_length = 0 },
+    virtual_hub       = { resource_type = "azurerm_virtual_hub", base_name = "vpn", random_length = 0 },
+    p2s_vpn           = { resource_type = "azurerm_point_to_site_vpn_gateway", base_name = "vpn", random_length = 0 },
   }
 }
 
@@ -89,6 +92,14 @@ variable "existing_kv_rg_name" {
 }
 variable "existing_kv_name" {
   type = string
+}
+
+# 
+# optionally create a platform vpn gateway
+#
+variable "create_platform_vpn" {
+  type = bool
+  default = false
 }
 
 #

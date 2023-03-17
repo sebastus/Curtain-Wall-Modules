@@ -1,6 +1,6 @@
 module "tg_xxx" {
-  source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//trust-group?ref=main"
-  #source = "../Curtain-Wall-Modules/trust-group"
+  #source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//trust-group?ref=main"
+  source = "../Curtain-Wall-Modules/trust-group"
 
   location     = var.location
   tg_base_name = var.xxx_tg_base_name
@@ -19,6 +19,8 @@ module "tg_xxx" {
   create_kv           = var.xxx_create_kv
   existing_kv_name    = var.xxx_existing_kv_name
   existing_kv_rg_name = var.xxx_existing_kv_rg_name
+
+  create_platform_vpn = var.xxx_create_platform_vpn
 
   create_vnet            = var.xxx_create_vnet
   new_vnet_address_space = var.xxx_new_vnet_address_space
