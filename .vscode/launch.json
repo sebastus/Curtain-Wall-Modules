@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["add", "-g", "kkk", "-m", "azdo-server"]
+            "args": ["add", "-g", "kkk", "-m", "linux-vm"]
         }
     ]
 }
