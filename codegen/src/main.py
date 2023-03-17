@@ -23,11 +23,12 @@ module_choices = [
     'azdo-server',
     "emulated-ash",
     "vmss-ba",
-    "linux-vm"
+    "linux-vm",
+    "aks-build-agent"
 ]
 
 # Tbd
-# aks-build-agent
+# 
 # aks-nexus
 
 cwd = os.getcwd()
