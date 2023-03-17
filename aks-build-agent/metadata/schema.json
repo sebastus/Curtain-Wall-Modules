@@ -6,24 +6,7 @@
             "description": "String: ARM tag applied to the new agent.",
             "type": "string",
             "default": "1.0",
-            "secret": "false",
-            "query": "What Azure ARM tag should be applied to the new build agent?"
-        },
-        {
-            "name": "azdo_pat",
-            "description": "String: Azure devops personal access token.",
-            "type": "string",
-            "default": "",
-            "secret": "true",
-            "query": "What Azure DevOps personal access token should be used?"
-        },
-        {
-            "name": "azdo_repo_url",
-            "description": "String: Url of the Azure DevOps organization.",
-            "type": "string",
-            "default": "",
-            "secret": "false",
-            "query": "What is the url of the Azure DevOps organization? (e.g. https://dev.azure.com/orga)"
+            "secret": "false"
         }
     ]
 }

@@ -19,7 +19,6 @@ First you need to set up a new Terraform environment. Use the module `blank-env-
    `Copy-Item .\blank-env-copy-me\ c:\whatever\newenv -Recurse`
    
    In this new environment folder you should see the following files:
-
    - .azdo/ci-pipeline.yaml
    - .gitignore
    - dev_override.tf
