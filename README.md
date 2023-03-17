@@ -9,8 +9,11 @@ Curtain Wall is intended to make it easy to on-board new users to working with T
 First you need to set up a new Terraform environment. Use the module `blank-env-copy-me` for this in the following way:
 
 1. Copy/paste the template folder and rename it to the new environment name.
-   In powershell, this is: `cp .\blank-env-copy-me\ c:\whatever\newenv -Recurse`
-   In this new environment folder yu should see the following files:
+   In powershell, this is: 
+   
+   `Copy-Item .\blank-env-copy-me\ c:\whatever\newenv -Recurse`
+   
+   In this new environment folder you should see the following files:
    - .azdo/ci-pipeline.yaml
    - .gitignore
    - dev_override.tf
@@ -20,9 +23,11 @@ First you need to set up a new Terraform environment. Use the module `blank-env-
    - terraform.tf
    - variables.tf
    
+
+
 2. Set your environment variables:
 
-```
+```pwsh
 $env:CURTAIN_WALL_MODULES_HOME = "C:\{path}\Curtain-Wall-Modules"
 $env:CURTAIN_WALL_ENVIRONMENT = "C:\Users\{user}\{path for wherever your new environment is}"
 $env:CURTAIN_WALL_BACKEND_KEY = "example"
@@ -48,9 +53,11 @@ Change the appropriate variables in your tfvars file to reflect your azdo org an
 
 Then run:
 
-`terraform init`
-`terraform plan with -var-file=dev.tfvars and -out my.tfplan`
-`terraform apply my.tfplan`
+```pwsh
+terraform init
+terraform plan -var-file=dev.tfvars -out my.tfplan
+terraform apply my.tfplan
+``` 
 
 Running these three commands should populate your Azure Portal with a resource group containing:
 
@@ -64,6 +71,12 @@ Running these three commands should populate your Azure Portal with a resource g
  
  and the modules you added.
 
-# Curtain Wall Architecture
+# Architecture of environment built from Curtain Wall
 
-TODO
+Inside your selected environment Curtain Wall can create one or more trust groups. These function like resource groups in Azure, but come with a set of resources that you define in your dev.tfvars, eg. Managed Identity, Key Vault.
+
+In each of these trust groups you can add any number of resources offered by the Curtain Wall modules, eg. AKS, Bastion.
+
+Below are examples of two trust groups inside a resource. The resources brought in by the other Curtain Wall modules are set by you.
+
+![Diagram of environment created by Curtain Wall](./images/EnvArch.png)
