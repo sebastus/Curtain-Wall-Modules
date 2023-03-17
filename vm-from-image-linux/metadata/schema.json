@@ -2,32 +2,37 @@
     "variables":
     [
         {
-            "name": "vfil_create_pip",
-            "description": "Boolean: Create public ip or not.",
-            "type": "bool",
-            "default": "false",
-            "secret": "false"
-        },
-        {
-            "name": "vfil_install_omsagent",
-            "description": "Boolean: Add the log analytics oms agent to the new VM or not.",
-            "type": "bool",
-            "default": "true",
-            "secret": "false"
-        },
-        {
             "name": "vfil_image_resource_group_name",
             "description": "String: Resource group that contains the incoming image.",
             "type": "string",
             "default": "",
-            "secret": "false"
+            "secret": "false",
+            "query": "What is the name of the resource group containing the managed image to use?"
         },
         {
             "name": "vfil_image_base_name",
             "description": "String: Name of the incoming image.",
             "type": "string",
             "default": "",
-            "secret": "false"
+            "secret": "false",
+            "query": "What is the name of the managed image to use?"
+        },
+        {
+            "name": "vfil_create_pip",
+            "description": "Boolean: Create public ip or not.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false",
+            "query": "Switch: create a public ip address for the vm (true) or not (false)?",
+            "skip": "true"
+        },
+        {
+            "name": "vfil_install_omsagent",
+            "description": "Boolean: Add the log analytics oms agent to the new VM or not.",
+            "type": "bool",
+            "default": "true",
+            "secret": "false",
+            "query": "Install the OMS agent into the vm (true) or not (false)?"
         }
     ]
 }

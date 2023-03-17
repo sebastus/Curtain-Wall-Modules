@@ -3,38 +3,46 @@
     [
         {
             "name": "create_vm",
-            "description": "Boolean: Whether to create the AzDO vm or not.",
+            "description": "Boolean: Whether to create the AzDO server vm or not.",
             "type": "bool",
             "default": "true",
-            "secret": "false"
+            "secret": "false",
+            "query": "Switch: create the Azure DevOps server vm (true) or only generate the vhd/image (false)?"
         },
         {
             "name": "admin_password",
             "description": "String: Administrator password of the new vm.",
             "type": "string",
             "default": "secret",
-            "secret": "true"
+            "secret": "true",
+            "query": "What administrator password should be installed into the vm?",
+            "condition": "create_vm ? 1 : 0"
         },
         {
             "name": "create_pip",
             "description": "Boolean: Whether to add a public ip to the AzDO vm or not.",
             "type": "bool",
             "default": "false",
-            "secret": "false"
+            "secret": "false",
+            "query": "Create a public IP for the Azure DevOps server vm (true) or not (false)?",
+            "condition": "create_vm ? 1 : 0"
         },
         {
             "name": "install_omsagent",
             "description": "Boolean: Whether to install the log analytics oms agent into the AzDO vm or not.",
             "type": "bool",
-            "default": "false",
-            "secret": "false"
+            "default": "true",
+            "secret": "false",
+            "query": "Switch: Install the OMS Agent vm extension into the Azure DevOps Server vm (true) or not (false)?",
+            "condition": "create_vm ? 1 : 0"
         },
         {
             "name": "vhd_or_image",
             "description": "String: Create a vhd or an image.",
             "type": "string",
             "default": "image",
-            "secret": "false"
+            "secret": "false",
+            "query": "Switch: create a vhd or an image? (valid reponses 'vhd' and 'image')"
         },
 
         {
@@ -42,70 +50,86 @@
             "description": "String: Storage container where VHD will initially be stored.",
             "type": "string",
             "default": "vhds",
-            "secret": "false"
+            "secret": "false",
+            "query": "Name of the storage container to put the new vhd into?",
+            "condition": "vhd_or_image == 'vhd' ? 1 : 0"
         },
         {
             "name": "vhd_capture_name_prefix",
             "description": "String: Prefix of the new VHD.",
             "type": "string",
             "default": "myvhd",
-            "secret": "false"
+            "secret": "false",
+            "query": "What is the base name of the resulting vhd?",
+            "condition": "vhd_or_image == 'vhd' ? 1 : 0"
         },
         {
             "name": "vhd_resource_group_name",
             "description": "String: Resource group of the storage account where the VHD is stored.",
             "type": "string",
             "default": "rg-misc",
-            "secret": "false"
+            "secret": "false",
+            "query": "Into which resource group should the resulting vhd be placed?",
+            "condition": "vhd_or_image == 'vhd' ? 1 : 0"
         },
         {
             "name": "vhd_storage_account",
             "description": "String: Name of the storage account where the VHD is stored.",
             "type": "string",
             "default": "somestorage",
-            "secret": "false"
+            "secret": "false",
+            "query": "Into which storage account should the resulting vhd be placed?",
+            "condition": "vhd_or_image == 'vhd' ? 1 : 0"
         },
         {
             "name": "image_resource_group_name",
             "description": "String: Resource group of the new image.",
             "type": "string",
             "default": "somestorage",
-            "secret": "false"
+            "secret": "false",
+            "query": "Into which resource group should the resulting image be placed?",
+            "condition": "vhd_or_image == 'vhd' ? 0 : 1"
         },
         {
             "name": "image_base_name",
             "description": "String: Name of the new image.",
             "type": "string",
             "default": "myimage",
-            "secret": "false"
+            "secret": "false",
+            "query": "What is the base name of the resulting image?",
+            "condition": "vhd_or_image == 'vhd' ? 0 : 1"
         },
         {
             "name": "arm_client_id",
             "description": "String: Client ID of the credential used to run Packer.",
             "type": "string",
             "default": "a-guid",
-            "secret": "false"
+            "secret": "false",
+            "query": "What is the app/client id of the service principal to be used to create Azure resource for Packer?"
         },
         {
             "name": "arm_client_secret",
             "description": "String: Client secret / password of the credential used to run Packer.",
             "type": "string",
             "default": "a-secret",
-            "secret": "true"
+            "secret": "true",
+            "query": "What is the client secret of the service principal to be used to create Azure resource for Packer?"
         },
         {
             "name": "arm_installer_password",
             "description": "String: Admin password of temp vm used by packer to create the new vhd or image.",
             "type": "string",
             "default": "a-password",
-            "secret": "true"
+            "secret": "true",
+            "query": "What is the password to use in the Packer vm?"
         },
         {
             "name": "local_temp",
             "description": "String: Packer uses a temp folder on the machine that is running Packer.",
             "type": "string",
             "default": "C:/Users/me/AppData/Local/temp",
-            "secret": "false"
+            "secret": "false",
+            "query": "What is the absolute path/file name of local temp? (i.e. c:\\users\\me\\AppData\\Local\\temp or /tmp)"
         }
     ]
 }
