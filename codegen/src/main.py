@@ -218,6 +218,21 @@ def write_vars_file(trust_group, vars, file_name, module_id, add, index, append)
         f.write(f'# END: {module_id}\n')
         f.write('# ############################\n')
 
+def evaluate_condition(variable, variables):
+    skip_query = "false"
+    if ("condition" in variable):
+        parent_name = variable["condition"].split('?')[0].strip()
+        options = variable["condition"].split('?')[1].split(':')
+                
+        parent = next((sub for sub in variables if sub['name'] == parent_name), None)
+        if(parent["value"] == "true"):
+            option = options[0].strip()
+        else:
+            option = options[1].strip()
+        if(option == '0'):
+            skip_query = "true"
+    return(skip_query)
+                         
 def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core):
 
     with open(file_name, "w" if core else "a") as f:
@@ -235,20 +250,7 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core)
         f.write('# ############################\n')
 
         for var in vars:
-            skip_query = "false"
-            
-            if ("condition" in var):
-                parent_name = var["condition"].split('?')[0].strip()
-                evaluations = var["condition"].split('?')[1]
-                options = evaluations.split(':')
-                
-                res = next((sub for sub in vars if sub['name'] == parent_name), None)
-                if(res["value"] == "true"):
-                    option = options[0].strip()
-                else:
-                    option = options[1].strip()
-                if(option == '0'):
-                    skip_query = "true"
+            skip_query = evaluate_condition(var, vars)
                         
             if ("query" in var and skip_query != "true"):
                 print(var["query"])
