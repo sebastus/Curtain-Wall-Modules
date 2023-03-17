@@ -235,7 +235,28 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core)
         f.write('# ############################\n')
 
         for var in vars:
-
+            skip_query = "false"
+            
+            if ("condition" in var):
+                parent_name = var["condition"].split('?')[0].strip()
+                evaluations = var["condition"].split('?')[1]
+                options = evaluations.split(':')
+                
+                res = next((sub for sub in vars if sub['name'] == parent_name), None)
+                if(res["value"] == "true"):
+                    option = options[0].strip()
+                else:
+                    option = options[1].strip()
+                if(option == '0'):
+                    skip_query = "true"
+                        
+            if ("query" in var and skip_query != "true"):
+                print(var["query"])
+                value = input()
+                var["value"] = value
+            else:
+                var["value"] = var["default"]
+                
             if (var["secret"] == "true"):
                 continue
             
@@ -245,9 +266,15 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core)
             index_snip = "" if (index == None) else f"_{index}"
             rg_snip = "" if trust_group == None else f'{trust_group}_'
             if (var["type"] == 'string'):
-                f.write(f'{rg_snip}{var["name"]}{index_snip} = \"{var["default"]}\"\n')
+                if(value):
+                    f.write(f'{rg_snip}{var["name"]}{index_snip} = \"{value}\"\n')
+                else:
+                    f.write(f'{rg_snip}{var["name"]}{index_snip} = \"{var["default"]}\"\n')
             else:
-                f.write(f'{rg_snip}{var["name"]}{index_snip} = {var["default"]}\n')
+                if(value):
+                    f.write(f'{rg_snip}{var["name"]}{index_snip} = {value}\n')
+                else:
+                    f.write(f'{rg_snip}{var["name"]}{index_snip} = {var["default"]}\n')
 
         if not trust_group == None:
             f.write('\n')
