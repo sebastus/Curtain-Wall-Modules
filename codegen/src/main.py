@@ -221,18 +221,19 @@ def write_vars_file(trust_group, vars, file_name, module_id, add, index, append)
 def evaluate_usage(variable, variables):
     usage = "true"
     if ("condition" in variable):
-        condition = variable["condition"].split('?')[0].strip()
-        conditions = condition.split('==')
-        parent_name = conditions[0].strip()
+        expression = variable["condition"].split('?')[0].strip()
+        terms = expression.split('==')
+        parent_name = terms[0].strip()
         options = variable["condition"].split('?')[1].split(':')
                 
         parent = next((sub for sub in variables if sub['name'] == parent_name), None)
         if(parent["value"] == "true"):
             option = options[0].strip()
-        elif (len(conditions) > 1 and parent["value"] == conditions[1].strip().strip("'")):
+        elif (len(terms) > 1 and parent["value"] == terms[1].strip().strip("'")):
             option = options[0].strip()
         else:
             option = options[1].strip()
+        
         if(option == '0'):
             usage = "false"
     return(usage)
@@ -255,6 +256,7 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core)
 
         for var in vars:
             is_used = evaluate_usage(var, vars)
+            value = ""
                         
             if ("query" in var and is_used == "true"):
                 print(var["query"])

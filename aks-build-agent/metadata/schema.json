@@ -15,7 +15,7 @@
             "type": "string",
             "default": "",
             "secret": "true",
-            "query": "What Azure DevOps personal access token should be used."
+            "query": "What Azure DevOps personal access token should be used?"
         },
         {
             "name": "azdo_repo_url",
