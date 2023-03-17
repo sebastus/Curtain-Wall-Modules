@@ -73,8 +73,10 @@ Running these three commands should populate your Azure Portal with a resource g
 
 # Architecture of environment built from Curtain Wall
 
+Inside your selected environment Curtain Wall can create one or more trust groups. These function like resource groups in Azure, but come with a set of resources that you define in your dev.tfvars, eg. Managed Identity, Key Vault.
+
+In each of these trust groups you can add any number of resources offered by the Curtain Wall modules, eg. AKS, Bastion.
+
+Below are examples of two trust groups inside a resource. The resources brought in by the other Curtain Wall modules are set by you.
+
 ![Diagram of environment created by Curtain Wall](./images/EnvArch.png)
-
-Inside your selected environment Curtain Wall can create one or more trust groups, which function like resource groups in Azure.
-
-Inside each of these trust groups are the modules you then select to add.
