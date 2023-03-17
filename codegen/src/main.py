@@ -24,12 +24,13 @@ module_choices = [
     "emulated-ash",
     "vmss-ba",
     "linux-vm",
-    "aks-build-agent"
+    "aks-build-agent",
+    "aks-nexus"
 ]
 
 # Tbd
 # 
-# aks-nexus
+# 
 
 cwd = os.getcwd()
 print("")   # blank line
