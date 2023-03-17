@@ -3,9 +3,9 @@
     [
         {
             "name": "nexus_instance_name",
-            "description": "String: Name of the nexus instance.",
+            "description": "String: Name of the nexus instance. Should not include 'nexus' in the name.",
             "type": "string",
-            "default": "mynexus",
+            "default": "primary",
             "secret": "false",
             "query": "What is the name of the new Nexus instance?"
         },
@@ -13,7 +13,7 @@
             "name": "nexus_storage_file_share_name",
             "description": "String: Name of the file share used by nexus.",
             "type": "string",
-            "default": "",
+            "default": "nexus-file-share",
             "secret": "false",
             "query": "What file share should be used by Nexus?"
         },

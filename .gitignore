@@ -1,3 +1,7 @@
+# helm
+*.lock
+*.tgz
+
 # python
 .venv
 

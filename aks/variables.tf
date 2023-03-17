@@ -62,11 +62,4 @@ variable "node_pools" {
     min_count           = optional(number, null)
     max_count           = optional(number, null)
   }))
-
-  default = {
-    "buildagents" = {
-      vm_size    = "Standard_DS2_v2"
-      node_count = 1
-    }
-  }
 }
