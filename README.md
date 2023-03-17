@@ -11,7 +11,7 @@ First you need to set up a new Terraform environment. Use the module `blank-env-
 1. Copy/paste the template folder and rename it to the new environment name.
    In powershell, this is: 
    
-   `cp .\blank-env-copy-me\ c:\whatever\newenv -Recurse`
+   `Copy-Item .\blank-env-copy-me\ c:\whatever\newenv -Recurse`
    
    In this new environment folder you should see the following files:
    - .azdo/ci-pipeline.yaml
@@ -23,9 +23,11 @@ First you need to set up a new Terraform environment. Use the module `blank-env-
    - terraform.tf
    - variables.tf
    
+
+
 2. Set your environment variables:
 
-```
+```pwsh
 $env:CURTAIN_WALL_MODULES_HOME = "C:\{path}\Curtain-Wall-Modules"
 $env:CURTAIN_WALL_ENVIRONMENT = "C:\Users\{user}\{path for wherever your new environment is}"
 $env:CURTAIN_WALL_BACKEND_KEY = "example"
@@ -51,11 +53,11 @@ Change the appropriate variables in your tfvars file to reflect your azdo org an
 
 Then run:
 
-```
+```pwsh
 terraform init
 terraform plan -var-file=dev.tfvars -out my.tfplan
 terraform apply my.tfplan
-```
+``` 
 
 Running these three commands should populate your Azure Portal with a resource group containing:
 
