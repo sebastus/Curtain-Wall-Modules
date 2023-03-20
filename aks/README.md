@@ -22,9 +22,17 @@ AKS is Linux only.
 &nbsp;
 # Changes you need to make
 
-Once added to your environment, update the subnet used in the module.
+Once added to your environment, update the subnet used in the invocation script.
 
 The AKS cluster is deployed to a network with NSG rules in place to restrict traffic.  If you add Ingress resources to the cluster you will need to add NSG rules to allow inbound traffic. 
+
+
+&nbsp;
+# References to other module outputs
+
+- resource_group
+- azurerm_container_registry
+- well_known_subnets
 
 &nbsp;
 # What does the module change
@@ -51,9 +59,3 @@ Terraform module "aks_{rg name}"
 ```
 module.aks_{rg name}
 ```
-&nbsp;
-# References to other Terraform modules
-
-- resource_group
-- azurerm_container_registry
-- well_known_subnets
