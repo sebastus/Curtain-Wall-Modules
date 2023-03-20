@@ -19,7 +19,7 @@ At the Curtain Wall modules level, run
 &nbsp;
 # Changes you need to make
 
-An AzDO PAT is required for this module to access the AzDO project and create the variable group. This should be in the `.env` / `.env.ps1` file.  The PAT needs the ability to manage agent pools.
+An AzDO PAT is required for this module to access the AzDO project and adding the build agent to the pool. This should be in the `.env` / `.env.ps1` file.  The PAT needs the ability to manage agent pools.
 
 
 &nbsp;
