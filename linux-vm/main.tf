@@ -7,7 +7,8 @@ resource "azurerm_public_ip" "linux_vm" {
   name                = azurecaf_name.generated["pip"].result
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
+  sku                 = "Standard"
 }
 
 #

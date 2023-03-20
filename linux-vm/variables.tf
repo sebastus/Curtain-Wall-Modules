@@ -63,6 +63,14 @@ variable "include_azdo_ba" {
   default = false
 }
 
+variable "include_openvpn" {
+  type    = bool
+  default = false
+}
+variable "storage_account_name" {
+  type    = string
+}
+
 variable "include_nexus" {
   type    = bool
   default = false

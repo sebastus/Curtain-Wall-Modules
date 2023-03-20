@@ -22,6 +22,7 @@ variable "singleton_resource_names" {
     virtual_wan       = { resource_type = "azurerm_virtual_wan", base_name = "vpn", random_length = 0 },
     virtual_hub       = { resource_type = "azurerm_virtual_hub", base_name = "vpn", random_length = 0 },
     p2s_vpn           = { resource_type = "azurerm_point_to_site_vpn_gateway", base_name = "vpn", random_length = 0 },
+    route             = { resource_type = "azurerm_route_table", base_name = "vpn", random_length = 0 },
   }
 }
 
@@ -98,7 +99,7 @@ variable "existing_kv_name" {
 # optionally create a platform vpn gateway
 #
 variable "create_platform_vpn" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -133,6 +134,17 @@ variable "well_known_subnets" {
   type = map(object({
     address_prefix = string
   }))
+}
+
+# Include OpenVPN resources, such as route table
+variable "include_openvpn_mods" {
+  type = bool
+}
+variable "openvpn_client_cidr" {
+  type = string
+}
+variable "openvpn_client_next_hop" {
+  type = string
 }
 
 variable "bastion_nsg_rules" {
