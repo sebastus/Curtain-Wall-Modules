@@ -13,13 +13,13 @@ At the Curtain Wall modules level, run
 &nbsp;
 # Execution requirements
 
-AKS-build-agent is Linux only
-JQ is installed to execute, as are build agents from `../container-images/build-agent` and `/../helm-charts/keda-azdo-build-agent`. These are all done in local-exec scripts in main.tf.
+- AKS-build-agent is Linux only 
+- JQ is installed to execute, as are build agents from `/container-images/build-agent` and `/helm-charts/keda-azdo-build-agent`. These are all done in local-exec scripts in `main.tf`.
 
 &nbsp;
 # Changes you need to make
 
-An AzDO PAT is required for this module to access the AzDO project and create the variable group. When running locally export the PAT as a TF_VAR environment variable e.g. `export TF_VAR_azdo_pat=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`.  The PAT tokens need the ability to manage agent pools.
+An AzDO PAT is required for this module to access the AzDO project and create the variable group. This should be in the `.env` / `.env.ps1` file.  The PAT needs the ability to manage agent pools.
 
 
 &nbsp;
@@ -27,8 +27,8 @@ An AzDO PAT is required for this module to access the AzDO project and create th
 
 - resource_group
 - azurerm_container_registry
-- /../container-images/build-agent
-- /../helm-charts/keda-azdo-build-agent
+- container-images/build-agent
+- helm-charts/keda-azdo-build-agent
 
 &nbsp;
 # What does the module change
