@@ -1,4 +1,4 @@
-# Introduction 
+# Overview
 
 This module deploys an AKS cluster with a default node pool. The AKS cluster:
 -  uses Azure CNI networking
@@ -14,6 +14,14 @@ At the Curtain Wall modules level, run
 
 `python codegen/src/main.py add -m aks -g {resource group name}`
 
+&nbsp;
+# Execution requirements
+
+AKS is Linux only.
+
+&nbsp;
+# Changes you need to make
+
 Once added to your environment, update the subnet used in the module.
 
 The AKS cluster is deployed to a network with NSG rules in place to restrict traffic.  If you add Ingress resources to the cluster you will need to add NSG rules to allow inbound traffic. 
@@ -28,6 +36,12 @@ This module adds the following to your environment.
 {rg name}_aks_admin_username          = "azureuser" 
 {rg name}_aks_default_aks_pool_vm_sku = "Standard_D4ds_v5" 
 {rg name}_aks_install_cert_manager    = false
+
+{rg name}_node_pools = {
+  "buildagents" = {
+    vm_size    = "Standard_DS2_v2"
+    node_count = 1
+  }
 ```
 *{rg name}.tf:* 
 ```
@@ -37,3 +51,9 @@ Terraform module "aks_{rg name}"
 ```
 module.aks_{rg name}
 ```
+&nbsp;
+# References to other Terraform modules
+
+- resource_group
+- azurerm_container_registry
+- well_known_subnets
