@@ -44,6 +44,12 @@ resource "azurerm_log_analytics_workspace" "law" {
   resource_group_name = data.azurerm_resource_group.rg.name
   sku                 = "PerGB2018"
   retention_in_days   = 30
+
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
 }
 
 #
@@ -82,6 +88,12 @@ resource "azurerm_container_registry" "acr" {
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
   sku                 = "Standard"
+
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
 }
 
 #
@@ -95,6 +107,12 @@ resource "azurerm_key_vault" "kv" {
   resource_group_name = data.azurerm_resource_group.rg.name
   tenant_id           = data.azurerm_subscription.env.tenant_id
   sku_name            = "standard"
+
+  lifecycle {
+    ignore_changes = [
+      tags,
+    ]
+  }
 }
 
 data "azurerm_key_vault" "keyvault" {

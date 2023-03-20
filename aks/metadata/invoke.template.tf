@@ -7,6 +7,7 @@ module "aks_xxx" {
   admin_username = var.xxx_aks_admin_username
 
   default_aks_pool_vm_sku = var.xxx_aks_default_aks_pool_vm_sku
+  node_pools              = var.xxx_node_pools
 
   resource_group = module.tg_xxx.resource_group
   subnet_id      = module.tg_xxx.well_known_subnets["default"].id
