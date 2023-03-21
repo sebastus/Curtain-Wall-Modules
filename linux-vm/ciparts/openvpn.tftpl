@@ -13,6 +13,7 @@ runcmd:
  - git checkout myvpn-mods
  - chmod +x openvpn-install.sh
  - ./openvpn-install.sh
+ - systemctl enable openvpn.service
 
  - az login --identity
- - az storage blob upload --auth-mode login --account-name ${storage_account_name} -c openvpn -f /root/playerone.ovpn -n playerone.ovpn
+ - az storage blob upload --auth-mode login --overwrite true -c openvpn -f /root/playerone.ovpn -n playerone.ovpn --account-name ${storage_account_name}

@@ -94,7 +94,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   depends_on = [
-    azurerm_network_interface.linux_vm
+    azurerm_network_interface.linux_vm,
+    azurerm_public_ip.linux_vm,
   ]
 
   lifecycle {

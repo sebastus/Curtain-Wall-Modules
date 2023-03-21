@@ -147,6 +147,28 @@ variable "openvpn_client_next_hop" {
   type = string
 }
 
+variable "default_subnet_nsg_rules" {
+  type = map(object({
+    priority                   = number,
+    direction                  = string,
+    destination_port_range     = string,
+    destination_port_ranges    = list(string),
+    source_address_prefix      = string,
+    destination_address_prefix = string,
+  }))
+
+  default = {
+    AllowOpenVPNInbound = {
+      priority                   = 100,
+      direction                  = "Inbound",
+      destination_port_range     = "1194",
+      destination_port_ranges    = [],
+      source_address_prefix      = "*",
+      destination_address_prefix = "*",
+    },
+  }
+}
+
 variable "bastion_nsg_rules" {
   type = map(object({
     priority                   = number,
