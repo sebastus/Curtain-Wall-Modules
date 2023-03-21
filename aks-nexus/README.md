@@ -42,7 +42,7 @@ If you enable Ingress, you will need to update the appropriate NSG rules to allo
 
 
 &nbsp;
-# What does the module change TODO
+# What does the module change
 
 This module adds the following to your environment.
 
