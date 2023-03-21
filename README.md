@@ -38,13 +38,13 @@ $env:CURTAIN_WALL_BACKEND_KEY = "example"
 
 4. At the Curtain Wall Modules level run:
 
-`python codegen/src/main.py create -g {resource group name}`
+`python codegen/src/codegen.py create -g {resource group name}`
 
 This will add config and terraform files to your environment needed for the base layer of Curtain Wall.
 
 You can then add other modules to your environment with the command:
 
-`python codegen/src/main.py add -m {module you want to add} -g {resource group name}`
+`python codegen/src/codegen.py add -m {module you want to add} -g {resource group name}`
 
 
 5. Confirm the values in the dev.tfvars and .env/.env.ps1 for this new environment to reflect your azdo org and secrets.
