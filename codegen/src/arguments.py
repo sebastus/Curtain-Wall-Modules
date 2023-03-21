@@ -70,4 +70,4 @@ def add_trust_group(args):
     shared.add_trust_group(args.g)
 
 def add_module_to_trust_group(args):
-    shared.add_module_to_trust_group(args.m, args.i, args.g)
+    shared.add_module_to_trust_group(args.m, args.i, args.g, None)

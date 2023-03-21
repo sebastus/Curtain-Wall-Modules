@@ -171,7 +171,7 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core,
 
                 answer = inquirer.prompt(query)  
                 var["value"] = answer["query"]
-            elif (variable_values.get(var["name"]) != None):
+            elif (variable_values != None and variable_values.get(var["name"]) != None):
                 var["value"] =  variable_values.get(var["name"])
             else:
                 var["value"] = var["default"]
