@@ -5,6 +5,8 @@ import atexit
 import json
 import uuid
 import shutil
+import inquirer
+import validation
 
 PIPELINE_TF_PLAN_FILE_NAME = "pl_tf_plan.yaml"
 PIPELINE_TF_APPLY_FILE_NAME = "pl_tf_apply.yaml"
@@ -220,6 +222,25 @@ def write_vars_file(trust_group, vars, file_name, module_id, add, index, append)
         f.write(f'# END: {module_id}\n')
         f.write('# ############################\n')
 
+def evaluate_usage(variable, variables):
+    if ("condition" in variable):
+        expression = variable["condition"].split('?')[0].strip()
+        terms = expression.split('==')
+        parent_name = terms[0].strip()
+        options = variable["condition"].split('?')[1].split(':')
+                
+        parent = next((sub for sub in variables if sub['name'] == parent_name), None)
+        if(parent["value"] == "true"):
+            option = options[0].strip()
+        elif (len(terms) > 1 and parent["value"] == terms[1].strip().strip("'")):
+            option = options[0].strip()
+        else:
+            option = options[1].strip()
+        
+        if(option == '0'):
+            return(False)
+    return(True)
+                         
 def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core):
 
     with open(file_name, "w" if core else "a") as f:
@@ -237,7 +258,24 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core)
         f.write('# ############################\n')
 
         for var in vars:
+            is_used = evaluate_usage(var, vars)
+            value = ""
+                        
+            if ("query" in var and is_used):
+                
+                if(var["type"] == "bool"):
+                    query = [inquirer.Text(name="query", message=var["query"], default=var["default"], validate = validation.validation_bool)]
+                elif(var["type"] == "number"):
+                    query = [inquirer.Text(name="query", message=var["query"], default=var["default"], validate = validation.validation_number)]
+                else: 
+                    query = [inquirer.Text(name="query", message=var["query"], default=var["default"])]
 
+                answer = inquirer.prompt(query)                
+                value = answer["query"]
+                var["value"] = value
+            else:
+                var["value"] = var["default"]
+                
             if (var["secret"] == "true"):
                 continue
             
@@ -246,8 +284,13 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core)
 
             index_snip = "" if (index == None) else f"_{index}"
             rg_snip = "" if trust_group == None else f'{trust_group}_'
-            if (var["type"] == 'string'):
+
+            if (var["type"] == 'string' and value):
+                f.write(f'{rg_snip}{var["name"]}{index_snip} = \"{value}\"\n')
+            elif (var["type"] == 'string'):
                 f.write(f'{rg_snip}{var["name"]}{index_snip} = \"{var["default"]}\"\n')
+            elif (value):
+                f.write(f'{rg_snip}{var["name"]}{index_snip} = {value}\n')
             else:
                 f.write(f'{rg_snip}{var["name"]}{index_snip} = {var["default"]}\n')
 
