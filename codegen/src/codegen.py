@@ -1,7 +1,7 @@
 import os
 import shared
 import environment
-import validation
+import validators
 import arguments
 
 def main():    
@@ -9,7 +9,7 @@ def main():
     args = arguments.parse_arguments()
 
     # validate environment variables
-    validation.validate_environment(environment)
+    validators.validate_environment(environment)
 
     # set directory to target directory
     os.chdir(environment.CURTAIN_WALL_ENVIRONMENT)

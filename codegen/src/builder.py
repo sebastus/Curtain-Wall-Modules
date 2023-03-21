@@ -1,11 +1,11 @@
 import os
 import shared
 import environment
-import validation
+import validators
 
 def main():
     # validate environment variables
-    validation.validate_environment(environment)
+    validators.validate_environment(environment)
 
     # set directory to target directory
     os.chdir(environment.CURTAIN_WALL_ENVIRONMENT)
@@ -16,10 +16,13 @@ def main():
     # add trust group and modules
     builder = shared.get_builder()
 
+    # validate builder
+    validators.validate_builder(builder)
+
     for trust_group in builder['trust_groups']:
-        shared.add_trust_group_name(trust_group.get('name')) 
+        shared.add_trust_group(trust_group.get('name')) 
         for module in trust_group['modules']:
-            shared.add_module_to_trust_group(module.get('name'), module.get('index'), trust_group.get('name'))
+            shared.add_module_to_trust_group(module.get('name'), module.get('index'), trust_group.get('name'), module.get('variables'))
 
 if __name__ == "__main__":
     main()

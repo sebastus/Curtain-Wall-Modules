@@ -51,7 +51,7 @@ def parse_arguments():
         metavar='index',
         help='Index of the variable if multiple. 0,1,2...'
     )
-    add_parser.set_defaults(func=shared.add_module_to_trust_group)
+    add_parser.set_defaults(func=add_module_to_trust_group)
 
     create_parser = subparsers.add_parser('create', 
         help='Create a new trust group.',
@@ -62,6 +62,12 @@ def parse_arguments():
         help = 'Base name of trust group to which module will be added to the environment.',
         metavar='trust_group'
     )
-    create_parser.set_defaults(func=shared.add_trust_group)
+    create_parser.set_defaults(func=add_trust_group)
 
     return(parser.parse_args())
+
+def add_trust_group(args):
+    shared.add_trust_group(args.g)
+
+def add_module_to_trust_group(args):
+    shared.add_module_to_trust_group(args.m, args.i, args.g)

@@ -5,11 +5,13 @@
             "modules": [
                 {
                     "name": "aks",
-                    "variables": []
+                    "variables": {
+                        "aks_admin_username": "test"
+                    }
                 },
                 {
                     "name": "bastion",
-                    "variables": []
+                    "variables": {}
                 }
             ]
         },
@@ -19,11 +21,11 @@
                 {
                     "name": "aks",
                     "index": 0,
-                    "variables": []
+                    "variables": {}
                 },
                 {
                     "name": "bastion",
-                    "variables": []
+                    "variables": {}
                 }
             ]
         }

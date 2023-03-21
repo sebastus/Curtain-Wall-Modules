@@ -3,7 +3,7 @@ import atexit
 import json
 import uuid
 import inquirer
-import validation
+import validators
 import environment
 import constants
 
@@ -142,7 +142,7 @@ def evaluate_usage(variable, variables):
             return(False)
     return(True)
                          
-def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core):
+def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core, variable_values):
 
     with open(file_name, "w" if core else "a") as f:
 
@@ -160,20 +160,19 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core)
 
         for var in vars:
             is_used = evaluate_usage(var, vars)
-            value = ""
-                        
-            if ("query" in var and is_used):
-                
+            
+            if ("query" in var and is_used and environment.CURTAIN_WALL_USE_MLD):
                 if(var["type"] == "bool"):
-                    query = [inquirer.Text(name="query", message=var["query"], default=var["default"], validate = validation.validation_bool)]
+                    query = [inquirer.Text(name="query", message=var["query"], default=var["default"], validate = validators.validation_bool)]
                 elif(var["type"] == "number"):
-                    query = [inquirer.Text(name="query", message=var["query"], default=var["default"], validate = validation.validation_number)]
+                    query = [inquirer.Text(name="query", message=var["query"], default=var["default"], validate = validators.validation_number)]
                 else: 
                     query = [inquirer.Text(name="query", message=var["query"], default=var["default"])]
 
-                answer = inquirer.prompt(query)                
-                value = answer["query"]
-                var["value"] = value
+                answer = inquirer.prompt(query)  
+                var["value"] = answer["query"]
+            elif (variable_values.get(var["name"]) != None):
+                var["value"] =  variable_values.get(var["name"])
             else:
                 var["value"] = var["default"]
                 
@@ -186,14 +185,10 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core)
             index_snip = "" if (index == None) else f"_{index}"
             rg_snip = "" if trust_group == None else f'{trust_group}_'
 
-            if (var["type"] == 'string' and value):
-                f.write(f'{rg_snip}{var["name"]}{index_snip} = \"{value}\"\n')
-            elif (var["type"] == 'string'):
-                f.write(f'{rg_snip}{var["name"]}{index_snip} = \"{var["default"]}\"\n')
-            elif (value):
-                f.write(f'{rg_snip}{var["name"]}{index_snip} = {value}\n')
+            if (var["type"] == 'string'):
+                f.write(f'{rg_snip}{var["name"]}{index_snip} = \"{var["value"]}\"\n')
             else:
-                f.write(f'{rg_snip}{var["name"]}{index_snip} = {var["default"]}\n')
+                f.write(f'{rg_snip}{var["name"]}{index_snip} = {var["value"]}\n')
 
         if not trust_group == None:
             f.write('\n')
@@ -326,11 +321,8 @@ def write_dotenv_file(file_name, trust_group, index, vars, banner, format):
 def write_dotenv_files(trust_group, index, vars, banner):
     write_dotenv_file(constants.DOTENV_POSH_FILE_NAME, trust_group, index, vars, banner, 'powershell')
     write_dotenv_file(constants.DOTENV_BASH_FILE_NAME, trust_group, index, vars, banner, 'bash')
-    
-def add_trust_group(args):
-    add_trust_group_name(args.g)
 
-def add_trust_group_name(trust_group_name):
+def add_trust_group(trust_group_name):
     fileset_exists = os.path.isfile(f'{trust_group_name}.tf')
     if fileset_exists:
         print('trust group already exists.')
@@ -350,18 +342,15 @@ def add_trust_group_name(trust_group_name):
     write_vars_file(trust_group_name, vars, f'{trust_group_name}_vars.tf', module_id, None, None, False)
 
     # write xxx.auto.tfvars file
-    write_tfvars_file(vars, constants.TFVARS_FILE_NAME, trust_group_name, None, None, module_id, False)
+    write_tfvars_file(vars, constants.TFVARS_FILE_NAME, trust_group_name, None, None, module_id, False, None)
 
     # write the outputs file
     write_outputs_file(trust_group_name, module_id, None)
 
     # write the .env files
     write_dotenv_files(trust_group_name, None, vars, 'Secret variables for the module')
-
-def add_module_to_trust_group(args):
-    add_module_to_trust_group(args.m, args.i, args.g)
     
-def add_module_to_trust_group(module_name, index, trust_group_name):
+def add_module_to_trust_group(module_name, index, trust_group_name, variable_values):
 
     fileset_exists = os.path.isfile(f'{trust_group_name}.tf')
     if not fileset_exists:
@@ -381,9 +370,9 @@ def add_module_to_trust_group(module_name, index, trust_group_name):
     write_vars_file(trust_group_name, vars, f'{trust_group_name}_vars.tf', module_id, module_name, index, True)
 
     # append to xxx.auto.tfvars file
-    write_tfvars_file(vars, constants.TFVARS_FILE_NAME, trust_group_name, module_name, index, module_id, False)
+    write_tfvars_file(vars, constants.TFVARS_FILE_NAME, trust_group_name, module_name, index, module_id, False, variable_values)
 
-    # write the outputs file
+    # write the outputs fil, variable_e
     write_outputs_file(trust_group_name, module_id, module_name)
 
     # write the .env files
@@ -394,4 +383,4 @@ def parse_core_files():
         core_schema = get_schema("remote", "core-schema")
         core_vars = core_schema['variables']
         write_dotenv_files(None, None, core_vars, 'Global/core secret variables')
-        write_tfvars_file(core_vars, constants.TFVARS_FILE_NAME, None, None, None, None, True)
+        write_tfvars_file(core_vars, constants.TFVARS_FILE_NAME, None, None, None, None, True, None)
