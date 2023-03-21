@@ -29,6 +29,7 @@ An AzDO PAT is required for this module to access the AzDO project and adding th
 - azurerm_container_registry
 - container-images/build-agent
 - helm-charts/keda-azdo-build-agent
+- aks_{resource group}.aks
 
 &nbsp;
 # What does the module change
