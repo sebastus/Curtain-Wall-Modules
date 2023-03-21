@@ -1,6 +1,6 @@
 module "tg_xxx" {
-  #source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//trust-group?ref=main"
-  source = "../Curtain-Wall-Modules/trust-group"
+  source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//trust-group?ref=main"
+  #source = "../Curtain-Wall-Modules/trust-group"
 
   location     = var.location
   tg_base_name = var.xxx_tg_base_name

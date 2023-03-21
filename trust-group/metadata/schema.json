@@ -174,7 +174,7 @@
             "name": "openvpn_client_next_hop",
             "description": "String: IP address of next hop for vpnToClient route.",
             "type": "string",
-            "default": "10.8.0.1",
+            "default": "10.1.0.4",
             "secret": "false",
             "query": "Including an OpenVPN server - what's the IP address of the server?",
             "condition": "include_openvpn ? 1 : 0"
