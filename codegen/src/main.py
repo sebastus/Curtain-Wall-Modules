@@ -55,10 +55,23 @@ CURTAIN_WALL_ENVIRONMENT = os.environ.get('CURTAIN_WALL_ENVIRONMENT')
 # the name of the tfstate file in azurerm backend remote storage
 CURTAIN_WALL_BACKEND_KEY = os.environ.get('CURTAIN_WALL_BACKEND_KEY')
 
-def get_module_schema(add):
 
-    file_name = f'{CURTAIN_WALL_MODULES_HOME}/{add}/metadata/schema.json'
-    if add == 'remote':
+def get_builder():
+
+    file_name = f'{CURTAIN_WALL_MODULES_HOME}/codegen/src/builder.json'
+    
+    if (not os.path.isfile(file_name)):
+        return()
+    
+    with open(file_name,"r") as f:
+        builder = json.load(f)
+
+    return(builder)
+
+def get_module_schema(module):
+
+    file_name = f'{CURTAIN_WALL_MODULES_HOME}/{module}/metadata/schema.json'
+    if module == 'remote':
         file_name = f'{CURTAIN_WALL_MODULES_HOME}/trust-group/metadata/core-schema.json'
 
     with open(file_name,"r") as f:
@@ -66,88 +79,22 @@ def get_module_schema(add):
 
     return(schema)
 
-def get_module_invocation_code(trust_group, add, index):
+def get_code(trust_group, module, index, name):
 
-    with open(f'{CURTAIN_WALL_MODULES_HOME}/{add}/metadata/invoke.template.tf',"r") as f:
-        lines = f.readlines()
-
-    code = ""
-    for line in lines:
-        if index != None and line.find('xxx_') >= 0:
-            line = line.strip('\n') + f'_{index}' + '\n'
-        code += line.replace('xxx', f'{trust_group}')
-
-    return(code)
-
-def get_module_variable_group_code(trust_group, add, index):
-
-    with open(f'{CURTAIN_WALL_MODULES_HOME}/{add}/metadata/variable-group.template.tf',"r") as f:
-        lines = f.readlines()
-
-    code = ""
-    for line in lines:
-        if index != None and line.find('xxx_') >= 0:
-            line = line.strip('\n') + f'_{index}' + '\n'
-        code += line.replace('xxx', f'{trust_group}')
-
-    return(code)
-
-def get_module_outputs_code(trust_group, add):
-
-    file_name = f'{CURTAIN_WALL_MODULES_HOME}/{add}/metadata/outputs.template.tf'
+    file_name = f'{CURTAIN_WALL_MODULES_HOME}/{module}/metadata/{name}.template.tf'
     if (not os.path.isfile(file_name)):
         return("")
-
-    with open(file_name,"r") as f:
-        lines = f.readlines()
-
-    code = ""
-    for line in lines:
-        code += line.replace('xxx', f'{trust_group}')
-
-    return(code)
-
-def get_complex_vars_code(trust_group, add):
     
-    file_name = f'{CURTAIN_WALL_MODULES_HOME}/{add}/metadata/complex-vars.template.tf'
-    if (not os.path.isfile(file_name)):
-        return("")
-
     with open(file_name,"r") as f:
         lines = f.readlines()
 
     code = ""
     for line in lines:
+        if index != None and line.find('xxx_') >= 0:
+            line = line.strip('\n') + f'_{index}' + '\n'
         code += line.replace('xxx', f'{trust_group}')
 
     return(code)
-
-def get_complex_tfvars_code(trust_group, add):
-
-    file_name = f'{CURTAIN_WALL_MODULES_HOME}/{add}/metadata/complex-tfvars.template.tf'
-    if (not os.path.isfile(file_name)):
-        return("")
-
-    with open(file_name,"r") as f:
-        lines = f.readlines()
-
-    code = ""
-    for line in lines:
-        code += line.replace('xxx', f'{trust_group}')
-
-    return(code)
-
-def init_terraform_yaml_files():
-
-    in_file_name = f'{CURTAIN_WALL_MODULES_HOME}/remote/metadata/{PIPELINE_TF_PLAN_FILE_NAME}'
-    out_file_name = f'{PIPELINE_TF_PLAN_FILE_NAME}'
-    shutil.copy(in_file_name, out_file_name)
-
-    in_file_name = f'{CURTAIN_WALL_MODULES_HOME}/remote/metadata/{PIPELINE_TF_APPLY_FILE_NAME}'
-    out_file_name = f'{PIPELINE_TF_APPLY_FILE_NAME}'
-    shutil.copy(in_file_name, out_file_name)
-
-
 
 def write_outputs_file(trust_group, module_id, add):
 
@@ -161,7 +108,7 @@ def write_outputs_file(trust_group, module_id, add):
         f.write(f'# Instance ID: {module_id}\n')
         f.write('# ############################\n')
 
-        f.write(get_module_outputs_code(trust_group, add if add!=None else "trust-group"))
+        f.write(get_code(trust_group, add if add!=None else "trust-group", None, "outputs"))
 
         f.write('# ############################\n')
         f.write(f'# END: {module_id}\n')
@@ -179,7 +126,7 @@ def write_invocation_file(trust_group, file_name, module_id, add, index, append)
         f.write(f'# Instance ID: {module_id}\n')
         f.write('# ############################\n')
 
-        f.write(get_module_invocation_code(trust_group, add if add!=None else "trust-group", index))
+        f.write(get_code(trust_group, add if add!=None else "trust-group", index, "invoke"))
 
         f.write('# ############################\n')
         f.write(f'# END: {module_id}\n')
@@ -216,7 +163,7 @@ def write_vars_file(trust_group, vars, file_name, module_id, add, index, append)
             f.write('}\n')
 
         f.write('\n')
-        f.write(get_complex_vars_code(trust_group, add if add!=None else "trust-group"))
+        f.write(get_code(trust_group, add if add!=None else "trust-group", None, "complex-vars"))
 
         f.write('# ############################\n')
         f.write(f'# END: {module_id}\n')
@@ -296,72 +243,13 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core)
 
         if not trust_group == None:
             f.write('\n')
-            f.write(get_complex_tfvars_code(trust_group, add if add!=None else "trust-group"))
+            f.write(get_code(trust_group, add if add!=None else "trust-group", None, "complex-tfvars"))
 
         f.write('# ############################\n')
         if core:
             f.write(f'# END: Core/global\n')
         else:
             f.write(f'# END: {module_id}\n')
-        f.write('# ############################\n')
-
-def write_variable_group_file(trust_group, file_name, module_id, add, index, append):
-
-    with open(file_name, "a" if append else "w") as f:
-
-        f.write('\n\n')
-        f.write('# ############################\n')
-        f.write(f'# Trust group: {trust_group}\n')
-        if add != None:
-            f.write(f'# Module name: {add}\n')
-        f.write(f'# Instance ID: {module_id}\n')
-        f.write('# ############################\n')
-
-        f.write(get_module_variable_group_code(trust_group, add if add!=None else "trust-group", index))
-
-        f.write('# ############################\n')
-        f.write(f'# END: {module_id}\n')
-        f.write('# ############################\n')
-
-def write_variable_group_file_locals(vars, file_name, trust_group, add, index, module_id):
-
-    with open(file_name, "a") as f:
-        f.write('\n\n')
-        f.write('# ############################\n')
-        f.write(f'# Trust group: {trust_group}\n')
-        if add != None:
-            f.write(f'# Module name: {add}\n')
-        f.write(f'# Instance ID: {module_id}\n')
-        f.write('# ############################\n')
-
-        f.write('\n')
-        f.write('locals {\n')
-        f.write(f'\t{trust_group}_variables = {{\n')
-
-        for var in vars:
-
-            if (var.get("skip", "false") == "true"):
-                f.write("\n")
-
-            index_snip = "" if (index == None) else f"_{index}"
-
-            f.write(f'\"{trust_group}_{var["name"]}{index_snip}\" = {{\n')
-
-            if (var["secret"] == "true"):
-                f.write(f'secret_value = var.{trust_group}_{var["name"]}{index_snip} \n')
-                f.write(f'value = \"\" \n')
-            else:
-                f.write(f'secret_value = \"\" \n')
-                f.write(f'value = var.{trust_group}_{var["name"]}{index_snip} \n')
-
-            f.write(f'is_secret = {var["secret"]}\n')
-            f.write(f'}},\n')
-
-        f.write(f'\t}}\n')
-        f.write('}\n')
-
-        f.write('# ############################\n')
-        f.write(f'# END: {module_id}\n')
         f.write('# ############################\n')
 
 def write_pipeline_tfvars_template(vars, trust_group, append):
@@ -486,13 +374,15 @@ def write_dotenv_files(trust_group, index, vars, banner):
     write_dotenv_file(DOTENV_BASH_FILE_NAME, trust_group, index, vars, banner, 'bash')
     
 def add_trust_group(args):
+    add_trust_group_name(args.g)
 
-    fileset_exists = os.path.isfile(f'{args.g}.tf')
+def add_trust_group_name(trust_group_name):
+    fileset_exists = os.path.isfile(f'{trust_group_name}.tf')
     if fileset_exists:
         print('trust group already exists.')
-        exit(0)
+        return()
 
-    print(f'Adding trust group {args.g}')
+    print(f'Adding trust group {trust_group_name}')
 
     schema = get_module_schema("trust-group")
     vars = schema['variables']
@@ -500,48 +390,50 @@ def add_trust_group(args):
     module_id = uuid.uuid4()
 
     # write the xxx.tf file
-    write_invocation_file(args.g, f'{args.g}.tf', module_id, None, None, False)
+    write_invocation_file(trust_group_name, f'{trust_group_name}.tf', module_id, None, None, False)
 
     # write the xxx_vars.tf file
-    write_vars_file(args.g, vars, f'{args.g}_vars.tf', module_id, None, None, False)
+    write_vars_file(trust_group_name, vars, f'{trust_group_name}_vars.tf', module_id, None, None, False)
 
     # write xxx.auto.tfvars file
-    write_tfvars_file(vars, TFVARS_FILE_NAME, args.g, None, None, module_id, False)
+    write_tfvars_file(vars, TFVARS_FILE_NAME, trust_group_name, None, None, module_id, False)
 
     # write the outputs file
-    write_outputs_file(args.g, module_id, None)
+    write_outputs_file(trust_group_name, module_id, None)
 
     # write the .env files
-    write_dotenv_files(args.g, None, vars, 'Secret variables for the module')
-
+    write_dotenv_files(trust_group_name, None, vars, 'Secret variables for the module')
 
 def add_module_to_trust_group(args):
+    add_module_to_trust_group(args.m, args.i, args.g)
+    
+def add_module_to_trust_group(module_name, index, trust_group_name):
 
-    fileset_exists = os.path.isfile(f'{args.g}.tf')
+    fileset_exists = os.path.isfile(f'{trust_group_name}.tf')
     if not fileset_exists:
         print('trust group does not exist.')
-        exit(0)
+        return()
 
-    print(f'Adding module {args.m}, to trust group {args.g}')
-    schema = get_module_schema(args.m)
+    print(f'Adding module {module_name}, to trust group {trust_group_name}')
+    schema = get_module_schema(module_name)
 
     vars = schema['variables']
-    args.m_id = uuid.uuid4()
+    module_id = uuid.uuid4()
 
     # write the xxx.tf file
-    write_invocation_file(args.g, f'{args.g}.tf', args.m_id, args.m, args.i, True)
+    write_invocation_file(trust_group_name, f'{trust_group_name}.tf', module_id, module_name , index, True)
 
     # write the xxx_vars.tf file
-    write_vars_file(args.g, vars, f'{args.g}_vars.tf', args.m_id, args.m, args.i, True)
+    write_vars_file(trust_group_name, vars, f'{trust_group_name}_vars.tf', module_id, module_name, index, True)
 
     # append to xxx.auto.tfvars file
-    write_tfvars_file(vars, TFVARS_FILE_NAME, args.g, args.m, args.i, args.m_id, False)
+    write_tfvars_file(vars, TFVARS_FILE_NAME, trust_group_name, module_name, index, module_id, False)
 
     # write the outputs file
-    write_outputs_file(args.g, args.m_id, args.m)
+    write_outputs_file(trust_group_name, module_id, module_name)
 
     # write the .env files
-    write_dotenv_files(args.g, args.i, vars, 'Secret variables for the module')
+    write_dotenv_files(trust_group_name, index, vars, 'Secret variables for the module')
 
 def main():
 
@@ -626,7 +518,15 @@ def main():
         write_dotenv_files(None, None, core_vars, 'Global/core secret variables')
         write_tfvars_file(core_vars, TFVARS_FILE_NAME, None, None, None, None, True)
 
-    args.func(args)
+    builder = get_builder()
+
+    if builder:
+        for trust_group in builder['trust_groups']:
+            add_trust_group_name(trust_group['name'])
+            for module in trust_group['modules']:
+                add_module_to_trust_group(trust_group, module)
+    else: 
+        args.func(args)
 
 if __name__ == "__main__":
     main()
