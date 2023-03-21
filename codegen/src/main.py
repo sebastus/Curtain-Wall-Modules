@@ -522,9 +522,14 @@ def main():
 
     if builder:
         for trust_group in builder['trust_groups']:
-            add_trust_group_name(trust_group['name'])
+            add_trust_group_name(trust_group['name']) 
+
             for module in trust_group['modules']:
-                add_module_to_trust_group(trust_group, module)
+                if "index" in module:
+                    add_module_to_trust_group(module['name'], module['index'], trust_group['name'])
+                else:
+
+                    add_module_to_trust_group(module['name'], None, trust_group['name'])
     else: 
         args.func(args)
 
