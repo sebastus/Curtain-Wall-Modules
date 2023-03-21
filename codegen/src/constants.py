@@ -1,0 +1,7 @@
+PIPELINE_TF_PLAN_FILE_NAME = "pl_tf_plan.yaml"
+PIPELINE_TF_APPLY_FILE_NAME = "pl_tf_apply.yaml"
+PIPELINE_TF_VARS_FILE_NAME = "pl_template.tfvars"
+PIPELINE_VARIABLES_FILE_NAME = "pl_variables.yaml"
+DOTENV_POSH_FILE_NAME = ".env.ps1"
+DOTENV_BASH_FILE_NAME = ".env"
+TFVARS_FILE_NAME = "dev.tfvars"

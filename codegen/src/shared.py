@@ -1,87 +1,41 @@
 import os
-import argparse 
-from argparse import RawTextHelpFormatter
 import atexit
 import json
 import uuid
-import shutil
 import inquirer
 import validation
-
-PIPELINE_TF_PLAN_FILE_NAME = "pl_tf_plan.yaml"
-PIPELINE_TF_APPLY_FILE_NAME = "pl_tf_apply.yaml"
-PIPELINE_TF_VARS_FILE_NAME = "pl_template.tfvars"
-PIPELINE_VARIABLES_FILE_NAME = "pl_variables.yaml"
-DOTENV_POSH_FILE_NAME = ".env.ps1"
-DOTENV_BASH_FILE_NAME = ".env"
-TFVARS_FILE_NAME = "dev.tfvars"
-
-module_choices = [
-    'aks',
-    'bastion',
-    'vhd-or-image',
-    'vm-from-image-linux',
-    'vm-from-image-windows',
-    'azdo-server',
-    "emulated-ash",
-    "vmss-ba",
-    "linux-vm",
-    "aks-build-agent",
-    "aks-nexus"
-]
-
-# Tbd
-# 
-# 
+import environment
+import constants
 
 cwd = os.getcwd()
-print("")   # blank line
 
 def exiting_the_program():
     os.system("terraform fmt")
-    if os.path.isfile(PIPELINE_TF_VARS_FILE_NAME):
-        os.rename(PIPELINE_TF_VARS_FILE_NAME, 'pl.tfvars.tmpl')
+    if os.path.isfile(constants.PIPELINE_TF_VARS_FILE_NAME):
+        os.rename(constants.PIPELINE_TF_VARS_FILE_NAME, 'pl.tfvars.tmpl')
     os.chdir(cwd)
-    print("")
 
 atexit.register(exiting_the_program)
 
-# The folder containing the curtain wall modules repo
-CURTAIN_WALL_MODULES_HOME = os.environ.get('CURTAIN_WALL_MODULES_HOME')
-
-# The folder where resource groups and modules invocations should be placed
-CURTAIN_WALL_ENVIRONMENT = os.environ.get('CURTAIN_WALL_ENVIRONMENT')
-
-# the name of the tfstate file in azurerm backend remote storage
-CURTAIN_WALL_BACKEND_KEY = os.environ.get('CURTAIN_WALL_BACKEND_KEY')
-
-
 def get_builder():
+    file_name = f'{environment.CURTAIN_WALL_MODULES_HOME}/codegen/src/builder.json'
+    return(get_json_file(file_name))
 
-    file_name = f'{CURTAIN_WALL_MODULES_HOME}/codegen/src/builder.json'
-    
+def get_schema(name, schema):
+    file_name = f'{environment.CURTAIN_WALL_MODULES_HOME}/{name}/metadata/{schema}.json'
+    return(get_json_file(file_name))
+
+def get_json_file(file_name):
     if (not os.path.isfile(file_name)):
         return()
     
     with open(file_name,"r") as f:
-        builder = json.load(f)
+        file = json.load(f)
 
-    return(builder)
+    return(file)
 
-def get_module_schema(module):
-
-    file_name = f'{CURTAIN_WALL_MODULES_HOME}/{module}/metadata/schema.json'
-    if module == 'remote':
-        file_name = f'{CURTAIN_WALL_MODULES_HOME}/trust-group/metadata/core-schema.json'
-
-    with open(file_name,"r") as f:
-        schema = json.load(f)
-
-    return(schema)
-
-def get_code(trust_group, module, index, name):
-
-    file_name = f'{CURTAIN_WALL_MODULES_HOME}/{module}/metadata/{name}.template.tf'
+def parse_tf_file(trust_group, module, index, name):
+    file_name = f'{environment.CURTAIN_WALL_MODULES_HOME}/{module}/metadata/{name}.template.tf'
     if (not os.path.isfile(file_name)):
         return("")
     
@@ -108,7 +62,7 @@ def write_outputs_file(trust_group, module_id, add):
         f.write(f'# Instance ID: {module_id}\n')
         f.write('# ############################\n')
 
-        f.write(get_code(trust_group, add if add!=None else "trust-group", None, "outputs"))
+        f.write(parse_tf_file(trust_group, add if add!=None else "trust-group", None, "outputs"))
 
         f.write('# ############################\n')
         f.write(f'# END: {module_id}\n')
@@ -126,7 +80,7 @@ def write_invocation_file(trust_group, file_name, module_id, add, index, append)
         f.write(f'# Instance ID: {module_id}\n')
         f.write('# ############################\n')
 
-        f.write(get_code(trust_group, add if add!=None else "trust-group", index, "invoke"))
+        f.write(parse_tf_file(trust_group, add if add!=None else "trust-group", index, "invoke"))
 
         f.write('# ############################\n')
         f.write(f'# END: {module_id}\n')
@@ -163,7 +117,7 @@ def write_vars_file(trust_group, vars, file_name, module_id, add, index, append)
             f.write('}\n')
 
         f.write('\n')
-        f.write(get_code(trust_group, add if add!=None else "trust-group", None, "complex-vars"))
+        f.write(parse_tf_file(trust_group, add if add!=None else "trust-group", None, "complex-vars"))
 
         f.write('# ############################\n')
         f.write(f'# END: {module_id}\n')
@@ -243,7 +197,7 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core)
 
         if not trust_group == None:
             f.write('\n')
-            f.write(get_code(trust_group, add if add!=None else "trust-group", None, "complex-tfvars"))
+            f.write(parse_tf_file(trust_group, add if add!=None else "trust-group", None, "complex-tfvars"))
 
         f.write('# ############################\n')
         if core:
@@ -254,10 +208,10 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core)
 
 def write_pipeline_tfvars_template(vars, trust_group, append):
 
-    core_schema = get_module_schema("remote")
+    core_schema = get_schema("trust-group", "core-schema")
     core_vars = core_schema['variables']
 
-    with open(f"{PIPELINE_TF_VARS_FILE_NAME}", "a" if append else "w") as f:
+    with open(f"{constants.PIPELINE_TF_VARS_FILE_NAME}", "a" if append else "w") as f:
         f.write('# ############################\n')
         f.write("# Global/core non-secret variables\n")
         f.write('# ############################\n')
@@ -287,11 +241,11 @@ def write_pipeline_tfvars_template(vars, trust_group, append):
 
 def write_variables_yaml_file(backend_key, abs_environment, trust_group):
 
-    file_exists = os.path.isfile(PIPELINE_VARIABLES_FILE_NAME)
+    file_exists = os.path.isfile(constants.PIPELINE_VARIABLES_FILE_NAME)
 
     environment = os.path.basename(abs_environment)
 
-    with open(PIPELINE_VARIABLES_FILE_NAME, "a" if file_exists else "w") as f:
+    with open(constants.PIPELINE_VARIABLES_FILE_NAME, "a" if file_exists else "w") as f:
 
         if not file_exists:
             f.write("variables:\n")
@@ -305,10 +259,10 @@ def write_variables_yaml_file(backend_key, abs_environment, trust_group):
 
 def write_terraform_plan_yaml_file(vars):
 
-    core_schema = get_module_schema("remote")
+    core_schema = get_schema("trust-group", "core-schema")
     core_vars = core_schema['variables']
 
-    with open(f"{PIPELINE_TF_PLAN_FILE_NAME}", "a") as f:
+    with open(f"{constants.PIPELINE_TF_PLAN_FILE_NAME}", "a") as f:
         write_banner(f, 'Global/core secret variables', None, None)
 
         for var in core_vars:
@@ -370,8 +324,8 @@ def write_dotenv_file(file_name, trust_group, index, vars, banner, format):
             f.write(f'{prefix}TF_VAR_{rg_snip}{var_name}{index_snip}=\"changeme\"\n')
 
 def write_dotenv_files(trust_group, index, vars, banner):
-    write_dotenv_file(DOTENV_POSH_FILE_NAME, trust_group, index, vars, banner, 'powershell')
-    write_dotenv_file(DOTENV_BASH_FILE_NAME, trust_group, index, vars, banner, 'bash')
+    write_dotenv_file(constants.DOTENV_POSH_FILE_NAME, trust_group, index, vars, banner, 'powershell')
+    write_dotenv_file(constants.DOTENV_BASH_FILE_NAME, trust_group, index, vars, banner, 'bash')
     
 def add_trust_group(args):
     add_trust_group_name(args.g)
@@ -384,7 +338,7 @@ def add_trust_group_name(trust_group_name):
 
     print(f'Adding trust group {trust_group_name}')
 
-    schema = get_module_schema("trust-group")
+    schema = get_schema("trust-group", "schema")
     vars = schema['variables']
 
     module_id = uuid.uuid4()
@@ -396,7 +350,7 @@ def add_trust_group_name(trust_group_name):
     write_vars_file(trust_group_name, vars, f'{trust_group_name}_vars.tf', module_id, None, None, False)
 
     # write xxx.auto.tfvars file
-    write_tfvars_file(vars, TFVARS_FILE_NAME, trust_group_name, None, None, module_id, False)
+    write_tfvars_file(vars, constants.TFVARS_FILE_NAME, trust_group_name, None, None, module_id, False)
 
     # write the outputs file
     write_outputs_file(trust_group_name, module_id, None)
@@ -415,7 +369,7 @@ def add_module_to_trust_group(module_name, index, trust_group_name):
         return()
 
     print(f'Adding module {module_name}, to trust group {trust_group_name}')
-    schema = get_module_schema(module_name)
+    schema = get_schema(module_name, "schema")
 
     vars = schema['variables']
     module_id = uuid.uuid4()
@@ -427,7 +381,7 @@ def add_module_to_trust_group(module_name, index, trust_group_name):
     write_vars_file(trust_group_name, vars, f'{trust_group_name}_vars.tf', module_id, module_name, index, True)
 
     # append to xxx.auto.tfvars file
-    write_tfvars_file(vars, TFVARS_FILE_NAME, trust_group_name, module_name, index, module_id, False)
+    write_tfvars_file(vars, constants.TFVARS_FILE_NAME, trust_group_name, module_name, index, module_id, False)
 
     # write the outputs file
     write_outputs_file(trust_group_name, module_id, module_name)
@@ -435,103 +389,9 @@ def add_module_to_trust_group(module_name, index, trust_group_name):
     # write the .env files
     write_dotenv_files(trust_group_name, index, vars, 'Secret variables for the module')
 
-def main():
-
-    desc = 'Generate terraform code for your environment. Env vars to be set:\n\n'
-    desc += 'CURTAIN_WALL_MODULES_HOME: absolute location of the modules repo\n'
-    desc += 'CURTAIN_WALL_BACKEND_KEY: tfstate backend key for this environment\n'
-    desc += 'CURTAIN_WALL_ENVIRONMENT: absolute location of the folder containing this environment\n'
-    parser = argparse.ArgumentParser(
-        description=desc,
-        usage='python codegen\src\main.py ',
-        formatter_class=RawTextHelpFormatter
-    )
-
-    subparsers = parser.add_subparsers(title = "Available commands", metavar='')
-
-    add_parser = subparsers.add_parser('add', 
-        help='Add a module to the given trust group.',
-        description='Add a module to the given trust group.'
-    )
-    add_parser.add_argument('-g', 
-        help = 'Base name of trust group to be added to the environment.',
-        required = True,
-        metavar='trust_group'
-    )
-    add_parser.add_argument('-m', 
-        help = 'Name of module to be added.',
-        required = True,
-        metavar='module',
-        choices=module_choices
-    )
-    add_parser.add_argument('-i', 
-        required=False, 
-        metavar='index',
-        help='Index of the variable if multiple. 0,1,2...'
-    )
-    add_parser.set_defaults(func=add_module_to_trust_group)
-
-    create_parser = subparsers.add_parser('create', 
-        help='Create a new trust group.',
-        description='Create a new trust group.'
-    )
-    create_parser.add_argument('-g', 
-        required = True,
-        help = 'Base name of trust group to which module will be added to the environment.',
-        metavar='trust_group'
-    )
-    create_parser.set_defaults(func=add_trust_group)
-
-    args = parser.parse_args()
-
-    if (CURTAIN_WALL_MODULES_HOME == None):
-        print("CURTAIN_WALL_MODULES_HOME env var must be set to the location of the CW modules.")
-        exit()
-
-    bastion = f'{CURTAIN_WALL_MODULES_HOME}/bastion'
-    cw_modules_exists = os.path.isdir(bastion)
-    if (cw_modules_exists):
-        print('Detected Curtain Wall modules.')
-    else:
-        print('Please ensure that the modules repo is cloned into CURTAIN_WALL_MODULES_HOME.')
-        exit()
-
-    backend_key = ""
-    if (CURTAIN_WALL_BACKEND_KEY != None):
-        backend_key = CURTAIN_WALL_BACKEND_KEY
-    if (backend_key == ""):
-        print('The backend key must be specified in env var CURTAIN_WALL_BACKEND_KEY.')
-        exit()
-
-    environment = ""
-    if (CURTAIN_WALL_ENVIRONMENT != None):
-        environment = CURTAIN_WALL_ENVIRONMENT
-    if (not os.path.isdir(environment)):
-        print(f'The name of the environment folder must be specified in env var CURTAIN_WALL_ENVIRONMENT.')
-        exit()
-    os.chdir(environment)
-
-    # this is done once per cw environment
-    if (not os.path.isfile(f'{DOTENV_POSH_FILE_NAME}') and not os.path.isfile(f'{DOTENV_BASH_FILE_NAME}')):
-        core_schema = get_module_schema("remote")
+def parse_core_files():
+    if (not os.path.isfile(f'{constants.DOTENV_POSH_FILE_NAME}') and not os.path.isfile(f'{constants.DOTENV_BASH_FILE_NAME}')):
+        core_schema = get_schema("remote", "core-schema")
         core_vars = core_schema['variables']
         write_dotenv_files(None, None, core_vars, 'Global/core secret variables')
-        write_tfvars_file(core_vars, TFVARS_FILE_NAME, None, None, None, None, True)
-
-    builder = get_builder()
-
-    if builder:
-        for trust_group in builder['trust_groups']:
-            add_trust_group_name(trust_group['name']) 
-
-            for module in trust_group['modules']:
-                if "index" in module:
-                    add_module_to_trust_group(module['name'], module['index'], trust_group['name'])
-                else:
-
-                    add_module_to_trust_group(module['name'], None, trust_group['name'])
-    else: 
-        args.func(args)
-
-if __name__ == "__main__":
-    main()
+        write_tfvars_file(core_vars, constants.TFVARS_FILE_NAME, None, None, None, None, True)
