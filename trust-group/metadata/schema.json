@@ -81,6 +81,15 @@
             "query": "Switch: create a new Key Vault (true) or use an existing one (false)?"
         },
         {
+            "name": "make_created_kv_private",
+            "description": "Boolean: Make the created kv private by placing it behind a private endpoint.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false",
+            "query": "Switch: Make the created kv private by placing it behind a private endpoint (true) or not (false)?",
+            "condition": "create_kv ? 1 : 0"
+        },
+        {
             "name": "existing_kv_name",
             "description": "String: if ingesting an existing KV, its name.",
             "type": "string",

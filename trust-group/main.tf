@@ -97,30 +97,6 @@ resource "azurerm_container_registry" "acr" {
 }
 
 #
-# Key Vault
-#
-resource "azurerm_key_vault" "kv" {
-  count = var.create_kv ? 1 : 0
-
-  name                = azurecaf_name.generated["kv"].result
-  location            = data.azurerm_resource_group.rg.location
-  resource_group_name = data.azurerm_resource_group.rg.name
-  tenant_id           = data.azurerm_subscription.env.tenant_id
-  sku_name            = "standard"
-
-  lifecycle {
-    ignore_changes = [
-      tags,
-    ]
-  }
-}
-
-data "azurerm_key_vault" "keyvault" {
-  name                = var.create_kv ? azurerm_key_vault.kv[0].name : var.existing_kv_name
-  resource_group_name = var.create_kv ? azurerm_key_vault.kv[0].resource_group_name : var.existing_kv_rg_name
-}
-
-#
 # remote tfstate storage
 #
 resource "azurerm_storage_account" "tfstate" {
