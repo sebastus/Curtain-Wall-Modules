@@ -7,7 +7,8 @@ resource "azurerm_public_ip" "linux_vm" {
   name                = azurecaf_name.generated["pip"].result
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
+  sku                 = "Standard"
 }
 
 #
@@ -93,7 +94,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
   depends_on = [
-    azurerm_network_interface.linux_vm
+    azurerm_network_interface.linux_vm,
+    azurerm_public_ip.linux_vm,
   ]
 
   lifecycle {

@@ -20,10 +20,16 @@ module "tg_xxx" {
   existing_kv_name    = var.xxx_existing_kv_name
   existing_kv_rg_name = var.xxx_existing_kv_rg_name
 
+  create_platform_vpn = var.xxx_create_platform_vpn
+
   create_vnet            = var.xxx_create_vnet
   new_vnet_address_space = var.xxx_new_vnet_address_space
   existing_vnet_rg_name  = var.xxx_existing_vnet_rg_name
   existing_vnet_name     = var.xxx_existing_vnet_name
+
+  include_openvpn_mods     = var.xxx_include_openvpn_mods
+  openvpn_client_cidr     = var.xxx_openvpn_client_cidr
+  openvpn_client_next_hop = var.xxx_openvpn_client_next_hop
 
   create_well_known_subnets = var.xxx_create_well_known_subnets
   well_known_subnets        = var.xxx_well_known_subnets

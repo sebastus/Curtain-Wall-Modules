@@ -76,3 +76,47 @@ data "azurerm_subnet" "well_known_subnets" {
     azurerm_subnet.well_known_subnets
   ]
 }
+
+resource "azurerm_route_table" "openvpn" {
+  count = var.include_openvpn_mods ? 1 : 0
+
+  name                          = azurecaf_name.generated["route"].result
+  resource_group_name           = data.azurerm_resource_group.rg.name
+  location                      = data.azurerm_resource_group.rg.location
+  disable_bgp_route_propagation = false
+
+  route {
+    name                   = "vpnToClient"
+    address_prefix         = var.openvpn_client_cidr
+    next_hop_type          = "VirtualAppliance"
+    next_hop_in_ip_address = var.openvpn_client_next_hop
+  }
+}
+
+resource "azurerm_subnet_route_table_association" "openvpn" {
+  for_each = var.include_openvpn_mods ? {
+    for name, subnet in var.well_known_subnets : name => subnet
+    if name != "AzureBastionSubnet"
+  } : {}
+
+  subnet_id = data.azurerm_subnet.well_known_subnets[each.key].id
+  route_table_id = azurerm_route_table.openvpn[0].id
+}
+
+resource "azurerm_network_security_rule" "openvpn" {
+  for_each = var.include_openvpn_mods ? var.default_subnet_nsg_rules : {}
+
+  name                        = each.key
+  priority                    = each.value.priority
+  direction                   = each.value.direction
+  access                      = "Allow"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = each.value.destination_port_range == "" ? null : each.value.destination_port_range
+  destination_port_ranges     = length(each.value.destination_port_ranges) == 0 ? null : each.value.destination_port_ranges
+  source_address_prefix       = each.value.source_address_prefix
+  destination_address_prefix  = each.value.destination_address_prefix
+  resource_group_name         = data.azurerm_resource_group.rg.name
+  network_security_group_name = azurerm_network_security_group.nsg["default"].name
+
+}

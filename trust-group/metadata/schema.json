@@ -99,6 +99,15 @@
             "condition": "create_kv ? 0 : 1"
         },
         {
+            "name": "create_platform_vpn",
+            "description": "Boolean: create an Azure VPN Gateway and its dependencies or not.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false",
+            "skip": "true",
+            "query": "Switch: create an Azure VPN Gateway (true) or not (false)?"
+        },
+        {
             "name": "create_vnet",
             "description": "Boolean: create a VNET or ingest existing.",
             "type": "bool",
@@ -142,6 +151,33 @@
             "secret": "false",
             "skip": "true",
             "query": "Switch: create the well known subnets (true) or use existing (false)?"
+        },
+        {
+            "name": "include_openvpn_mods",
+            "description": "Boolean: Include OpenVPN network modifications.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false",
+            "skip": "true",
+            "query": "Switch: Add OpenVPN network modifications (true) or not (false)?"
+        },
+        {
+            "name": "openvpn_client_cidr",
+            "description": "String: Address space of new OpenVPN clients, expressed as a CIDR.",
+            "type": "string",
+            "default": "10.8.0.0/16",
+            "secret": "false",
+            "query": "Including an OpenVPN server - what's the client address space CIDR?",
+            "condition": "include_openvpn_mods ? 1 : 0"
+        },
+        {
+            "name": "openvpn_client_next_hop",
+            "description": "String: IP address of next hop for vpnToClient route.",
+            "type": "string",
+            "default": "10.1.0.4",
+            "secret": "false",
+            "query": "Including an OpenVPN server - what's the IP address of the server?",
+            "condition": "include_openvpn_mods ? 1 : 0"
         },
         {
             "name": "is_tfstate_home",

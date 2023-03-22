@@ -36,7 +36,7 @@
         },
         {
             "name": "include_azdo_ba",
-            "description": "Boolean: Whether to make the vm an azdo build agent.",
+            "description": "Boolean: Whether to make the vm an azdo build agent. Depends on az cli.",
             "type": "bool",
             "default": "false",
             "secret": "false",
@@ -78,6 +78,24 @@
             "secret": "false",
             "query": "What capability demand should the new build agents respond to?",
             "condition": "include_azdo_ba ? 1 : 0"
+        },
+        {
+            "name": "include_openvpn",
+            "description": "Boolean: Whether to install OpenVPN Server. Depends on az cli. Must have a public IP.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false",
+            "skip": "true",
+            "query": "Switch: Install OpenVPN Server to the vm (true) or not (false)?"
+        },
+        {
+            "name": "storage_account_name",
+            "description": "String: Name of the storage account into which OpenVPN client config will be placed.",
+            "type": "string",
+            "default": "",
+            "secret": "false",
+            "skip": "false",
+            "query": "Name of the storage account into which the OpenVPN client config will be placed?"
         },
         {
             "name": "linuxvm_install_omsagent",

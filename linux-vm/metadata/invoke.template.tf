@@ -1,5 +1,6 @@
 module "linux-vm" {
   source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//linux-vm?ref=main"
+  #source = "../Curtain-Wall-Modules/linux-vm"
 
   count            = var.xxx_count_of_vm
   instance_index   = count.index
@@ -34,6 +35,9 @@ module "linux-vm" {
   include_terraform = var.xxx_include_terraform
   terraform_version = var.xxx_terraform_version
 
+  include_openvpn          = var.xxx_include_openvpn
+  storage_account_name     = var.xxx_storage_account_name
+
   include_sonarqube_server = var.xxx_include_sonarqube_server
   include_azcli            = var.xxx_include_azcli
   include_nexus            = var.xxx_include_nexus
@@ -42,4 +46,6 @@ module "linux-vm" {
   include_packer           = var.xxx_include_packer
   include_dotnetsdk        = var.xxx_include_dotnetsdk
   include_maven            = var.xxx_include_maven
+
+  powershell_command       = "powershell"
 }

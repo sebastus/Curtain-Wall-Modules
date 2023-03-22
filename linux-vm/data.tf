@@ -15,6 +15,19 @@ data "template_cloudinit_config" "config_cloud_init" {
     merge_type = "list(append)+dict(recurse_array)+str()"
   }
 
+  # until we come up with a good reason, put az cli first
+  part {
+    content_type = "text/cloud-config"
+    content      = data.template_file.azcli.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
+
+  part {
+    content_type = "text/cloud-config"
+    content      = data.template_file.openvpn.rendered
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
+
   part {
     content_type = "text/cloud-config"
     content      = data.template_file.pwsh.rendered
@@ -24,12 +37,6 @@ data "template_cloudinit_config" "config_cloud_init" {
   part {
     content_type = "text/cloud-config"
     content      = data.template_file.nexus.rendered
-    merge_type   = "list(append)+dict(recurse_array)+str()"
-  }
-
-  part {
-    content_type = "text/cloud-config"
-    content      = data.template_file.azcli.rendered
     merge_type   = "list(append)+dict(recurse_array)+str()"
   }
 
@@ -104,6 +111,22 @@ runcmd:
  - echo az CLI is not included
  - echo ********************************
 EOT
+}
+
+data "template_file" "openvpn" {
+
+  template = var.include_openvpn ? "${file("${path.module}/ciparts/openvpn.tftpl")}" : <<-EOT
+# cloud-config
+runcmd:
+# OpenVPN - not included
+ - echo ********************************
+ - echo OpenVPN server is not included
+ - echo ********************************
+EOT
+
+  vars = {
+    storage_account_name = var.storage_account_name
+  }
 }
 
 data "template_file" "docker" {
