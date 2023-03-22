@@ -168,7 +168,7 @@
             "default": "10.8.0.0/16",
             "secret": "false",
             "query": "Including an OpenVPN server - what's the client address space CIDR?",
-            "condition": "include_openvpn ? 1 : 0"
+            "condition": "include_openvpn_mods ? 1 : 0"
         },
         {
             "name": "openvpn_client_next_hop",
@@ -177,7 +177,7 @@
             "default": "10.1.0.4",
             "secret": "false",
             "query": "Including an OpenVPN server - what's the IP address of the server?",
-            "condition": "include_openvpn ? 1 : 0"
+            "condition": "include_openvpn_mods ? 1 : 0"
         },
         {
             "name": "is_tfstate_home",
