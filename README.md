@@ -105,20 +105,20 @@ This key represents the variables associated with the module. It is an object th
 
 **name**
 
-This key represents the name of the trust group at trust groups level and the name of the module at the modules level. They are both string values.
+   This key represents the name of the trust group at trust groups level and the name of the module at the modules level. They are both string values.
 
-Module names must be chosen from the following list:
-   - aks
-   - bastion
-   - vhd-or-image
-   - vm-from-image-linux
-   - vm-from-image-windows
-   - azdo-server
-   - emulated-ash
-   - vmss-ba
-   - linux-vm
-   - aks-build-agent
-   - aks-nexus
+   Module names must be chosen from the following list:
+      - aks
+      - bastion
+      - vhd-or-image
+      - vm-from-image-linux
+      - vm-from-image-windows
+      - azdo-server
+      - emulated-ash
+      - vmss-ba
+      - linux-vm
+      - aks-build-agent
+      - aks-nexus
 
 
 5. At the Curtain Wall Modules level run:
