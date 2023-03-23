@@ -10,24 +10,7 @@ It creates:
 Please note this is intended to be temporary. Remove the Bastion once debugging and research tasks are complete.
 
 &nbsp;
-# How to use
-
-At the Curtain Wall modules level, run
-
-`python codegen/src/main.py add -m bastion -g {resource group name}`
-
-&nbsp;
-# Execution requirements TODO
-
-
-
-&nbsp;
-# Changes you need to make TODO
-
-
-
-&nbsp;
-# References to other module outputs TODO
+# References to other module outputs
 
 - resource_group
 - well_known_subnets["AzureBastionSubnet"]
