@@ -14,7 +14,7 @@ resource "azurerm_key_vault" "kv" {
 
   network_acls {
     bypass                     = "AzureServices"
-    default_action             = "Deny"
+    default_action             = var.make_created_kv_private ? "Deny" : "Allow"
   }
 
   lifecycle {
