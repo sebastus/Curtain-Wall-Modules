@@ -53,21 +53,17 @@ def parse_tf_file(trust_group, module, index, name):
 
 def get_value(var, vars, variable_values):
     is_used = evaluate_usage(var, vars)
-
     current_var =  next((sub for sub in vars if sub.get('name') == var.get('name')), None)
+
     if(current_var != None and current_var.get("value") != None):
         return current_var.get("value")
-    
     elif (var.get("query") and is_used and environment.CURTAIN_WALL_USE_MLD):
         if(var.get("type") == "bool"):
-            query = [inquirer.Text(name="query", message=var.get("query"), default=var.get("default"), validate = validators.validation_bool)]
+            return inquirer.text(message=var.get("query"), default=var.get("default"), validate = validators.validation_bool)
         elif(var.get("type") == "number"):
-            query = [inquirer.Text(name="query", message=var.get("query"), default=var.get("default"), validate = validators.validation_number)]
+            return inquirer.text(message=var.get("query"), default=var.get("default"), validate = validators.validation_number)
         else: 
-            query = [inquirer.Text(name="query", message=var.get("query"), default=var.get("default"))]
-        answer = inquirer.prompt(query)  
-        return answer.get("query")
-    
+            return inquirer.text(message=var.get("query"), default=var.get("default"))
     elif (variable_values != None and variable_values.get(var.get("name")) != None):
         return variable_values.get(var["name"])
     
@@ -380,7 +376,7 @@ def add_module_to_trust_group(module_name, index, trust_group_name, variable_val
     write_outputs_file(trust_group_name, module_id, module_name)
 
     # write the .env files
-    write_dotenv_files(trust_group_name, index, vars, 'Secret variables for the module')
+    write_dotenv_files(trust_group_name, index, vars, 'Secret variables for the module', variable_values)
 
 def parse_core_files():
     if (not os.path.isfile(f'{constants.DOTENV_POSH_FILE_NAME}') and not os.path.isfile(f'{constants.DOTENV_BASH_FILE_NAME}')):
