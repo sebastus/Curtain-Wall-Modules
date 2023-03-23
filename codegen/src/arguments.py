@@ -67,7 +67,7 @@ def parse_arguments():
     return(parser.parse_args())
 
 def add_trust_group(args):
-    shared.add_trust_group(args.g)
+    shared.add_trust_group(args.g, None)
 
 def add_module_to_trust_group(args):
     shared.add_module_to_trust_group(args.m, args.i, args.g, None)

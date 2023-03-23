@@ -13,15 +13,16 @@ def main():
     # add core 
     shared.parse_core_files()
 
-    # add trust group and modules
+    # get builder
     builder = shared.get_builder()
 
     # validate builder
     validators.validate_builder(builder)
 
-    for trust_group in builder['trust_groups']:
-        shared.add_trust_group(trust_group.get('name')) 
-        for module in trust_group['modules']:
+    # add trust group and modules
+    for trust_group in builder.get('trust_groups'):
+        shared.add_trust_group(trust_group.get('name'), trust_group.get('variables')) 
+        for module in trust_group.get('modules'):
             shared.add_module_to_trust_group(module.get('name'), module.get('index'), trust_group.get('name'), module.get('variables'))
 
 if __name__ == "__main__":
