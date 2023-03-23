@@ -7,7 +7,7 @@ where:
 configuration:
   manageAccess:
   - team: innersourceise
-    role: Maintain
+    role: Read
   - member: golive
     role: Maintain
   - team: CSE-GOV-lever
