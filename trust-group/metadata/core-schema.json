@@ -24,38 +24,6 @@
             "default": "uksouth",
             "secret": "false",
             "query": "What Azure region do you want your Azure resources created within?"
-        },
-        {
-            "name": "azdo_arm_svc_conn",
-            "description": "String: Name of AzDO ARM service connection.",
-            "type": "string",
-            "default": "my_service_connection",
-            "secret": "false",
-            "query": "What is your Azure DevOps service connection name? (it must exist already)"
-        },
-        {
-            "name": "azdo_project_name",
-            "description": "String: Name of AzDO project in the org.",
-            "type": "string",
-            "default": "my_azdo_project",
-            "secret": "false",
-            "query": "What is your Azure DevOps project name?"
-        },
-        {
-            "name": "azurerm_backend_key",
-            "description": "String: Name of the tfstate file in Terraform backend state storage.",
-            "type": "string",
-            "default": "project_a",
-            "secret": "false",
-            "query": "The AzureRM backend requires a 'key' value. What is it?"
-        },
-        {
-            "name": "cw_environment_name",
-            "description": "String: Name of the folder containing Curtain Wall files.",
-            "type": "string",
-            "default": "my_cw",
-            "secret": "false",
-            "query": "What is the name of the folder containing your new environment?"
         }
     ]
 }
