@@ -10,11 +10,11 @@ module_choices = [
     'vm-from-image-linux',
     'vm-from-image-windows',
     'azdo-server',
-    "emulated-ash",
-    "vmss-ba",
-    "linux-vm",
-    "aks-build-agent",
-    "aks-nexus"
+    'emulated-ash',
+    'vmss-ba',
+    'linux-vm',
+    'aks-build-agent',
+    'aks-nexus'
 ]
 
 def parse_arguments():
