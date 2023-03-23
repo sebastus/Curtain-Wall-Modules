@@ -37,6 +37,15 @@ resource "tls_private_key" "ssh" {
 }
 
 #
+# and store it in key vault
+#
+resource "azurerm_key_vault_secret" "ssh" {
+  name         = replace(azurecaf_name.generated["vm"].result, "_", "-")
+  value        = tls_private_key.ssh.private_key_openssh
+  key_vault_id = var.key_vault.id
+}
+
+#
 # Create a new VM for the bootstrap - admin account is adminbs
 #
 resource "azurerm_linux_virtual_machine" "vm" {

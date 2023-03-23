@@ -19,6 +19,8 @@ module "linux-vm" {
   # this is passed to the vm so user assigned identity can be assigned
   identity_ids   = [module.tg_xxx.managed_identity.id]
 
+  key_vault = module.tg_xxx.azurerm_key_vault
+  
   include_azdo_ba         = var.xxx_include_azdo_ba
   azdo_pat                = var.azdo_pat
   azdo_org_name           = var.azdo_org_name
