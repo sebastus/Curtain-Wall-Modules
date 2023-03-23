@@ -91,13 +91,20 @@ Here are the keys present in the JSON file:
 
 This key represents the list of trust groups. Each trust group is defined as an object in the list.
 
-**modules** This key represents the list of modules associated with the trust group. Each module is defined as an object in the list.
+**modules**
 
-**index**: This key represents the index of the module in the list. It is an integer value.
+This key represents the list of modules associated with the trust group. Each module is defined as an object in the list.
 
-**variables**: This key represents the variables associated with the module. It is an object that can contain any number of key-value pairs. The keys represent the name of the variable, and the values represent the value of the variable. 
+**index**
+
+This key represents the index of the module in the list. It is an integer value.
+
+**variables**
+
+This key represents the variables associated with the module. It is an object that can contain any number of key-value pairs. The keys represent the name of the variable, and the values represent the value of the variable. 
 
 **name**
+
 This key represents the name of the trust group at trust groups level and the name of the module at the modules level. They are both string values.
 
 Module names must be chosen from the following list:
@@ -112,7 +119,7 @@ Module names must be chosen from the following list:
    - linux-vm
    - aks-build-agent
    - aks-nexus
-   
+
 
 5. At the Curtain Wall Modules level run:
 
