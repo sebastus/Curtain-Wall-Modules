@@ -12,18 +12,3 @@ Please note this is intended to be temporary. Remove the Bastion once debugging 
 
 - resource_group
 - well_known_subnets["AzureBastionSubnet"]
-
-&nbsp;
-# What does the module change
-
-This module adds the following to your environment.
-
-*.tfvars & vars files:*
-```
-{resource group}_create_bastion
-{resource group}_bastion_subnet_address_prefixes
-```
-*{rg name}.tf:* 
-```
-Terraform module "bastion" 
-```
