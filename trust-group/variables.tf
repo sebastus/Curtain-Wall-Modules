@@ -23,6 +23,7 @@ variable "singleton_resource_names" {
     virtual_hub       = { resource_type = "azurerm_virtual_hub", base_name = "vpn", random_length = 0 },
     p2s_vpn           = { resource_type = "azurerm_point_to_site_vpn_gateway", base_name = "vpn", random_length = 0 },
     route             = { resource_type = "azurerm_route_table", base_name = "vpn", random_length = 0 },
+    pe-kv             = { resource_type = "azurerm_private_endpoint", base_name = "", random_length = 0 },
   }
 }
 
@@ -87,6 +88,13 @@ variable "create_acr" {
 variable "create_kv" {
   type = bool
 }
+variable "make_created_kv_private" {
+  type = bool
+}
+variable "keyvault_pe_subnet_id" {
+  type = string
+}
+
 # if create kv is false
 variable "existing_kv_rg_name" {
   type = string

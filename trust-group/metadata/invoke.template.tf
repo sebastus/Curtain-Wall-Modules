@@ -16,9 +16,11 @@ module "tg_xxx" {
 
   create_acr = var.xxx_create_acr
 
-  create_kv           = var.xxx_create_kv
-  existing_kv_name    = var.xxx_existing_kv_name
-  existing_kv_rg_name = var.xxx_existing_kv_rg_name
+  create_kv               = var.xxx_create_kv
+  make_created_kv_private = var.xxx_make_created_kv_private
+  keyvault_pe_subnet_id   = module.tg_xxx.well_known_subnets["PrivateEndpointsSubnet"].id
+  existing_kv_name        = var.xxx_existing_kv_name
+  existing_kv_rg_name     = var.xxx_existing_kv_rg_name
 
   create_platform_vpn = var.xxx_create_platform_vpn
 
