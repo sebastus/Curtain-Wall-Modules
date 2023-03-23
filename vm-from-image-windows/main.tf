@@ -49,6 +49,15 @@ data "azurerm_image" "imagevm" {
 }
 
 #
+# store admin password in key vault
+#
+resource "azurerm_key_vault_secret" "password" {
+  name         = "${replace(azurecaf_name.generated["vm"].result, "_", "-")}-admin-password"
+  value        = var.admin_password
+  key_vault_id = var.key_vault.id
+}
+
+#
 # Create a new VM from the image - admin account is adminaz
 #
 resource "azurerm_windows_virtual_machine" "imagevm" {
