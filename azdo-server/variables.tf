@@ -38,11 +38,6 @@ variable "install_omsagent" {
   default = true
 }
 
-variable "create_disk_from_image" {
-  type    = bool
-  default = true
-}
-
 variable "vhd_or_image" {
   type    = string
   default = "image"
