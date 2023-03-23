@@ -53,19 +53,25 @@ def parse_tf_file(trust_group, module, index, name):
 
 def get_value(var, vars, variable_values):
     is_used = evaluate_usage(var, vars)
-    if (var.get("query") and is_used and environment.CURTAIN_WALL_USE_MLD):
+
+    current_var =  next((sub for sub in vars if sub.get('name') == var.get('name')), None)
+    if(current_var != None and current_var.get("value") != None):
+        return current_var.get("value")
+    
+    elif (var.get("query") and is_used and environment.CURTAIN_WALL_USE_MLD):
         if(var.get("type") == "bool"):
             query = [inquirer.Text(name="query", message=var.get("query"), default=var.get("default"), validate = validators.validation_bool)]
         elif(var.get("type") == "number"):
             query = [inquirer.Text(name="query", message=var.get("query"), default=var.get("default"), validate = validators.validation_number)]
         else: 
             query = [inquirer.Text(name="query", message=var.get("query"), default=var.get("default"))]
-
         answer = inquirer.prompt(query)  
-        return (answer.get("query"))
+        return answer.get("query")
+    
     elif (variable_values != None and variable_values.get(var.get("name")) != None):
-        return(variable_values.get(var["name"]))
-    return(var.get("default"))
+        return variable_values.get(var["name"])
+    
+    return var.get("default")
 
 def write_outputs_file(trust_group, module_id, module):
 
