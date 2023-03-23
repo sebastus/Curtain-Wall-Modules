@@ -1,0 +1,33 @@
+{
+    "trust_groups": [
+        {
+            "name": "example_tg_1",
+            "modules": [
+                {
+                    "name": "aks",
+                    "variables": {
+                        "aks_admin_username": "test"
+                    }
+                },
+                {
+                    "name": "bastion",
+                    "variables": {}
+                }
+            ]
+        },
+        {
+            "name": "example_tg_2",
+            "modules": [
+                {
+                    "name": "aks",
+                    "index": 0,
+                    "variables": {}
+                },
+                {
+                    "name": "bastion",
+                    "variables": {}
+                }
+            ]
+        }
+    ]
+}

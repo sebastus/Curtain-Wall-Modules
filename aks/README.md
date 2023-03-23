@@ -12,7 +12,7 @@ This module deploys an AKS cluster with a default node pool. The AKS cluster:
 
 At the Curtain Wall modules level, run
 
-`python codegen/src/main.py add -m aks -g {resource group name}`
+`python codegen/src/codegen.py add -m aks -g {resource group name}`
 
 &nbsp;
 # Execution requirements
