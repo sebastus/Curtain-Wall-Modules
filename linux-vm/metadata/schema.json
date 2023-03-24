@@ -26,6 +26,14 @@
             "query": "What size vm do you want to use?"
         },
         {
+            "name": "linuxvm_subnet",
+            "description": "String: name of subnet to use.",
+            "type": "string",
+            "default": "default",
+            "secret": "false",
+            "query": "Which subnet should the vm be added to?"
+        },
+        {
             "name": "linuxvm_create_pip",
             "description": "Boolean: Whether to create a public ip for the vm.",
             "type": "bool",
@@ -95,7 +103,8 @@
             "default": "",
             "secret": "false",
             "skip": "false",
-            "query": "Name of the storage account into which the OpenVPN client config will be placed?"
+            "query": "Name of the storage account into which the OpenVPN client config will be placed?",
+            "condition": "include_openvpn ? 1 : 0"
         },
         {
             "name": "linuxvm_install_omsagent",

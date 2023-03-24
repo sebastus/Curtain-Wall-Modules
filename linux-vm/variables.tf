@@ -25,8 +25,8 @@ variable "create_pip" {
   default = false
 }
 
-variable "subnet_id" {
-  type = string
+variable "subnet" {
+  type = any
 }
 
 variable "identity_ids" {
