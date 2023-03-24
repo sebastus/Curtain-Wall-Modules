@@ -104,7 +104,7 @@ resource "azurerm_subnet_route_table_association" "openvpn" {
 }
 
 resource "azurerm_network_security_rule" "openvpn" {
-  for_each = var.include_openvpn_mods ? var.default_subnet_nsg_rules : {}
+  for_each = var.include_openvpn_mods && var.openvpn_is_in_this_tg ? var.default_subnet_nsg_rules : {}
 
   name                        = each.key
   priority                    = each.value.priority

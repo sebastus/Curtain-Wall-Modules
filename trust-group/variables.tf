@@ -154,6 +154,9 @@ variable "openvpn_client_cidr" {
 variable "openvpn_client_next_hop" {
   type = string
 }
+variable "openvpn_is_in_this_tg" {
+  type = bool
+}
 
 variable "default_subnet_nsg_rules" {
   type = map(object({

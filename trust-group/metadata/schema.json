@@ -189,6 +189,16 @@
             "condition": "include_openvpn_mods ? 1 : 0"
         },
         {
+            "name": "openvpn_is_in_this_tg",
+            "description": "Boolean: OpenVPN server is in this trust-group?",
+            "type": "bool",
+            "default": "false",
+            "secret": "false",
+            "skip": "false",
+            "query": "Switch: The OpenVPN server is in this trust-group (true) or not (false)?",
+            "condition": "include_openvpn_mods ? 1 : 0"
+        },
+        {
             "name": "is_tfstate_home",
             "description": "Boolean: create the tfstate storage.",
             "type": "bool",
