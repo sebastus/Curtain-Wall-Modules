@@ -21,7 +21,7 @@ resource "azurerm_network_interface" "linux_vm" {
 
   ip_configuration {
     name                          = "linux_vm"
-    subnet_id                     = var.subnet_id
+    subnet_id                     = var.subnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = var.create_pip ? azurerm_public_ip.linux_vm[0].id : null
   }

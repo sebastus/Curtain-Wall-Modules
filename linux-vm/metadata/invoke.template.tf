@@ -8,7 +8,7 @@ module "linux-vm" {
   base_name        = var.xxx_linuxvm_base_name
 
   resource_group = module.tg_xxx.resource_group
-  subnet_id      = module.tg_xxx.well_known_subnets["default"].id
+  subnet         = module.tg_xxx.well_known_subnets[var.xxx_linuxvm_subnet]
   vm_size        = var.xxx_linuxvm_vm_size
 
   create_pip = var.xxx_linuxvm_create_pip
