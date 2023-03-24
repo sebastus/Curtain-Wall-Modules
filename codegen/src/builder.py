@@ -10,14 +10,14 @@ def main():
     # set directory to target directory
     os.chdir(environment.CURTAIN_WALL_ENVIRONMENT)
 
-    # add core 
-    shared.parse_core_files()
-
     # get builder
     builder = shared.get_builder()
 
     # validate builder
     validators.validate_builder(builder)
+
+    # add core 
+    shared.parse_core_files(builder.get('variables'))
 
     # add trust group and modules
     for trust_group in builder.get('trust_groups'):
