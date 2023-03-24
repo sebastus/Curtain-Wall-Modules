@@ -24,6 +24,8 @@ variable "singleton_resource_names" {
     p2s_vpn           = { resource_type = "azurerm_point_to_site_vpn_gateway", base_name = "vpn", random_length = 0 },
     route             = { resource_type = "azurerm_route_table", base_name = "vpn", random_length = 0 },
     pe-kv             = { resource_type = "azurerm_private_endpoint", base_name = "", random_length = 0 },
+    peer_out          = { resource_type = "azurerm_virtual_network_peering", base_name = "peer_out", random_length = 0 },
+    peer_in           = { resource_type = "azurerm_virtual_network_peering", base_name = "peer_in", random_length = 0 },
   }
 }
 
@@ -157,6 +159,15 @@ variable "openvpn_client_next_hop" {
 variable "openvpn_is_in_this_tg" {
   type = bool
 }
+
+# Peer the vnet in this trust-group with another
+variable "peer_vnet_with_another" {
+  type = bool
+}
+variable "peered_vnet" {
+  type = any
+}
+
 
 variable "default_subnet_nsg_rules" {
   type = map(object({

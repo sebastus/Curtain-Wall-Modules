@@ -24,7 +24,7 @@
             "type": "string",
             "default": "",
             "secret": "false",
-            "query": "Not creating a new resource group - what is the name of the existing one to use?",
+            "query": "Existing resource group - what is its name?",
             "condition": "create_resource_group ? 0 : 1"
         },
         {
@@ -51,7 +51,7 @@
             "type": "string",
             "default": "",
             "secret": "false",
-            "query": "Not creating a new managed identity - what is the name of the existing one to use?",
+            "query": "Existing managed identity - what is its name?",
             "condition": "create_managed_identity ? 0 : 1"
         },
         {
@@ -60,7 +60,7 @@
             "type": "string",
             "default": "",
             "secret": "false",
-            "query": "Not creating a new managed identity - what is the name of the resource group containing the existing one to use?",
+            "query": "Existing managed identity - what is the name of its resource group?",
             "condition": "create_managed_identity ? 0 : 1"
         },
         {
@@ -95,7 +95,7 @@
             "type": "string",
             "default": "",
             "secret": "false",
-            "query": "Not creating a new Key Vault - what's the name of the existing one to use?",
+            "query": "Existing Key Vault - what's is its name?",
             "condition": "create_kv ? 0 : 1"
         },
         {
@@ -104,7 +104,7 @@
             "type": "string",
             "default": "",
             "secret": "false",
-            "query": "Not creating a new Key Vault - what's the name of the resource group containing the existing one to use?",
+            "query": "Existing Key Vault - what's the name of its resource group?",
             "condition": "create_kv ? 0 : 1"
         },
         {
@@ -129,7 +129,7 @@
             "name": "new_vnet_address_space",
             "description": "String: if creating a new VNET, its address space represented as a CIDR.",
             "type": "string",
-            "default": "10.1.0.0/16",
+            "default": "10.0.0.0/16",
             "secret": "false",
             "query": "Creating a new Virtual Network - what's it's address space CIDR?",
             "condition": "create_vnet ? 1 : 0"
@@ -140,7 +140,7 @@
             "type": "string",
             "default": "rg-networking",
             "secret": "false",
-            "query": "Not creating a new Virtual Network - what's the name of the resource group containing the existing one to use?",
+            "query": "Existing vnet - name of the resource group containing it?",
             "condition": "create_vnet ? 0 : 1"
         },
         {
@@ -149,8 +149,17 @@
             "type": "string",
             "default": "vnet",
             "secret": "false",
-            "query": "Not creating a new Virtual Network - what's the name of the existing one to use?",
+            "query": "Existing vnet - its name?",
             "condition": "create_vnet ? 0 : 1"
+        },
+        {
+            "name": "peer_vnet_with_another",
+            "description": "Boolean: peer the vnet in this trust-group with another.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false",
+            "skip": "false",
+            "query": "Switch: peer vnet with another (true) or not (false)?"
         },
         {
             "name": "create_well_known_subnets",
@@ -183,7 +192,7 @@
             "name": "openvpn_client_next_hop",
             "description": "String: IP address of next hop for vpnToClient route.",
             "type": "string",
-            "default": "10.1.0.4",
+            "default": "10.0.0.4",
             "secret": "false",
             "query": "Including an OpenVPN server - what's the IP address of the server?",
             "condition": "include_openvpn_mods ? 1 : 0"

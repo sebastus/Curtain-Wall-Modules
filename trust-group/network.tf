@@ -20,6 +20,29 @@ data "azurerm_virtual_network" "vnet" {
   resource_group_name = var.create_vnet ? azurerm_virtual_network.vnet[0].resource_group_name : var.existing_vnet_rg_name
 }
 
+#
+# Peered vnet adjustments
+#
+resource "azurerm_virtual_network_peering" "peer_out" {
+  count = var.peer_vnet_with_another ? 1 : 0
+
+  name                      = azurecaf_name.generated["peer_out"].result
+  resource_group_name       = data.azurerm_resource_group.rg.name
+  virtual_network_name      = data.azurerm_virtual_network.vnet.name
+  remote_virtual_network_id = var.peered_vnet.id
+}
+resource "azurerm_virtual_network_peering" "peer_in" {
+  count = var.peer_vnet_with_another ? 1 : 0
+
+  name                      = azurecaf_name.generated["peer_in"].result
+  resource_group_name       = var.peered_vnet.resource_group_name
+  virtual_network_name      = var.peered_vnet.name
+  remote_virtual_network_id = data.azurerm_virtual_network.vnet.id
+}
+
+#
+# well known subnets & their nsgs
+#
 resource "azurerm_subnet" "well_known_subnets" {
   for_each = var.create_well_known_subnets ? var.well_known_subnets : {}
 
@@ -37,8 +60,11 @@ resource "azurerm_network_security_group" "nsg" {
   location            = data.azurerm_resource_group.rg.location
 }
 
+#
+# Bastion adjustments
+#
 resource "azurerm_network_security_rule" "bastionnsgrules" {
-  for_each = var.create_well_known_subnets ? var.bastion_nsg_rules : {}
+  for_each = (contains(keys(var.well_known_subnets), "AzureBastionSubnet")) && var.create_well_known_subnets ? var.bastion_nsg_rules : {}
 
   name                        = each.key
   priority                    = each.value.priority
@@ -77,6 +103,9 @@ data "azurerm_subnet" "well_known_subnets" {
   ]
 }
 
+#
+# OpenVPN adjustments
+#
 resource "azurerm_route_table" "openvpn" {
   count = var.include_openvpn_mods ? 1 : 0
 
