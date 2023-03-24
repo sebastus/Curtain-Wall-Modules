@@ -2,9 +2,6 @@ module "linux-vm" {
   source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//linux-vm?ref=main"
   #source = "../Curtain-Wall-Modules/linux-vm"
 
-  count            = var.xxx_count_of_vm
-  instance_index   = count.index
-
   base_name        = var.xxx_linuxvm_base_name
 
   resource_group = module.tg_xxx.resource_group
@@ -29,10 +26,10 @@ module "linux-vm" {
   azdo_pool_name          = var.xxx_azdo_pool_name
   azdo_build_agent_name   = var.xxx_azdo_build_agent_name
 
-  law_installed               = (module.tg_xxx.log_analytics_workspace != null)
+  law_installed               = module.tg_xxx.create_law
   install_omsagent            = var.xxx_linuxvm_install_omsagent
-  log_analytics_workspace_id  = (module.tg_xxx.log_analytics_workspace != null) ? module.tg_xxx.log_analytics_workspace.workspace_id : null
-  log_analytics_workspace_key = (module.tg_xxx.log_analytics_workspace != null) ? module.tg_xxx.log_analytics_workspace.primary_shared_key : null
+  log_analytics_workspace_id  = module.tg_xxx.create_law ? module.tg_xxx.log_analytics_workspace.workspace_id : null
+  log_analytics_workspace_key = module.tg_xxx.create_law ? module.tg_xxx.log_analytics_workspace.primary_shared_key : null
 
   include_terraform = var.xxx_include_terraform
   terraform_version = var.xxx_terraform_version

@@ -2,14 +2,6 @@
     "variables":
     [
         {
-            "name": "count_of_vm",
-            "description": "Number: Number of instances to build.",
-            "type": "number",
-            "default": "1",
-            "secret": "false",
-            "query": "How many instances of the vm do you want to build?"
-        },
-        {
             "name": "linuxvm_base_name",
             "description": "String: base name of resources allocated.",
             "type": "string",
