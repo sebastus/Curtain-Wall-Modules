@@ -95,7 +95,7 @@
             "type": "string",
             "default": "",
             "secret": "false",
-            "query": "Existing Key Vault - what's is its name?",
+            "query": "Existing Key Vault - what is its name?",
             "condition": "create_kv ? 0 : 1"
         },
         {
