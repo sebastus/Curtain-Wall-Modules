@@ -12,8 +12,6 @@ cwd = os.getcwd()
 
 def exiting_the_program():
     os.system("terraform fmt")
-    if os.path.isfile(constants.PIPELINE_TF_VARS_FILE_NAME):
-        os.rename(constants.PIPELINE_TF_VARS_FILE_NAME, 'pl.tfvars.tmpl')
     os.chdir(cwd)
 
 atexit.register(exiting_the_program)
@@ -195,85 +193,6 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core,
             f.write(f'# END: {module_id}\n')
         f.write('# ############################\n')
 
-def write_pipeline_tfvars_template(vars, trust_group, append):
-
-    core_schema = get_schema("trust-group", "core-schema")
-    core_vars = core_schema['variables']
-
-    with open(f"{constants.PIPELINE_TF_VARS_FILE_NAME}", "a" if append else "w") as f:
-        f.write('# ############################\n')
-        f.write("# Global/core non-secret variables\n")
-        f.write('# ############################\n')
-
-        for var in core_vars:
-
-            # secrets don't go in tfvars
-            if (var["secret"] == "true"):
-                continue
-
-            var_name = var["name"]
-            f.write(f'{var_name} = \"${var_name.upper()}\"\n')
-
-        f.write('\n\n')
-        f.write('# ############################\n')
-        f.write("# Non-secret variables for the module\n")
-        f.write('# ############################\n')
-        
-        for var in vars:
-
-            # secrets don't go in tfvars
-            if (var["secret"] == "true"):
-                continue
-
-            var_name = var["name"]
-            f.write(f'{trust_group}_{var_name} = \"${trust_group.upper()}_{var_name.upper()}\"\n')
-
-def write_variables_yaml_file(backend_key, abs_environment, trust_group):
-
-    file_exists = os.path.isfile(constants.PIPELINE_VARIABLES_FILE_NAME)
-
-    environment = os.path.basename(abs_environment)
-
-    with open(constants.PIPELINE_VARIABLES_FILE_NAME, "a" if file_exists else "w") as f:
-
-        if not file_exists:
-            f.write("variables:\n")
-
-        if (trust_group == None):
-            f.write(f'- group: {backend_key}__tfcreds\n')
-            f.write(f'- group: {backend_key}__tfstate_backend\n')
-            f.write(f'- group: {backend_key}__{environment}__core\n')
-        else:
-            f.write(f'- group: {backend_key}__{environment}__{trust_group}\n')
-
-def write_terraform_plan_yaml_file(vars):
-
-    core_schema = get_schema("trust-group", "core-schema")
-    core_vars = core_schema['variables']
-
-    with open(f"{constants.PIPELINE_TF_PLAN_FILE_NAME}", "a") as f:
-        write_banner(f, 'Global/core secret variables', None, None)
-
-        for var in core_vars:
-
-            # non-secrets don't go in terraform plan
-            if (var["secret"] == "false"):
-                continue
-
-            var_name = var["name"]
-            f.write(f'    TF_VAR_{var_name}: \"$({var_name.upper()})\"\n')
-
-        f.write('\n')
-        write_banner(f, 'Secret variables for the module', None, None)
-        
-        for var in vars:
-
-            # non-secrets don't go in terraform plan
-            if (var["secret"] == "false"):
-                continue
-
-            var_name = var["name"]
-            f.write(f'    TF_VAR_{var_name}: \"$({var_name.upper()})\"\n')
 
 def write_banner(file, banner, trust_group, module):
     

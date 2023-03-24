@@ -20,7 +20,6 @@ module_choices = [
 def parse_arguments():
     desc = 'Generate terraform code for your environment. Env vars to be set:\n\n'
     desc += 'CURTAIN_WALL_MODULES_HOME: absolute location of the modules repo\n'
-    desc += 'CURTAIN_WALL_BACKEND_KEY: tfstate backend key for this environment\n'
     desc += 'CURTAIN_WALL_ENVIRONMENT: absolute location of the folder containing this environment\n'
     
     parser = argparse.ArgumentParser(

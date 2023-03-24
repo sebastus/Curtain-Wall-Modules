@@ -33,7 +33,6 @@ First you need to set up a new Terraform environment. Use the module `blank-env-
 ```pwsh
 $env:CURTAIN_WALL_MODULES_HOME = "C:\{path}\Curtain-Wall-Modules"
 $env:CURTAIN_WALL_ENVIRONMENT = "C:\Users\{user}\{path for wherever your new environment is}"
-$env:CURTAIN_WALL_BACKEND_KEY = "example"
 $env:CURTAIN_WALL_USE_MLD = True
 ```
 
@@ -79,7 +78,6 @@ First you need to set up a new Terraform environment. Use the module `blank-env-
 ```pwsh
 $env:CURTAIN_WALL_MODULES_HOME = "C:\{path}\Curtain-Wall-Modules"
 $env:CURTAIN_WALL_ENVIRONMENT = "C:\Users\{user}\{path for wherever your new environment is}"
-$env:CURTAIN_WALL_BACKEND_KEY = "example"
 $env:CURTAIN_WALL_USE_MLD = True
 ```
 
