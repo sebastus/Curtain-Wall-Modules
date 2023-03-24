@@ -3,10 +3,6 @@ import os
 
 
 def validate_environment(environment):
-    if (environment.CURTAIN_WALL_BACKEND_KEY == None):
-        print('The backend key must be specified in env var CURTAIN_WALL_BACKEND_KEY.')
-        exit()
-
     if (environment.CURTAIN_WALL_MODULES_HOME == None):
         print("CURTAIN_WALL_MODULES_HOME env var must be set to the location of the CW modules.")
         exit()
