@@ -13,7 +13,8 @@
                     "name": "bastion",
                     "variables": {}
                 }
-            ]
+            ],
+            "variables": {}
         },
         {
             "name": "example_tg_2",
@@ -27,7 +28,9 @@
                     "name": "bastion",
                     "variables": {}
                 }
-            ]
+            ],
+            "variables": {}
         }
-    ]
+    ],
+    "variables": {}
 }

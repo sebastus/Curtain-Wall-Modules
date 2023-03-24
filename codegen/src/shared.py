@@ -296,9 +296,9 @@ def add_module_to_trust_group(module_name, index, trust_group_name, variable_val
     # write the .env files
     write_dotenv_files(trust_group_name, index, vars, 'Secret variables for the module', variable_values)
 
-def parse_core_files():
+def parse_core_files(variable_values):
     if (not os.path.isfile(f'{constants.DOTENV_POSH_FILE_NAME}') and not os.path.isfile(f'{constants.DOTENV_BASH_FILE_NAME}')):
         core_schema = get_schema("trust-group", "core-schema")
         core_vars = core_schema['variables']
-        write_dotenv_files(None, None, core_vars, 'Global/core secret variables', None)
-        write_tfvars_file(core_vars, constants.TFVARS_FILE_NAME, None, None, None, None, True, None)
+        write_dotenv_files(None, None, core_vars, 'Global/core secret variables', variable_values)
+        write_tfvars_file(core_vars, constants.TFVARS_FILE_NAME, None, None, None, None, True, variable_values)
