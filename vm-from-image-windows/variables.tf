@@ -2,6 +2,11 @@ variable "resource_group" {
   type = any
 }
 
+variable "key_vault" {
+  type        = any
+  description = "existing key vault"
+}
+
 variable "base_name" {
   type = string
 }
