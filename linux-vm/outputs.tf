@@ -7,3 +7,7 @@ output "linux-vm" {
   value     = azurerm_linux_virtual_machine.vm
   sensitive = true
 }
+
+output "subnet" {
+  value = var.subnet
+}
