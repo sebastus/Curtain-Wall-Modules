@@ -36,6 +36,7 @@ module "tg_xxx" {
   include_openvpn_mods     = var.xxx_include_openvpn_mods
   openvpn_client_cidr     = var.xxx_openvpn_client_cidr
   openvpn_client_next_hop = var.xxx_openvpn_client_next_hop
+  openvpn_is_in_this_tg   = var.xxx_openvpn_is_in_this_tg
 
   create_well_known_subnets = var.xxx_create_well_known_subnets
   well_known_subnets        = var.xxx_well_known_subnets

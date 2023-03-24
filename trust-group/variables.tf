@@ -156,6 +156,9 @@ variable "openvpn_client_cidr" {
 variable "openvpn_client_next_hop" {
   type = string
 }
+variable "openvpn_is_in_this_tg" {
+  type = bool
+}
 
 # Peer the vnet in this trust-group with another
 variable "peer_vnet_with_another" {
