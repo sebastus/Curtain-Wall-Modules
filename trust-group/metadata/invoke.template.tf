@@ -29,6 +29,10 @@ module "tg_xxx" {
   existing_vnet_rg_name  = var.xxx_existing_vnet_rg_name
   existing_vnet_name     = var.xxx_existing_vnet_name
 
+  # edit tg_hub to point to peered vnet if required
+  peer_vnet_with_another = var.xxx_peer_vnet_with_another
+  peered_vnet            = var.xxx_peer_vnet_with_another ? module.tg_hub.vnet : null
+
   include_openvpn_mods     = var.xxx_include_openvpn_mods
   openvpn_client_cidr     = var.xxx_openvpn_client_cidr
   openvpn_client_next_hop = var.xxx_openvpn_client_next_hop
