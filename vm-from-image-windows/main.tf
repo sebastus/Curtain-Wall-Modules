@@ -97,7 +97,7 @@ resource "azurerm_windows_virtual_machine" "imagevm" {
 }
 
 resource "azurerm_virtual_machine_extension" "omsagent" {
-  for_each = var.install_omsagent ? var.os_variant : {}
+  for_each = var.law_installed && var.install_omsagent ? var.os_variant : {}
 
   name                 = "omsagent"
   virtual_machine_id   = azurerm_windows_virtual_machine.imagevm[each.key].id
