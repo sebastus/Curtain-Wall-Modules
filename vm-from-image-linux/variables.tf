@@ -34,6 +34,10 @@ variable "log_analytics_workspace_key" {
   default = ""
 }
 
+variable "law_installed" {
+  type    = bool
+}
+
 variable "install_omsagent" {
   type    = bool
   default = true

@@ -15,11 +15,11 @@ module "my-linux-vm" {
   # optionally install public ip
   create_pip = var.xxx_vfil_create_pip
 
-  # optionally install oms agent
+  law_installed    = module.tg_xxx.create_law
   install_omsagent = var.xxx_vfil_install_omsagent
 
-  log_analytics_workspace_id  = module.tg_xxx.log_analytics_workspace == null ? null : module.tg_xxx.log_analytics_workspace.workspace_id
-  log_analytics_workspace_key = module.tg_xxx.log_analytics_workspace == null ? null : module.tg_xxx.log_analytics_workspace.primary_shared_key
+  log_analytics_workspace_id  = module.tg_xxx.create_law ? module.tg_xxx.log_analytics_workspace.workspace_id : null
+  log_analytics_workspace_key = module.tg_xxx.create_law ? module.tg_xxx.log_analytics_workspace.primary_shared_key : null
 
   image_resource_group_name = var.xxx_vfil_image_resource_group_name
   image_base_name           = var.xxx_vfil_image_base_name
