@@ -2,10 +2,6 @@ variable "resource_group" {
   type = any
 }
 
-variable "instance_index" {
-  type = number
-}
-
 variable "base_name" {
   type = string
 }

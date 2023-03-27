@@ -1,53 +1,34 @@
-# Introduction 
+# Overview
+
+This module deploys an Azure Virtual Machine Scale Set build agent.
 
 
-## Invocation in parent
-``` terraform
+&nbsp;
+# Execution requirements
 
-# ########################
-# xxx - VMSS build agent
-# ########################
-module "vmss-ba" {
-  source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//vmss-ba"
-  #source = "../../Curtain-Wall-Modules/vmss-ba"
-  
-  count          = var.create_vmss_ba ? 1 : 0
-  instance_index = count.index
+The managed image of the new build agent is an input to this module. It can be built using the vm-or-image module.
 
-  base_name      = "bldagnt"
-  resource_group = module.rg_xxx.resource_group
+&nbsp;
+# References to other module outputs
 
-  identity_ids     = [module.rg_xxx.managed_identity.id]
-  subnet_id        = module.rg_xxx.subnet_id
-  managed_image_id = var.managed_image_id
-}
+- tg_{resource group}.resource_group
+- tg_{resource group}.managed_identity
+- tg_{resource group}.well_known_subnets
 
+
+&nbsp;
+# What does the module change
+
+This module adds the following to your environment.
+
+*.tfvars & vars files:*
+```
+{resource group}_create_vmss_ba
+{resource group}_existing_image_name
+{resource group}_existing_image_rg_name
 ```
 
-#### Vars in parent
-```terraform
-
-# ########################
-# xxx - VMSS build agent
-# ########################
-variable "create_vmss_ba" {
-  default = false
-}
-
-variable "managed_image_id" {
-  type        = string
-  description = "The resource id of the OS-disk managed image."
-}
-
+*{rg name}.tf:* 
 ```
-
-#### TFVars
-```terraform
-
-# ########################
-# xxx - VMSS build agent
-# ########################
-create_vmss_ba   = false
-managed_image_id = "/subscriptions/xxxxxxxxxxxxxxxx/resourceGroups/rg-myManagedImages/providers/Microsoft.Compute/images/buildAgentImage-1204"
-
+Terraform module "vmss-ba" 
 ```

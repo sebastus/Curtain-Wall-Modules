@@ -30,9 +30,9 @@ The AKS cluster is deployed to a network with NSG rules in place to restrict tra
 &nbsp;
 # References to other module outputs
 
-- resource_group
-- azurerm_container_registry
-- well_known_subnets
+- tg_{resource group}.resource_group
+- tg_{resource group}.azurerm_container_registry
+- tg_{resource group}.well_known_subnets
 
 &nbsp;
 # What does the module change

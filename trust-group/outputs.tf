@@ -15,13 +15,16 @@ output "managed_identity" {
   value = data.azurerm_user_assigned_identity.mi
 }
 
+output "create_law" {
+  value = var.create_law
+}
 output "log_analytics_workspace" {
-  value     = var.create_law ? azurerm_log_analytics_workspace.law[0] : {}
+  value     = var.create_law ? azurerm_log_analytics_workspace.law[0] : null
   sensitive = true
 }
 
 output "azurerm_container_registry" {
-  value = var.create_acr ? azurerm_container_registry.acr[0] : {}
+  value = var.create_acr ? azurerm_container_registry.acr[0] : null
 }
 
 output "azurerm_key_vault" {
