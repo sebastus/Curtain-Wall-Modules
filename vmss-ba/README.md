@@ -6,7 +6,7 @@ This module deploys an Azure Virtual Machine Scale Set build agent.
 &nbsp;
 # Execution requirements
 
-The module vhd-or-image needs to have been installed into the same environment.
+The managed image of the new build agent is an input to this module. It can be built using the vm-or-image module.
  
 
 &nbsp;
@@ -27,4 +27,9 @@ This module adds the following to your environment.
 {resource group}_create_vmss_ba
 {resource group}_existing_image_name
 {resource group}_existing_image_rg_name
+```
+
+*{rg name}.tf:* 
+```
+Terraform module "vmss-ba" 
 ```
