@@ -15,6 +15,11 @@ variable "managed_identity" {
   type        = any
 }
 
+variable "key_vault" {
+  type        = any
+  description = "existing key vault"
+}
+
 variable "create_pip" {
   type    = bool
   default = false

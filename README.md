@@ -99,7 +99,7 @@ $env:CURTAIN_WALL_USE_MLD = True
 
    **variables**
 
-   This key represents the variables associated with the module. It is an object that can contain any number of key-value pairs. The keys represent the name of the variable, and the values represent the value of the variable. 
+   This key represents the variables associated with the root, trust group or module. It is an object that can contain any number of key-value pairs. The keys represent the name of the variable, and the values represent the value of the variable. 
 
    **name**
 

@@ -10,6 +10,8 @@ module "my-linux-vm" {
   ]
   subnet_id = module.tg_xxx.well_known_subnets["default"].id
 
+  key_vault = module.tg_xxx.azurerm_key_vault
+  
   # optionally install public ip
   create_pip = var.xxx_vfil_create_pip
 

@@ -16,12 +16,12 @@ output "managed_identity" {
 }
 
 output "log_analytics_workspace" {
-  value     = var.create_law ? azurerm_log_analytics_workspace.law[0] : null
+  value     = var.create_law ? azurerm_log_analytics_workspace.law[0] : {}
   sensitive = true
 }
 
 output "azurerm_container_registry" {
-  value = var.create_acr ? azurerm_container_registry.acr[0] : null
+  value = var.create_acr ? azurerm_container_registry.acr[0] : {}
 }
 
 output "azurerm_key_vault" {
