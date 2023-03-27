@@ -11,7 +11,7 @@ The managed image of the new build agent is an input to this module. It can be b
 &nbsp;
 # References to other module outputs
 
-- resource_group
+- tg_{resource group}.resource_group
 - tg_{resource group}.managed_identity
 - tg_{resource group}.well_known_subnets
 

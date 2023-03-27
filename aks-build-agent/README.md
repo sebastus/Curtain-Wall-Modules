@@ -25,8 +25,8 @@ An AzDO PAT is required for this module to access the AzDO project and adding th
 &nbsp;
 # References to other module outputs
 
-- resource_group
-- azurerm_container_registry
+- tg_{resource group}.resource_group
+- tg_{resource group}.azurerm_container_registry
 - container-images/build-agent
 - helm-charts/keda-azdo-build-agent
 - aks_{resource group}.aks

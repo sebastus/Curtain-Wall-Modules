@@ -10,5 +10,5 @@ Please note this is intended to be temporary. Remove the Bastion once debugging 
 &nbsp;
 # References to other module outputs
 
-- resource_group
-- well_known_subnets["AzureBastionSubnet"]
+- tg_{resource group}.resource_group
+- tg_{resource group}.well_known_subnets
