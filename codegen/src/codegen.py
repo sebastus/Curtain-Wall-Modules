@@ -15,7 +15,7 @@ def main():
     os.chdir(environment.CURTAIN_WALL_ENVIRONMENT)
 
     # add core 
-    shared.parse_core_files()
+    shared.parse_core_files(None)
 
     # run argument functions
     args.func(args)

@@ -52,20 +52,19 @@ def parse_tf_file(trust_group, module, index, name):
 def get_value(var, vars, variable_values):
     is_used = evaluate_usage(var, vars)
     current_var =  next((sub for sub in vars if sub.get('name') == var.get('name')), None)
+    default_value = variable_values.get(var.get("name")) if (variable_values != None and variable_values.get(var.get("name")) != None) else var.get("default")
 
     if(current_var != None and current_var.get("value") != None):
         return current_var.get("value")
     elif (var.get("query") and is_used and environment.CURTAIN_WALL_USE_MLD):
         if(var.get("type") == "bool"):
-            return inquirer.text(message=var.get("query"), default=var.get("default"), validate = validators.validation_bool)
+            return inquirer.text(message=var.get("query"), default=default_value, validate = validators.validation_bool)
         elif(var.get("type") == "number"):
-            return inquirer.text(message=var.get("query"), default=var.get("default"), validate = validators.validation_number)
+            return inquirer.text(message=var.get("query"), default=default_value, validate = validators.validation_number)
         else: 
-            return inquirer.text(message=var.get("query"), default=var.get("default"))
-    elif (variable_values != None and variable_values.get(var.get("name")) != None):
-        return variable_values.get(var["name"])
+            return inquirer.text(message=var.get("query"), default=default_value)
     
-    return var.get("default")
+    return default_value
 
 def write_outputs_file(trust_group, module_id, module):
 
@@ -297,9 +296,9 @@ def add_module_to_trust_group(module_name, index, trust_group_name, variable_val
     # write the .env files
     write_dotenv_files(trust_group_name, index, vars, 'Secret variables for the module', variable_values)
 
-def parse_core_files():
+def parse_core_files(variable_values):
     if (not os.path.isfile(f'{constants.DOTENV_POSH_FILE_NAME}') and not os.path.isfile(f'{constants.DOTENV_BASH_FILE_NAME}')):
         core_schema = get_schema("trust-group", "core-schema")
         core_vars = core_schema['variables']
-        write_dotenv_files(None, None, core_vars, 'Global/core secret variables', None)
-        write_tfvars_file(core_vars, constants.TFVARS_FILE_NAME, None, None, None, None, True, None)
+        write_dotenv_files(None, None, core_vars, 'Global/core secret variables', variable_values)
+        write_tfvars_file(core_vars, constants.TFVARS_FILE_NAME, None, None, None, None, True, variable_values)

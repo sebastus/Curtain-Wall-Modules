@@ -140,7 +140,7 @@
             "type": "string",
             "default": "rg-networking",
             "secret": "false",
-            "query": "Existing vnet - name of the resource group containing it?",
+            "query": "Existing vnet resource group name?",
             "condition": "create_vnet ? 0 : 1"
         },
         {
@@ -149,7 +149,7 @@
             "type": "string",
             "default": "vnet",
             "secret": "false",
-            "query": "Existing vnet - its name?",
+            "query": "Existing vnet name?",
             "condition": "create_vnet ? 0 : 1"
         },
         {
