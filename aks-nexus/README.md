@@ -33,8 +33,8 @@ If you enable Ingress, you will need to update the appropriate NSG rules to allo
 &nbsp;
 # References to other module outputs
 
-- resource_group
-- azurerm_container_registry
+- tg_{resource group}.resource_group
+- tg_{resource group}.azurerm_container_registry
 - aks_{resource group}.aks
 - aks_{resource group}.aks_managed_identity
 - container-images/nexus-init

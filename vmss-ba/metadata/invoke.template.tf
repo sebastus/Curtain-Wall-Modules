@@ -5,11 +5,11 @@ module "vmss-ba" {
   count          = var.xxx_create_vmss_ba ? 1 : 0
   instance_index = count.index
 
-  base_name      = var.xxx_base_name
-  resource_group = module.rg_xxx.resource_group
+  base_name      = "vmss-ba"
+  resource_group = module.tg_xxx.resource_group
 
-  identity_ids           = [module.rg_xxx.context_outputs.managed_identity.id]
-  subnet_id              = module.rg_xxx.context_outputs.subnet_id
+  identity_ids           = [module.tg_xxx.managed_identity.id]
+  subnet_id              = module.tg_xxx.well_known_subnets["default"].id
   existing_image_rg_name = var.xxx_existing_image_rg_name
   existing_image_name    = var.xxx_existing_image_name
 }
