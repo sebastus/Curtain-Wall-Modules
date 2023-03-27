@@ -6,7 +6,7 @@ import arguments
 
 def main():    
     # parse passed in arguments
-    args = arguments.parse_arguments()
+    args = arguments.parse_codegen_arguments()
 
     # validate environment variables
     validators.validate_environment(environment)

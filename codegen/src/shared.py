@@ -16,8 +16,8 @@ def exiting_the_program():
 
 atexit.register(exiting_the_program)
 
-def get_builder():
-    file_name = f'{environment.CURTAIN_WALL_MODULES_HOME}/codegen/src/builder.json'
+def get_builder(name):
+    file_name = f'{environment.CURTAIN_WALL_MODULES_HOME}/codegen/tests/{name}.json'
     return(get_json_file(file_name))
 
 def get_schema(name, schema):

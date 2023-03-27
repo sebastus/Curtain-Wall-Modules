@@ -1,0 +1,35 @@
+{
+    "trust_groups": [
+        {
+            "name": "hub",
+            "variables": {
+                "tg_base_name": "hub",
+                "create_resource_group": "true",
+                "existing_resource_group_name": "",
+                "create_law": "false",
+                "create_managed_identity": "false",
+                "existing_managed_identity_name": "mi-cwtest",
+                "existing_managed_identity_rg": "rg-misc",
+                "create_acr": "false",
+                "create_kv": "true",
+                "make_created_kv_private": "false",
+                "existing_kv_name": "",
+                "existing_kv_rg_name": "",
+                "create_platform_vpn": "false",
+                "create_vnet": "true",
+                "new_vnet_address_space": "10.0.0.0/16",
+                "existing_vnet_rg_name ": "",
+                "existing_vnet_name": "",
+                "peer_vnet_with_another": "false",
+                "create_well_known_subnets": "true",
+                "include_openvpn_mods": "false",
+                "openvpn_client_cidr": "10.8.0.0/16",
+                "openvpn_client_next_hop": "10.0.0.4",
+                "openvpn_is_in_this_tg": "false",
+                "is_tfstate_home": "false",
+                "tfstate_storage_key": "state"
+            },
+            "modules": []
+        }
+    ]
+}
