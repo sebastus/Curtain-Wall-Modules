@@ -15,7 +15,7 @@
             "type": "string",
             "default": "secret",
             "secret": "true",
-            "query": "What administrator password should be installed into the vm?",
+            "query": "What administrator password should be installed into the AzDO Server vm?",
             "condition": "create_vm ? 1 : 0"
         },
         {
@@ -28,6 +28,14 @@
             "condition": "create_vm ? 1 : 0"
         },
         {
+            "name": "azdo_subnet_name",
+            "description": "String: Subnet to install AzDO Server into.",
+            "type": "string",
+            "default": "default",
+            "secret": "false",
+            "query": "Which subnet should the Azure DevOps server be installed into?"
+        },
+        {
             "name": "install_omsagent",
             "description": "Boolean: Whether to install the log analytics oms agent into the AzDO vm or not.",
             "type": "bool",
@@ -37,14 +45,59 @@
             "condition": "create_vm ? 1 : 0"
         },
         {
+            "name": "arm_installer_password",
+            "description": "String: Admin password of Packer VM.",
+            "type": "string",
+            "default": "a-password",
+            "secret": "true",
+            "skip": "true",
+            "query": "What is the password to use in the Packer vm?"
+        },
+        {
+            "name": "use_private_network",
+            "description": "Boolean: To install Packer VM in a subnet of a private network.",
+            "type": "bool",
+            "default": "false",
+            "secret": "false",
+            "query": "Switch: Install the Packer VM in a private network (true) or not (false)?"
+        },
+        {
+            "name": "vnet_rg_name",
+            "description": "String: Resource group containing the private vnet.",
+            "type": "string",
+            "default": "",
+            "secret": "false",
+            "query": "Which resource group contains the private virtual network?",
+            "condition": "use_private_network ? 1 : 0"
+        },
+        {
+            "name": "vnet_name",
+            "description": "String: Name of the private vnet.",
+            "type": "string",
+            "default": "",
+            "secret": "false",
+            "query": "Which private virtual network?",
+            "condition": "use_private_network ? 1 : 0"
+        },
+        {
+            "name": "subnet_name",
+            "description": "String: Name of the subnet in the private vnet to use.",
+            "type": "string",
+            "default": "",
+            "secret": "false",
+            "query": "Which subnet within the private network should be used?",
+            "condition": "use_private_network ? 1 : 0"
+        },
+
+        {
             "name": "vhd_or_image",
             "description": "String: Create a vhd or an image.",
             "type": "string",
             "default": "image",
             "secret": "false",
+            "skip": "true",
             "query": "Switch: create a vhd or an image? (valid reponses 'vhd' and 'image')"
         },
-
         {
             "name": "vhd_capture_container_name",
             "description": "String: Storage container where VHD will initially be stored.",
@@ -105,6 +158,7 @@
             "type": "string",
             "default": "a-guid",
             "secret": "false",
+            "skip": "true",
             "query": "What is the app/client id of the service principal to be used to create Azure resource for Packer?"
         },
         {
@@ -114,14 +168,6 @@
             "default": "a-secret",
             "secret": "true",
             "query": "What is the client secret of the service principal to be used to create Azure resource for Packer?"
-        },
-        {
-            "name": "arm_installer_password",
-            "description": "String: Admin password of temp vm used by packer to create the new vhd or image.",
-            "type": "string",
-            "default": "a-password",
-            "secret": "true",
-            "query": "What is the password to use in the Packer vm?"
         },
         {
             "name": "local_temp",
