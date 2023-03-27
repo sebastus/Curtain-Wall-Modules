@@ -9,15 +9,11 @@ This module deploys an Azure Virtual Machine Scale Set build agent.
 The managed image of the new build agent is an input to this module. It can be built using the vm-or-image module.
 
 &nbsp;
-# Module outputs
- 
-
-&nbsp;
 # References to other module outputs
 
 - resource_group
-- managed_identity
-- well_known_subnets
+- tg_{resource group}.managed_identity
+- tg_{resource group}.well_known_subnets
 
 
 &nbsp;
