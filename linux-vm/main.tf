@@ -78,13 +78,13 @@ resource "azurerm_linux_virtual_machine" "vm" {
     }
   }
 
-  computer_name                   = "build-agent-${var.instance_index}"
-  admin_username                  = "adminbs"
+  computer_name                   = "linux-vm"
+  admin_username                  = "azureuser"
   disable_password_authentication = true
   custom_data                     = data.template_cloudinit_config.config_cloud_init[each.key].rendered
 
   admin_ssh_key {
-    username   = "adminbs"
+    username   = "azureuser"
     public_key = tls_private_key.ssh.public_key_openssh
   }
 

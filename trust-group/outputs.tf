@@ -15,6 +15,9 @@ output "managed_identity" {
   value = data.azurerm_user_assigned_identity.mi
 }
 
+output "create_law" {
+  value = var.create_law
+}
 output "log_analytics_workspace" {
   value     = var.create_law ? azurerm_log_analytics_workspace.law[0] : {}
   sensitive = true

@@ -1,4 +1,5 @@
 data "azurerm_subscription" "env" {}
+data "azurerm_client_config" "current" {}
 
 #
 # Generate names for singleton resources

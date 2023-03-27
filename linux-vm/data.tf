@@ -259,6 +259,6 @@ EOT
     pat_token          = var.azdo_pat                                 # /
     azdo_org           = "https://dev.azure.com/${var.azdo_org_name}" # --- These 3 must be provided by the user via ENV or pipeline params. See README.md
     build_pool         = var.azdo_pool_name                           # \
-    agent_name         = "${var.azdo_build_agent_name}_${var.instance_index}"
+    agent_name         = var.azdo_build_agent_name
   }
 }
