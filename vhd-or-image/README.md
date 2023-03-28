@@ -23,6 +23,8 @@ This module adds the following to your environment.
 ```
 {resource group}_hcl_path_and_file_name
 {resource group}_arm_client_id
+{resource group}_arm_client_secret
+{resource group}_install_password
 {resource group}_local_temp
 {resource group}_vnet_name
 {resource group}_vnet_resource_group
@@ -33,6 +35,7 @@ This module adds the following to your environment.
 {resource group}_vhd_resource_group_name
 {resource group}_vhd_capture_name_prefix
 {resource group}_vhd_storage_account
+
 ```
 
 *{rg name}.tf:* 
