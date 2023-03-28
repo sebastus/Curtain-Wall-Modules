@@ -14,8 +14,7 @@ def main():
     os.chdir(environment.CURTAIN_WALL_ENVIRONMENT)
 
     # get builder
-    name = args.f if args.f else 'builder'
-    builder = shared.get_builder(name)
+    builder = shared.get_builder(args.f)
 
     # validate builder
     validators.validate_builder(builder)

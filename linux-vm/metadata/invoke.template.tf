@@ -46,5 +46,5 @@ module "linux-vm" {
   include_dotnetsdk        = var.xxx_include_dotnetsdk
   include_maven            = var.xxx_include_maven
 
-  powershell_command       = "powershell"
+  powershell_command       = "pwsh"
 }

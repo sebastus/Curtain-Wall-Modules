@@ -81,9 +81,9 @@ $env:CURTAIN_WALL_ENVIRONMENT = "C:\Users\{user}\{path for wherever your new env
 $env:CURTAIN_WALL_USE_MLD = True
 ```
 
-4. The `codegen/src/builder.json` file is used by the builder.py file and contains a list of trust groups, where each trust group has a name and a list of modules and variables associated with it. Each module is identified by a name and may contain variables associated with it.
+4. The `codegen/src/builders/{builder-name}.json` files are used by the builder.py file and contains a list of trust groups, where each trust group has a name and a list of modules and variables associated with it. Each module is identified by a name and may contain variables associated with it.
 
-   Here are the keys present in the JSON file:
+   Here are the keys present in the JSON files:
 
    **trust_groups**
 
@@ -118,10 +118,11 @@ $env:CURTAIN_WALL_USE_MLD = True
       - aks-build-agent
       - aks-nexus
 
+A `builder-template.json` is located in the `codegen/src/builders` folder to use as reference.
 
 5. At the Curtain Wall Modules level run:
 
-`python codegen/src/builder.py`
+`python codegen/src/builder.py -f builder-name`
 
 # Running the Terraform
 

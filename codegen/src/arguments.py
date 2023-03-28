@@ -72,12 +72,12 @@ def parse_builder_arguments():
     
     parser = argparse.ArgumentParser(
         description=desc,
-        usage='python codegen\src\builder.py ',
+        usage='python codegen\src\\builder.py ',
         formatter_class=RawTextHelpFormatter
     )
 
     parser.add_argument('-f', 
-        required = False,
+        required = True,
         help = 'File name of the builder file.',
         metavar='file'
     )

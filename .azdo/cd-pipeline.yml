@@ -1,0 +1,92 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+  
+parameters:
+- name: builders
+  type: object
+  default:
+  - builder-linux-vm
+
+steps:
+
+- bash: |
+    mkdir curtain-wall-modules
+    mv * curtain-wall-modules
+    mv curtain-wall-modules/blank-env-copy-me/ curtain-wall-test/ 
+    cd curtain-wall-modules/codegen
+    pip install -r requirements.txt
+  displayName: Install Pre-Requisites
+
+- ${{ each builder in parameters.builders }}:
+  - bash: |
+      export CURTAIN_WALL_MODULES_HOME=$(System.DefaultWorkingDirectory)"/curtain-wall-modules/"
+      export CURTAIN_WALL_ENVIRONMENT=$(System.DefaultWorkingDirectory)"/curtain-wall-test/"
+      export CURTAIN_WALL_USE_MLD=False
+      cd curtain-wall-modules/codegen/src
+      python3 builder.py -f ${{ builder }}
+    displayName: Run ${{ builder }}
+    condition: always()
+
+- bash: |
+    GIT_LOCATION=git::https:\/\/github.com\/commercial-software-engineering\/Curtain-Wall-Modules\/
+    LOCAL_LOCATION=$(System.DefaultWorkingDirectory)/curtain-wall-modules/
+    GIT_LOCATION=$(echo $GIT_LOCATION | sed 's/\//\\\//g')
+    LOCAL_LOCATION=$(echo $LOCAL_LOCATION | sed 's/\//\\\//g')
+    echo $GIT_LOCATION
+    echo $LOCAL_LOCATION
+    find curtain-wall-test/ -type f -exec sed -i "s/$GIT_LOCATION/$LOCAL_LOCATION/g" {} +
+  displayName: Change module location
+
+- bash: |
+    PREV_BACKEND='backend "local"'
+    CURRENT_BACKEND='backend "azurerm"'
+    echo $PREV_BACKEND
+    echo $CURRENT_BACKEND
+    find curtain-wall-test/ -type f -exec sed -i "s/$PREV_BACKEND/$CURRENT_BACKEND/g" {} +
+  displayName: Change provider
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/curtain-wall-test'
+    backendType: 'azurerm'
+    backendServiceArm: 'PrivateServiceConnection'
+    backendAzureRmSubscriptionId: 'f60f0b40-7456-4538-a88f-f1a92ea65383'
+    ensureBackend: true
+    backendAzureRmResourceGroupName: 'statefilerg'
+    backendAzureRmResourceGroupLocation: 'uksouth'
+    backendAzureRmStorageAccountName: 'statefilessa'
+    backendAzureRmContainerName: 'statefilecontainer'
+    backendAzureRmKey: 'statefilekey'
+    allowTelemetryCollection: true
+  displayName: Terraform Init
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'validate'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/curtain-wall-test'
+    allowTelemetryCollection: true
+  displayName: Terraform Validate
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/curtain-wall-test'
+    allowTelemetryCollection: true
+    commandOptions: -var-file=dev.tfvars
+  displayName: Terraform Plan
+  env:
+    TF_VAR_azdo_pat: "changeme"
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/curtain-wall-test'
+    allowTelemetryCollection: true
+    commandOptions: -var-file=dev.tfvars
+  displayName: Terraform Apply
+  env:
+    TF_VAR_azdo_pat: "changeme"
