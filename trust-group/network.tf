@@ -61,6 +61,16 @@ resource "azurerm_network_security_group" "nsg" {
 }
 
 #
+# popular private DNS zones
+#
+resource "azurerm_private_dns_zone" "private_dns" {
+  for_each = var.include_private_dns_zones ? var.private_dns_zones : null
+
+  name                = each.value.domain
+  resource_group_name = data.azurerm_resource_group.rg.name
+}
+
+#
 # Bastion adjustments
 #
 resource "azurerm_network_security_rule" "bastionnsgrules" {

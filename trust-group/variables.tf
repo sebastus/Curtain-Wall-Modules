@@ -168,6 +168,17 @@ variable "peered_vnet" {
   type = any
 }
 
+variable "include_private_dns_zones" {
+  type    = bool
+  default = true
+}
+
+# List of required private DNS zones
+variable "private_dns_zones" {
+  type = map(object({
+    domain = string
+  }))
+}
 
 variable "default_subnet_nsg_rules" {
   type = map(object({

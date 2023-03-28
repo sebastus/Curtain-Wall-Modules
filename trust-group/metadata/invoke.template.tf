@@ -41,6 +41,8 @@ module "tg_xxx" {
   create_well_known_subnets = var.xxx_create_well_known_subnets
   well_known_subnets        = var.xxx_well_known_subnets
 
+  private_dns_zones = var.xxx_private_dns_zones
+
   is_tfstate_home     = var.xxx_is_tfstate_home
   tfstate_storage_key = var.xxx_tfstate_storage_key
 }
