@@ -1,146 +1,41 @@
-# Introduction
 
-# Invocation samples
+# Overview
 
-## Invocation code in parent
-```terraform
-# ########################
-# xxx - VHD-OR-IMAGE
-# ########################
-module "myvhd" {
-  source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//vhd-or-image"
-  #source = "../../Curtain-Wall-Modules/vhd-or-image"
+This module is told what artefact to produce - either a VHD or an image - from which the vm-from-image modules create the VMs.
 
-  hcl_path_and_file_name = var.xxx_azdo_hcl_path_and_file_name
+&nbsp;
+# Module outputs
 
-  arm_client_id     = var.xxx_arm_client_id
-  arm_client_secret = var.xxx_arm_client_secret
+There are no outputs from this module.
 
-  install_password = var.xxx_install_password
-  local_temp       = var.xxx_local_temp
+&nbsp;
+# References to other module outputs
 
-  vhd_or_image = var.xxx_vhd_or_image
+This module does not reference other module outputs.
 
-  image_resource_group_name = var.xxx_image_resource_group_name
-  image_base_name           = var.xxx_image_base_name
 
-  vhd_capture_container_name = var.xxx_vhd_capture_container_name
-  vhd_capture_name_prefix    = var.xxx_vhd_capture_name_prefix
-  vhd_resource_group_name    = var.xxx_vhd_resource_group_name
-  vhd_storage_account        = var.xxx_vhd_storage_account
+&nbsp;
+# What does the module change
 
-  # if using existing network
-  vnet_name           = var.xxx_vnet_name
-  vnet_resource_group = var.xxx_vnet_resource_group
-  vnet_subnet         = var.xxx_vnet_subnet
-}
+This module adds the following to your environment.
+
+*.tfvars & vars files:*
+```
+{resource group}_hcl_path_and_file_name
+{resource group}_arm_client_id
+{resource group}_local_temp
+{resource group}_vnet_name
+{resource group}_vnet_resource_group
+{resource group}_vnet_subnet
+{resource group}_vhd_or_image
+{resource group}_image_base_name
+{resource group}_image_resource_group_name
+{resource group}_vhd_resource_group_name
+{resource group}_vhd_capture_name_prefix
+{resource group}_vhd_storage_account
 ```
 
-## variables in parent
-```terraform
-# ########################
-# xxx - VHD-OR-IMAGE
-# ########################
-variable "xxx_hcl_path_and_file_name" {
-  description = "Relative (to main.tf) or fully qualified path and file name of hcl file."
-    type = string
-}
-variable "xxx_arm_client_id" {
-  description = "Credentials used by packer to create Azure resources"
-  type = string
-}
-variable "xxx_arm_client_secret" {
-  description = "Credentials used by packer to create Azure resources"
-  type = string
-}
-variable "xxx_install_password" {
-  description = "Password used in the Windows Packer vm during installation of software."
-  type = string
-}
-variable "xxx_local_temp" {
-  description = "The toowoxx/packer provider uses a temp folder on the system where Packer is being run."
-  type = string
-}
-
-# if using existing vnet...
-variable "xxx_vnet_name" {
-    description = "Name of existing vnet to use,"
-    default = ""
-}
-variable "xxx_vnet_resource_group" {
-    description = "Resource group containing existing vnet."
-    default = ""
-}
-variable "xxx_vnet_subnet" {
-    description = "Name of existing subnet to use."
-    default = ""
-}
-
-variable "xxx_vhd_or_image" {
-    default = "image"
-}
-
-# if image
-variable "xxx_image_base_name" {
-    default = ""
-}
-variable "xxx_image_resource_group_name" {
-    type = string
-}
-#elseif vhd
-variable "xxx_vhd_resource_group_name" {
-    type = string
-}
-variable "xxx_vhd_capture_container_name" {
-  type = string
-}
-variable "xxx_vhd_capture_name_prefix" {
-  type = string
-}
-variable "xxx_vhd_resource_group_name" {
-  type = string
-}
-variable "xxx_vhd_storage_account" {
-  type = string
-}
-# endif
-
+*{rg name}.tf:* 
 ```
-
-## outputs
-```terraform
-# ########################
-# xxx - VHD-OR-IMAGE
-# ########################
+Terraform module "vhd-or-image" 
 ```
-
-## tfvars
-```terraform
-# ########################
-# xxx - VHD-OR-IMAGE
-# ########################
-xxx_hcl_path_and_file_name = "../packer-files/azdo-server/azdo-server.pkr.hcl"
-
-xxx_arm_client_id     = "guid"
-xxx_arm_client_secret = "secret"
-
-xxx_install_password = "R3all7L0ngP@ssw0rd!"
-xxx_local_temp       = "%USERPROFILE%\\AppData\\Local\\Temp"
-
-# if using an existing vnet
-xxx_vnet_name           = ""
-xxx_vnet_resource_group = ""
-xxx_vnet_subnet         = ""
-# end
-
-xxx_vhd_or_image = "image"
-
-xxx_image_base_name           = "azdo-server"
-xxx_image_resource_group_name = "rg-myManagedImages"
-
-xxx_vhd_resource_group_name    = "rg-misc"
-xxx_vhd_capture_container_name = "images"
-xxx_vhd_capture_name_prefix    = "pkr"
-xxx_vhd_storage_account        = "accountname"
-```
-

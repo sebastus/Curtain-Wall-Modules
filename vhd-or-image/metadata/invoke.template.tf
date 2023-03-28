@@ -1,4 +1,4 @@
-module "myvhd" {
+module "vhd-or-image" {
   source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//vhd-or-image?ref=main"
   #source = "../../Curtain-Wall-Modules/vhd-or-image"
 
