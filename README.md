@@ -118,11 +118,11 @@ $env:CURTAIN_WALL_USE_MLD = True
       - aks-build-agent
       - aks-nexus
 
-A `builder-template.json` is located in the `codegen/src/builders` folder to use as reference.
+   A `builder-template.json` is located in the `codegen/src/builders` folder to use as reference.
 
 5. At the Curtain Wall Modules level run:
 
-`python codegen/src/builder.py -f builder-name`
+   `python codegen/src/builder.py -f builder-name`
 
 # Running the Terraform
 
