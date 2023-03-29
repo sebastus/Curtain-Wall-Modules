@@ -21,6 +21,8 @@ def parse_codegen_arguments():
     desc = 'Generate terraform code for your environment. Env vars to be set:\n\n'
     desc += 'CURTAIN_WALL_MODULES_HOME: absolute location of the modules repo\n'
     desc += 'CURTAIN_WALL_ENVIRONMENT: absolute location of the folder containing this environment\n'
+    desc += 'CURTAIN_WALL_USE_MLD: for each required input variable, ask user for input\n'
+    desc += 'CURTAIN_WALL_VERBOSE_TFVARS: with each variable in dev.tfvars, show its description'
     
     parser = argparse.ArgumentParser(
         description=desc,
@@ -69,6 +71,8 @@ def parse_builder_arguments():
     desc = 'Generate terraform code for your environment. Env vars to be set:\n\n'
     desc += 'CURTAIN_WALL_MODULES_HOME: absolute location of the modules repo\n'
     desc += 'CURTAIN_WALL_ENVIRONMENT: absolute location of the folder containing this environment\n'
+    desc += 'CURTAIN_WALL_USE_MLD: for each required input variable, ask user for input\n'
+    desc += 'CURTAIN_WALL_VERBOSE_TFVARS: with each variable in dev.tfvars, show its description'
     
     parser = argparse.ArgumentParser(
         description=desc,
