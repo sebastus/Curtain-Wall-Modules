@@ -5,7 +5,7 @@ This module creates a Linux VM from an artefact made by the vhd-or-image module.
 &nbsp;
 # Execution requirements
 
-Ensure the vhd-or-image module is installed before using this module.
+Ensure the managed image artefact exists before building a vm using this module. The managed image can be created by the vhd-or-image module.
 
 &nbsp;
 # Module outputs
