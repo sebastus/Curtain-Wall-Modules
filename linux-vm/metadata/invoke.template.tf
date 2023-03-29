@@ -2,7 +2,7 @@ module "linux-vm" {
   source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//linux-vm?ref=main"
   #source = "../Curtain-Wall-Modules/linux-vm"
 
-  base_name        = var.xxx_linuxvm_base_name
+  base_name = var.xxx_linuxvm_base_name
 
   resource_group = module.tg_xxx.resource_group
   subnet         = module.tg_xxx.well_known_subnets[var.xxx_linuxvm_subnet]
@@ -14,10 +14,10 @@ module "linux-vm" {
   managed_identity = module.tg_xxx.managed_identity
 
   # this is passed to the vm so user assigned identity can be assigned
-  identity_ids   = [module.tg_xxx.managed_identity.id]
+  identity_ids = [module.tg_xxx.managed_identity.id]
 
   key_vault = module.tg_xxx.azurerm_key_vault
-  
+
   include_azdo_ba         = var.xxx_include_azdo_ba
   azdo_pat                = var.azdo_pat
   azdo_org_name           = var.azdo_org_name
@@ -34,8 +34,8 @@ module "linux-vm" {
   include_terraform = var.xxx_include_terraform
   terraform_version = var.xxx_terraform_version
 
-  include_openvpn          = var.xxx_include_openvpn
-  storage_account_name     = var.xxx_storage_account_name
+  include_openvpn      = var.xxx_include_openvpn
+  storage_account_name = var.xxx_storage_account_name
 
   include_sonarqube_server = var.xxx_include_sonarqube_server
   include_azcli            = var.xxx_include_azcli
@@ -46,5 +46,5 @@ module "linux-vm" {
   include_dotnetsdk        = var.xxx_include_dotnetsdk
   include_maven            = var.xxx_include_maven
 
-  powershell_command       = "pwsh"
+  powershell_command = "pwsh"
 }
