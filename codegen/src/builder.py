@@ -2,16 +2,19 @@ import os
 import shared
 import environment
 import validators
+import arguments
 
 def main():
     # validate environment variables
     validators.validate_environment(environment)
 
+    args = arguments.parse_builder_arguments()
+
     # set directory to target directory
     os.chdir(environment.CURTAIN_WALL_ENVIRONMENT)
 
     # get builder
-    builder = shared.get_builder()
+    builder = shared.get_builder(args.f)
 
     # validate builder
     validators.validate_builder(builder)

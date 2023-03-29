@@ -17,7 +17,7 @@ module_choices = [
     'aks-nexus'
 ]
 
-def parse_arguments():
+def parse_codegen_arguments():
     desc = 'Generate terraform code for your environment. Env vars to be set:\n\n'
     desc += 'CURTAIN_WALL_MODULES_HOME: absolute location of the modules repo\n'
     desc += 'CURTAIN_WALL_ENVIRONMENT: absolute location of the folder containing this environment\n'
@@ -62,6 +62,25 @@ def parse_arguments():
         metavar='trust_group'
     )
     create_parser.set_defaults(func=add_trust_group)
+
+    return(parser.parse_args())
+
+def parse_builder_arguments():
+    desc = 'Generate terraform code for your environment. Env vars to be set:\n\n'
+    desc += 'CURTAIN_WALL_MODULES_HOME: absolute location of the modules repo\n'
+    desc += 'CURTAIN_WALL_ENVIRONMENT: absolute location of the folder containing this environment\n'
+    
+    parser = argparse.ArgumentParser(
+        description=desc,
+        usage='python codegen\src\\builder.py ',
+        formatter_class=RawTextHelpFormatter
+    )
+
+    parser.add_argument('-f', 
+        required = True,
+        help = 'File name of the builder file.',
+        metavar='file'
+    )
 
     return(parser.parse_args())
 
