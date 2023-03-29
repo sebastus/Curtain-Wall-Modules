@@ -25,4 +25,9 @@ module "my-windows-vm" {
   image_resource_group_name = var.xxx_vfiw_image_resource_group_name
   image_base_name           = var.xxx_vfiw_image_base_name
 
+  # correct this for your configuration so the vm
+  # depends on the right image 
+  depends_on = [
+    module.vhd-or-image
+  ]
 }

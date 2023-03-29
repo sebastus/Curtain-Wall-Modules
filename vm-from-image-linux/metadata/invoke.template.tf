@@ -27,6 +27,6 @@ module "my-linux-vm" {
   # correct this for your configuration so the vm
   # depends on the right image 
   depends_on = [
-    module.myvhd
+    module.vhd-or-image
   ]
 }
