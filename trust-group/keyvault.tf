@@ -43,19 +43,12 @@ data "azurerm_key_vault" "keyvault" {
   resource_group_name = var.create_kv ? azurerm_key_vault.kv[0].resource_group_name : var.existing_kv_rg_name
 }
 
-resource "azurerm_private_dns_zone" "vault" {
-  count = var.make_created_kv_private ? 1 : 0
-
-  name                = "privatelink.vaultcore.azure.net"
-  resource_group_name = data.azurerm_resource_group.rg.name
-}
-
 resource "azurerm_private_dns_zone_virtual_network_link" "keyvault" {
   count = var.make_created_kv_private ? 1 : 0
 
   name                  = "keyvault-vnet-link"
   resource_group_name   = data.azurerm_resource_group.rg.name
-  private_dns_zone_name = azurerm_private_dns_zone.vault[0].name
+  private_dns_zone_name = azurerm_private_dns_zone.private_dns["keyvault"].name
   virtual_network_id    = data.azurerm_virtual_network.vnet.id
 }
 
@@ -78,6 +71,6 @@ resource "azurerm_private_endpoint" "keyvault" {
 
   private_dns_zone_group {
     name                 = "default"
-    private_dns_zone_ids = [azurerm_private_dns_zone.vault[0].id]
+    private_dns_zone_ids = [azurerm_private_dns_zone.private_dns["keyvault"].id]
   }
 }
