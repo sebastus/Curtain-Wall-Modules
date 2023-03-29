@@ -33,7 +33,7 @@ resource "azurerm_network_interface" "azdo_vm" {
 
   ip_configuration {
     name                          = "azdo_vm"
-    subnet_id                     = var.subnet_id
+    subnet_id                     = var.subnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = var.create_pip ? azurerm_public_ip.azdo_vm[0].id : null
   }
@@ -85,9 +85,9 @@ resource "packer_image" "azdo_server_image" {
     ARM_CLIENT_ID                           = var.arm_client_id
     ARM_CLIENT_SECRET                       = var.arm_client_secret
     ARM_INSTALLER_PASSWORD                  = var.arm_installer_password
-    ARM_VIRTUAL_NETWORK_NAME                = var.vnet_name
-    ARM_VIRTUAL_NETWORK_RESOURCE_GROUP_NAME = var.vnet_rg_name
-    ARM_VIRTUAL_NETWORK_SUBNET_NAME         = var.subnet_name
+    ARM_VIRTUAL_NETWORK_NAME                = var.pkr_vnet_name
+    ARM_VIRTUAL_NETWORK_RESOURCE_GROUP_NAME = var.pkr_vnet_rg_name
+    ARM_VIRTUAL_NETWORK_SUBNET_NAME         = var.pkr_subnet_name
     TMP                                     = var.local_temp
   }
 
@@ -110,6 +110,15 @@ data "azurerm_image" "azdo_server" {
   depends_on = [
     packer_image.azdo_server_image
   ]
+}
+
+#
+# store admin password in key vault
+#
+resource "azurerm_key_vault_secret" "password" {
+  name         = "${replace(azurecaf_name.generated["vm"].result, "_", "-")}-admin-password"
+  value        = var.admin_password
+  key_vault_id = var.key_vault.id
 }
 
 #
@@ -146,7 +155,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
 }
 
 resource "azurerm_virtual_machine_extension" "omsagent" {
-  for_each = (var.vhd_or_image == "image") && var.install_omsagent && var.create_vm ? var.os_variant : {}
+  for_each = var.law_installed && (var.vhd_or_image == "image") && var.install_omsagent && var.create_vm ? var.os_variant : {}
 
   name                 = "omsagent"
   virtual_machine_id   = azurerm_windows_virtual_machine.vm[each.key].id

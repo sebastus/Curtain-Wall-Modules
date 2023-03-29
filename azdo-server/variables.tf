@@ -11,8 +11,12 @@ variable "create_pip" {
   default = false
 }
 
-variable "subnet_id" {
-  type = string
+variable "subnet" {
+  type = any
+}
+
+variable "key_vault" {
+  type = any
 }
 
 variable "identity_ids" {
@@ -31,6 +35,11 @@ variable "log_analytics_workspace_id" {
 variable "log_analytics_workspace_key" {
   type    = string
   default = ""
+}
+
+variable "law_installed" {
+  description = "tells this module if log analytics workspace is available"
+  type        = bool
 }
 
 variable "install_omsagent" {
@@ -79,15 +88,15 @@ variable "arm_installer_password" {
   type = string
 }
 
-variable "vnet_name" {
+variable "pkr_vnet_name" {
   type = string
 }
 
-variable "vnet_rg_name" {
+variable "pkr_vnet_rg_name" {
   type = string
 }
 
-variable "subnet_name" {
+variable "pkr_subnet_name" {
   type = string
 }
 
