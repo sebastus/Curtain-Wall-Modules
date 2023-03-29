@@ -1,3 +1,7 @@
+# Deprecated
+This document is here for reference only. Don't use it for any other purpose.
+
+
 ### As a build agent:  
 ```terraform
 
