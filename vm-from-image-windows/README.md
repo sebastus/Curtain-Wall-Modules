@@ -1,88 +1,47 @@
-# Introduction
+# Overview
 
-# Invocation samples
+This module creates a Windows VM from an artefact made by the vhd-or-image module.
 
-## Invocation code in parent
-```terraform
+&nbsp;
+# Execution requirements
 
-# #########################
-# xxx - Windows VM from Image
-# #########################
+Ensure the managed image artefact exists before building a vm using this module. The managed image can be created by the vhd-or-image module.
 
-module "my-windows-vm" {
-  #source = "git::https://github.com/commercial-software-engineering/Curtain-Wall-Modules//vm-from-image-windows"
-  source = "../../cs/Curtain-Wall-Modules/vm-from-image-windows"
+&nbsp;
+# Module outputs
 
-  base_name      = "azdo_server"
-  admin_password = var.xxx_vfiw_admin_password
-
-  resource_group = module.rg_xxx.resource_group
-  identity_ids   = [
-    module.rg_xxx.managed_identity == null ? null : module.rg_xxx.managed_identity.id
-  ]
-  subnet_id      = module.rg_xxx.subnet_id
-
-  # optionally install public ip
-  create_pip = var.xxx_vfiw_create_pip
-
-  # optionally install oms agent
-  install_omsagent = var.xxx_vfiw_install_omsagent
-
-  log_analytics_workspace_id = module.rg_xxx.law_id
-  log_analytics_workspace_key = module.rg_xxx.law_key
-
-  image_resource_group_name = var.xxx_vfiw_image_resource_group_name
-  image_base_name           = var.xxx_vfiw_image_base_name
-
+```
+output "vm-from-image-windows" {
+  value     = azurerm_windows_virtual_machine.imagevm
+  sensitive = true
 }
+```
+
+&nbsp;
+# References to other module outputs
+
+- tg_{resource group}.resource_group
+- tg_{resource group}.managed_identity.id
+- tg_{resource group}.well_known_subnets
+- tg_{resource group}.azurerm_key_vault
+- tg_{resource group}.create_law
+- tg_{resource group}.log_analytics_workspace
+
+
+&nbsp;
+# What does the module change
+
+This module adds the following to your environment.
+
+*.tfvars & vars files:*
+```
+{resource group}_vfiw_image_resource_group_name
+{resource group}_vfiw_image_base_name
+{resource group}_vfiw_create_pip
+{resource group}_vfiw_install_omsagent
 
 ```
 
-## variables in parent
-```terraform
-
-# #########################
-# xxx - Windows VM from Image
-# #########################
-
-variable "xxx_vfiw_admin_password" {
-  type = string
-}
-
-variable "xxx_vfiw_image_resource_group_name" {
-  type    = string
-}
-
-variable "xxx_vfiw_image_base_name" {
-  type    = string
-}
-
-variable "xxx_vfiw_create_pip" {
-  default = false
-}
-variable "xxx_vfiw_install_omsagent" {
-  default = true
-}
-
+*{rg name}.tf:* 
 ```
-
-## outputs
-```terraform
-```
-
-## tfvars
-```terraform
-
-# #########################
-# xxx - Windows VM from Image
-# #########################
-
-xxx_vfiw_admin_password   = "P@ssw0rd!"
-xxx_vfiw_create_pip       = true
-xxx_vfiw_install_omsagent = true
-
-xxx_vfiw_image_resource_group_name = "rg-myManagedImages"
-xxx_vfiw_image_base_name           = "azdo-server"
-
-```
-
+Terraform module "my-windows-vm" 
