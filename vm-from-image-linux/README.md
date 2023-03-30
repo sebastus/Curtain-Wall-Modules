@@ -1,6 +1,6 @@
 # Overview
 
-This module creates a Linux VM from an artefact made by the vhd-or-image module.
+This module creates a Linux VM from an image artefact made by the vhd-or-image module.
 
 &nbsp;
 # Execution requirements
