@@ -1,6 +1,6 @@
 # Overview
 
-This module creates a Windows VM from an artefact made by the vhd-or-image module.
+This module creates a Windows VM from an image artefact made by the vhd-or-image module.
 
 &nbsp;
 # Execution requirements
