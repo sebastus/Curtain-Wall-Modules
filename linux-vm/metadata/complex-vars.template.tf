@@ -1,4 +1,4 @@
-variable "os_variant" {
+variable "xxx_os_variant" {
   description = "The operating system being used"
   type = map(object({
     publisher = string

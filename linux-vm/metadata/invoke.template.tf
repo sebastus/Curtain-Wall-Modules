@@ -30,6 +30,7 @@ module "linux-vm" {
   install_omsagent            = var.xxx_linuxvm_install_omsagent
   log_analytics_workspace_id  = module.tg_xxx.create_law ? module.tg_xxx.log_analytics_workspace.workspace_id : null
   log_analytics_workspace_key = module.tg_xxx.create_law ? module.tg_xxx.log_analytics_workspace.primary_shared_key : null
+  os_variant                  = var.xxx_os_variant
 
   include_terraform = var.xxx_include_terraform
   terraform_version = var.xxx_terraform_version

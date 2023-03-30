@@ -1,15 +1,9 @@
-os_variant = {
-    "operatingsystem" = {
-        publisher = "MicrosoftWindowsServer"
-        offer     = "WindowsServer"
-        sku       = "2022-datacenter-azure-edition"
-        version   = "latest"
-        plan = {
-            name        = ""
-            product     = ""
-            publisher   = ""
-
-        }
-        cloud_init_file_name = ""
-    }
+xxx_os_variant = {
+  Ubuntu = {
+      publisher            = "Canonical"
+      offer                = "0001-com-ubuntu-server-focal"
+      sku                  = "20_04-lts-gen2"
+      version              = "latest"
+      cloud_init_file_name = "cloud-init-ubuntu.tftpl"
+  }
 }
