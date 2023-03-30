@@ -78,6 +78,7 @@
             "type": "bool",
             "default": "false",
             "secret": "false",
+            "skip": "true",
             "query": "Switch: create a new Key Vault (true) or use an existing one (false)?"
         },
         {

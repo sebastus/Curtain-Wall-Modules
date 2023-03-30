@@ -57,6 +57,8 @@ def get_value(var, vars, variable_values):
     if(current_var != None and current_var.get("value") != None):
         return current_var.get("value")
     elif (var.get("query") and is_used and environment.CURTAIN_WALL_USE_MLD):
+        if(var.get("skip") == "true"):
+            print("")
         if(var.get("type") == "bool"):
             return inquirer.text(message=var.get("query"), default=default_value, validate = validators.validation_bool)
         elif(var.get("type") == "number"):
@@ -150,6 +152,8 @@ def evaluate_usage(variable, variables):
                          
 def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core, variable_values):
 
+    verbose_tfvars = environment.CURTAIN_WALL_VERBOSE_TFVARS
+
     with open(file_name, "w" if core else "a") as f:
 
         f.write('\n\n')
@@ -175,6 +179,9 @@ def write_tfvars_file(vars, file_name, trust_group, add, index, module_id, core,
 
             index_snip = "" if (index == None) else f"_{index}"
             rg_snip = "" if trust_group == None else f'{trust_group}_'
+
+            if (verbose_tfvars):
+                f.write(f'# {var["description"]}\n')
 
             if (var["type"] == 'string'):
                 f.write(f'{rg_snip}{var["name"]}{index_snip} = \"{var["value"]}\"\n')
@@ -227,7 +234,7 @@ def write_dotenv_file(file_name, trust_group, index, vars, banner, format, varia
                 banner_written = True
 
             var_name = var["name"]
-            prefix = '' if format=='bash' else '$env:'
+            prefix = 'export ' if format=='bash' else '$env:'
             rg_snip = '' if trust_group == None else f'{trust_group}_'
             index_snip = '' if index == None else f'_{index}'
 
