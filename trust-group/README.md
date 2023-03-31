@@ -33,7 +33,7 @@ default, AzureBastionSubnet and PrivateEndpointsSubnet. These are in trust-group
 Additional subnets can be added to the list in dev.tfvars quite easily.  
 
 &nbsp;
-# How to use
+# How to use with the Code Generator
 
 At the Curtain Wall modules level, run
 
@@ -46,6 +46,10 @@ for example:
 `python codegen/src/codegen.py create -g mary`  
 `python codegen/src/codegen.py create -g TeamA`  
 
+&nbsp;
+# How to use with the Builder
+
+The Builder is discussed in detail in the main repo [README.md](../README.md).
 
 &nbsp;
 # Execution requirements
