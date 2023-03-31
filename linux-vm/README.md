@@ -25,11 +25,16 @@ A small set of special use cases are implemented in linux-vm:
 Otherwise, it's a trivial matter to add additional ciparts as needed for your use case.  
 
 &nbsp;
-# How to use
+# How to use with the Code Generator
 
 At the Curtain Wall modules level, run
 
 `python codegen/src/codegen.py add -m linux-vm -g {resource group name}`
+
+&nbsp;
+# How to use with the Builder
+
+The Builder is discussed in detail in the main repo [README.md](../README.md).  
 
 &nbsp;
 # Execution requirements
