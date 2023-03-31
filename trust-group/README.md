@@ -2,15 +2,15 @@
 
 This module is the starting point for all Curtain Wall environments. So what is a trust-group (tg) anyway?  
 
-A trust-group is a security and identity boundary established by a resource group, managed identity, virtual network and a key vault. It could have been called resource group, but that term is overloaded and trivializes the import of the module.  
+A trust-group is a security and identity boundary established by a resource group, managed identity, virtual network and a key vault.  
 
 There may be many trust-groups in an environment. They may all have a virtual network and those networks may be peered to another vnet. This is to say that hub-and-spoke networking is supported.  
 
 The standard trust-group resources are as follows:
 
 ## Mandatory but may be ingested
-* resource group 
-* user assigned managed identity 
+* Resource group 
+* User assigned managed identity 
 * Key vault  
 * Virtual network  
 * Well known subnets* + associated NSG's  
