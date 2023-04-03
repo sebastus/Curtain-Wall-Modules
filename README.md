@@ -49,6 +49,9 @@ You can then add other modules to your environment with the command:
 
 5. Confirm the values in the dev.tfvars and .env/.env.ps1 for this new environment to reflect your azdo org and secrets.
 
+## Video Demo of the Code Generator
+Here's [a video](https://microsofteur-my.sharepoint.com/:v:/g/personal/golive_microsoft_com/Ea0mFcZkVQNJkQsJgUavgb4Bhi8r9FmQqJJeEQGYmfvjhQ?e=Wjs6eM) that demonstrates use of the code generator.  
+
 # How to get started - Builder.Py
 
 First you need to set up a new Terraform environment. Use the module `blank-env-copy-me` for this in the following way:
@@ -147,6 +150,9 @@ Running these three commands should populate your Azure Portal with a resource g
 - Disk
  
  and the modules you added.
+
+## Video Demo of the Builder
+Here's [a video](https://microsofteur-my.sharepoint.com/:v:/g/personal/golive_microsoft_com/EQs9B-jeSj1DmwyEMGIvhB0ByIDztRGAuUD_2hPsIcSn5Q?e=4tgZO4) that demonstrates use of the builder.  
 
 # Architecture of environment built from Curtain Wall
 
